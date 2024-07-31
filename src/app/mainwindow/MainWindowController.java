@@ -23,6 +23,6 @@ public class MainWindowController extends ControllerBase implements Initializabl
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         codeArea.setFont(Font.font("JetBrains Mono NL", 16));
-    //    Window.getWindowAt(Window.MAIN_WINDOW).setController(this); //todo puca
+        Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
     }
 }

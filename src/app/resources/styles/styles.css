@@ -1,4 +1,4 @@
-
+/* mainwindow */
 .run-button {
     -fx-background-color: #28a745;
     -fx-text-fill: white;
@@ -11,3 +11,5 @@
 .run-button:hover {
     -fx-background-color: #218838;
 }
+
+
