@@ -1,0 +1,13 @@
+
+.run-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #28a745;
+}
+
+.run-button:hover {
+    -fx-background-color: #218838;
+}

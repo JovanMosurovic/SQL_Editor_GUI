@@ -7,7 +7,15 @@ public abstract class Window {
     public static final int WINDOWS;
     public static final int MAIN_WINDOW;
     public static final int CLOSE_WINDOW;
-    public static Window[] windows;
+    private static Window[] windows;
+
+    public static Window getWindowAt(int index) {
+        return windows[index];
+    }
+
+    public static void setWindowAt(int index, Window window) {
+        windows[index] = window;
+    }
 
     static {
         WINDOWS = 2;

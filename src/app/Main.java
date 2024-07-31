@@ -1,21 +1,14 @@
 package app;
 
+import app.mainwindow.MainWindow;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.Objects;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../app/mainwindow/mainwindow.fxml")));
-        primaryStage.setTitle("SQL Editor");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        Window.setWindowAt(Window.MAIN_WINDOW, new MainWindow());
+        // Closing window
     }
 
     public static void main(String[] args) {

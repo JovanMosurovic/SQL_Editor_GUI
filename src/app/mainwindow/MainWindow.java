@@ -13,9 +13,13 @@ public class MainWindow extends Window {
     @Override
     public void init(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("app/mainwindow/mainwindow.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../app/mainwindow/mainwindow.fxml")));
+            Scene scene = new Scene(root);
+
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../app/resources/styles/styles.css")).toExternalForm());
+
             stage.setTitle("SQL Editor");
-            stage.setScene(new Scene(root));
+            stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
             this.stage = stage;

@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-    <Pane layoutX="135.0" prefHeight="525.0" prefWidth="1065.0" />
-    <VBox prefHeight="525.0" prefWidth="135.0" />
-    <TabPane layoutY="525.0" prefHeight="275.0" prefWidth="1200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mainwindow.MainWindowController">
+
+    <!-- Button for running code -->
+    <Button layoutX="10.0" layoutY="10.0" text="Run Code" fx:id="runButton" styleClass="run-button">
+        <graphic>
+            <ImageView fx:id="runIcon" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../resources/icons/run_icon.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <!-- Left Pane for Tables -->
+    <VBox layoutX="10.0" layoutY="70.0" prefHeight="480.0" prefWidth="135.0">
+        <Label text="Tables" />
+        <ListView fx:id="tablesListView" />
+    </VBox>
+
+    <!-- Center Pane for Code Area -->
+    <Pane layoutX="150.0" layoutY="70.0" prefHeight="480.0" prefWidth="1025.0">
+        <TextArea fx:id="codeArea" prefHeight="480.0" prefWidth="1025.0">
+            <style>
+                -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
+                -fx-font-size: 14px;
+            </style>
+        </TextArea>
+    </Pane>
+
+    <!-- TabPane for Results and TableView -->
+    <TabPane layoutY="570.0" prefHeight="230.0" prefWidth="1200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Result View">
-            <Label fx:id="resultLabel" wrapText="true"/>
+            <Label fx:id="resultLabel" wrapText="true" />
         </Tab>
         <Tab text="Table View">
-            <TableView fx:id="resultTableView"/>
+            <TableView fx:id="resultTableView" />
         </Tab>
     </TabPane>
 </AnchorPane>
