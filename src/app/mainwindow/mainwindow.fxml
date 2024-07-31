@@ -24,14 +24,8 @@
 
     <!-- Center Pane for Code Area -->
     <Pane layoutX="150.0" layoutY="70.0" prefHeight="480.0" prefWidth="1025.0">
-        <TextArea fx:id="codeArea" prefHeight="480.0" prefWidth="1025.0">
-            <style>
-                -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-                -fx-font-size: 14px;
-            </style>
-        </TextArea>
+        <TextArea fx:id="codeArea" prefHeight="480.0" prefWidth="1025.0" />
     </Pane>
-
     <!-- TabPane for Results and TableView -->
     <TabPane layoutY="570.0" prefHeight="230.0" prefWidth="1200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Result View">

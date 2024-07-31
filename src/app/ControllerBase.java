@@ -1,5 +1,7 @@
 package app;
 
-public class ControllerBase {
+import javafx.fxml.Initializable;
+
+public abstract class ControllerBase implements Initializable {
 
 }

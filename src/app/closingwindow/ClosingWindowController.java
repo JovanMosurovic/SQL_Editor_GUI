@@ -2,27 +2,31 @@ package app.closingwindow;
 
 import app.ControllerBase;
 import app.Window;
-import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
+import app.WindowHelper;
 import javafx.scene.control.Button;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ClosingWindowController extends ControllerBase implements Initializable {
+public class ClosingWindowController extends ControllerBase {
 
 
     public Button saveButton;
     public Button dontSaveButton;
-    public Button cacnelButton;
+    public Button cancelButton;
 
-    public void handleSave(ActionEvent actionEvent) {
+    public void handleSave() {
+        WindowHelper.hideWindow(Window.CLOSE_WINDOW);
+        WindowHelper.showWindow(Window.SAVE_WINDOW);
     }
 
-    public void handleDontSave(ActionEvent actionEvent) {
+    public void handleDontSave() {
+        WindowHelper.hideWindow(Window.CLOSE_WINDOW);
+        WindowHelper.hideWindow(Window.MAIN_WINDOW);
     }
 
-    public void handleCancel(ActionEvent actionEvent) {
+    public void handleCancel() {
+        WindowHelper.hideWindow(Window.CLOSE_WINDOW);
     }
 
     @Override

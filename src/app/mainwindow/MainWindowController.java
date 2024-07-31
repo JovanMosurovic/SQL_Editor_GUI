@@ -2,7 +2,6 @@ package app.mainwindow;
 
 import app.ControllerBase;
 import app.Window;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
@@ -10,7 +9,7 @@ import javafx.scene.text.Font;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainWindowController extends ControllerBase implements Initializable{
+public class MainWindowController extends ControllerBase {
 
 
     public Button runButton;

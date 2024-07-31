@@ -20,7 +20,7 @@
          <font>
             <Font name="Calibri" size="18.0" />
          </font></Button>
-        <Button fx:id="cacnelButton" onAction="#handleCancel" prefHeight="30.0" prefWidth="100.0" text="Cancel">
+        <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="30.0" prefWidth="100.0" text="Cancel">
          <font>
             <Font name="Calibri" size="18.0" />
          </font></Button>

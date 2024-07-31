@@ -13,7 +13,7 @@ public abstract class Window {
     private static Window[] windows;
 
     static {
-        WINDOWS = 2;
+        WINDOWS = 3;
         MAIN_WINDOW = 0;
         CLOSE_WINDOW = 1;
         SAVE_WINDOW = 2;

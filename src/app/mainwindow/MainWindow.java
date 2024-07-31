@@ -16,13 +16,18 @@ public class MainWindow extends Window {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainwindow.fxml")));
             Scene scene = new Scene(root);
 
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/styles.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/mainwindow.css")).toExternalForm());
 
             stage.setTitle("SQL Editor");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
             this.stage = stage;
+
+            this.stage.setOnCloseRequest(event -> {
+                event.consume();
+                Window.getWindowAt(Window.CLOSE_WINDOW).getStage().show();
+            });
         } catch (IOException e) {
             throw new RuntimeException();
         }
