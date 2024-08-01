@@ -21,6 +21,7 @@ public class MainWindowController extends ControllerBase {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Font.loadFont(getClass().getResourceAsStream("app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), 16);
         codeArea.setFont(Font.font("JetBrains Mono NL", 16));
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
     }

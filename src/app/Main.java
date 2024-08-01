@@ -13,7 +13,8 @@ public class Main extends Application {
         Window.setWindowAt(Window.CLOSE_WINDOW, new ClosingWindow());
         Window.setWindowAt(Window.SAVE_WINDOW, new SavingWindow());
         Window.initAllWindows();
-
+        WindowHelper.showOnly(Window.MAIN_WINDOW);
+        WindowHelper.centerOnScreen(Window.MAIN_WINDOW);
     }
 
     public static void main(String[] args) {

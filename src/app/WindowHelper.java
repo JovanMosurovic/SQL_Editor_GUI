@@ -29,4 +29,11 @@ public class WindowHelper {
         }
     }
 
+    public static void centerOnScreen(int position) {
+        if(position < 0 || position >= Window.WINDOWS) {
+            throw new IllegalArgumentException("[CENTER ON SCREEN]: Invalid window position");
+        }
+        Window.getWindowAt(position).getStage().centerOnScreen();
+    }
+
 }
