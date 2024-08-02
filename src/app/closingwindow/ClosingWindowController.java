@@ -25,8 +25,7 @@ public class ClosingWindowController extends ControllerBase {
     }
 
     public void handleDontSave() {
-        WindowHelper.hideWindow(Window.CLOSE_WINDOW);
-        WindowHelper.hideWindow(Window.MAIN_WINDOW);
+        WindowHelper.closeAllWindows();
     }
 
     public void handleCancel() {

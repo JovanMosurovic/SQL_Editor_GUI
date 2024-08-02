@@ -34,7 +34,12 @@ public class WindowHelper {
             throw new IllegalArgumentException("[CENTER ON SCREEN]: Invalid window position");
         }
         Window.getWindowAt(position).getStage().centerOnScreen();
+    }
 
+    public static void closeAllWindows() {
+        for (int i = 0; i < Window.WINDOWS; i++) {
+            Window.getWindowAt(i).getStage().close();
+        }
     }
 
 }

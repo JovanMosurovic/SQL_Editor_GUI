@@ -1,8 +1,4 @@
-/* Main window */
-@font-face {
-    -fx-font-family: 'JetBrains Mono NL';
-    src: url('../fonts/JetBrainsMonoNL-Regular.ttf') format('truetype');
-}
+/* main window */
 
 /* Run button */
 .run-button {
