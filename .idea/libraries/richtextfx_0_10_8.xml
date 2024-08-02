@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="jfxswt">
+  <library name="richtextfx-0.10.8">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/libraries/jfxswt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/libraries/richtextfx-0.10.8.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="jfxswt">
+  <library name="reactfx-2.0-M5">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/libraries/jfxswt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/libraries/reactfx-2.0-M5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
