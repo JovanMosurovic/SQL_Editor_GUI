@@ -18,36 +18,40 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Tooltip?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mainwindow.MainWindowController">
 
     <!-- Menu Bar -->
     <MenuBar styleClass="menu-bar">
-        <Menu styleClass="menu" text="File">
-            <MenuItem onAction="#handleSaveAs" styleClass="menu-item" text="Save As" />
-            <MenuItem onAction="#handleImportDatabase" styleClass="menu-item" text="Import Database" />
-            <MenuItem onAction="#handleClose" styleClass="menu-item" text="Close" />
+        <Menu text="File" styleClass="menu">
+            <MenuItem text="Save As" onAction="#handleSaveAs" styleClass="menu-item"/>
+            <MenuItem text="Import Database" onAction="#handleImportDatabase" styleClass="menu-item"/>
+            <MenuItem text="Close" onAction="#handleClose" styleClass="menu-item"/>
         </Menu>
     </MenuBar>
 
     <!-- Button for running code -->
-    <Button fx:id="runButton" layoutX="1050.0" layoutY="5.0" styleClass="run-button" text="Run Code">
+    <Button fx:id="runButton" layoutX="1050.0" layoutY="5.0" text="Run Code" onAction="#handleRun" styleClass="run-button">
         <graphic>
-            <ImageView fx:id="runIcon" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../resources/icons/run_icon.png" />
             </ImageView>
         </graphic>
+        <tooltip>
+            <Tooltip text="Run Code SHIFT + F10" />
+        </tooltip>
     </Button>
 
     <!-- Left Pane for Tables -->
     <VBox layoutX="10.0" layoutY="50.0" prefHeight="500.0" prefWidth="135.0" styleClass="left-pane">
-        <Label styleClass="left-pane-label" text="Tables" />
-        <ListView fx:id="tablesListView" prefHeight="450.0" prefWidth="113.0" />
+        <Label text="Tables" styleClass="left-pane-label"/>
+        <ListView fx:id="tablesListView" prefHeight="450.0" prefWidth="113.0"/>
     </VBox>
 
     <!-- Center Pane for Code Area -->
     <Pane layoutX="150.0" layoutY="50.0" prefHeight="480.0" prefWidth="1025.0">
-        <TextArea fx:id="codeArea" prefHeight="500.0" prefWidth="1025.0" styleClass="text-area" />
+        <TextArea fx:id="codeArea" prefHeight="500.0" prefWidth="1025.0" styleClass="text-area"/>
     </Pane>
 
     <!-- TabPane for Results and TableView -->
@@ -59,14 +63,15 @@
                         <Image url="@../resources/icons/console_icon.png" />
                     </ImageView>
                     <Label text="Console Log">
-                  <font>
-                     <Font size="15.0" />
-                  </font></Label>
+                        <font>
+                            <Font size="15.0"/>
+                        </font>
+                    </Label>
                 </HBox>
             </graphic>
-            <TextArea fx:id="resultTextArea" editable="false" focusTraversable="false" prefHeight="291.0" prefWidth="1200.0" styleClass="result-text-area" wrapText="true">
+            <TextArea fx:id="resultTextArea" prefHeight="291.0" prefWidth="1200.0" editable="false" focusTraversable="false" wrapText="true" styleClass="result-text-area">
                 <cursor>
-                    <Cursor fx:constant="DEFAULT" />
+                    <Cursor fx:constant="DEFAULT"/>
                 </cursor>
             </TextArea>
         </Tab>
@@ -78,12 +83,13 @@
                         <Image url="@../resources/icons/table_icon.png" />
                     </ImageView>
                     <Label text="Table View">
-                  <font>
-                     <Font size="15.0" />
-                  </font></Label>
+                        <font>
+                            <Font size="15.0"/>
+                        </font>
+                    </Label>
                 </HBox>
             </graphic>
-            <TableView fx:id="resultTableView" />
+            <TableView fx:id="resultTableView"/>
         </Tab>
     </TabPane>
 </AnchorPane>

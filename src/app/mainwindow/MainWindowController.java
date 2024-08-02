@@ -4,7 +4,6 @@ import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -16,7 +15,6 @@ import java.util.ResourceBundle;
 public class MainWindowController extends ControllerBase {
 
     public Button runButton;
-    public ImageView runIcon;
     public ListView<String> tablesListView;
     public TextArea codeArea;
     public TextArea resultTextArea;
@@ -64,4 +62,9 @@ public class MainWindowController extends ControllerBase {
     }
 
     public void handleClose() {}
+
+    public void handleRun() {
+        System.out.println("Run button clicked");
+        //todo: run the code
+    }
 }

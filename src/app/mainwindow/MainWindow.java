@@ -5,6 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,6 +29,14 @@ public class MainWindow extends Window {
             stage.setResizable(false);
             stage.show();
             this.stage = stage;
+
+            KeyCombination runShortcut = new KeyCodeCombination(KeyCode.F10, KeyCombination.SHIFT_DOWN);
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (runShortcut.match(event)) {
+                    MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(MAIN_WINDOW).getController();
+                    mainWindowController.handleRun();
+                }
+            });
 
             this.stage.setOnCloseRequest(event -> {
                 event.consume();
