@@ -10,10 +10,14 @@ import java.util.ResourceBundle;
 
 public class ClosingWindowController extends ControllerBase {
 
-
     public Button saveButton;
     public Button dontSaveButton;
     public Button cancelButton;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Window.getWindowAt(Window.CLOSE_WINDOW).setController(this);
+    }
 
     public void handleSave() {
         WindowHelper.hideWindow(Window.CLOSE_WINDOW);
@@ -27,10 +31,5 @@ public class ClosingWindowController extends ControllerBase {
 
     public void handleCancel() {
         WindowHelper.hideWindow(Window.CLOSE_WINDOW);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Window.getWindowAt(Window.CLOSE_WINDOW).setController(this);
     }
 }

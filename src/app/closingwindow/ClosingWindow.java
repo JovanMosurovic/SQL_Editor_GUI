@@ -1,6 +1,7 @@
 package app.closingwindow;
 
 import app.Window;
+import app.WindowHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,14 +18,15 @@ public class ClosingWindow extends Window {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("closingwindow.fxml")));
             Scene scene = new Scene(root);
 
+
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/closingwindow.css")).toExternalForm());
 
+            this.stage = stage;
             stage.setTitle("SQL Editor");
             stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/sql_icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.show();
-            this.stage = stage;
+            WindowHelper.centerOnScreen(Window.CLOSE_WINDOW);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

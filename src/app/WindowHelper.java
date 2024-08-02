@@ -34,6 +34,7 @@ public class WindowHelper {
             throw new IllegalArgumentException("[CENTER ON SCREEN]: Invalid window position");
         }
         Window.getWindowAt(position).getStage().centerOnScreen();
+
     }
 
 }

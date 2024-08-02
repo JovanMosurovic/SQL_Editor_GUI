@@ -1,6 +1,7 @@
 package app.savingwindow;
 
 import app.Window;
+import app.WindowHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,12 +20,12 @@ public class SavingWindow extends Window {
 
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/savingwindow.css")).toExternalForm());
 
+            this.stage = stage;
             stage.setTitle("Save as");
             stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/sql_icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.show();
-            this.stage = stage;
+            WindowHelper.centerOnScreen(Window.SAVE_WINDOW);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
