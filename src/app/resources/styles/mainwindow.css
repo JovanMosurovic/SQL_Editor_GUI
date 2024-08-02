@@ -1,4 +1,8 @@
 /* Main window */
+@font-face {
+    -fx-font-family: 'JetBrains Mono NL';
+    src: url('../fonts/JetBrainsMonoNL-Regular.ttf') format('truetype');
+}
 
 /* Run button */
 .run-button {
@@ -16,6 +20,7 @@
 
 /* Text area and text flow */
 .text-area {
+    -fx-font-family: 'JetBrains Mono NL';
     -fx-font-size: 14px;
     -fx-text-fill: #333333;
     -fx-background-color: #f0f0f0;
