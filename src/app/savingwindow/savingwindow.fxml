@@ -12,11 +12,11 @@
             <Font name="Calibri" size="20.0" />
         </font></Label>
     <HBox layoutX="15.0" layoutY="105.0" spacing="20.0">
-        <Button fx:id="customFormatButton" alignment="CENTER" onAction="#handleSave" prefHeight="30.0" prefWidth="110.0" text="Custom">
+        <Button fx:id="customFormatButton" alignment="CENTER" onAction="#handleSaveAsCustom" prefHeight="30.0" prefWidth="110.0" text="Custom">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font></Button>
-        <Button fx:id="SQLFormatButton" onAction="#handleDontSave" prefHeight="30.0" prefWidth="110.0" text="SQL">
+        <Button fx:id="SQLFormatButton" onAction="#handleSaveAsSQL" prefHeight="30.0" prefWidth="110.0" text="SQL">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font></Button>
