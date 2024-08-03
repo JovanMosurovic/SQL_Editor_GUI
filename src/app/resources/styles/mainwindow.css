@@ -67,6 +67,11 @@
     -fx-background-color: #b0b0b0;
 }
 
+.menu-item:focused {
+    -fx-background-color: #b0b0b0;
+    -fx-text-fill: #333333;
+}
+
 /* Left pane */
 .left-pane {
     -fx-background-color: #f0f0f0;
