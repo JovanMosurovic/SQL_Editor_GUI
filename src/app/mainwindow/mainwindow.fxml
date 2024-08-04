@@ -31,6 +31,24 @@
             <MenuItem text="Import Database" onAction="#handleImportDatabase" styleClass="menu-item"/>
             <MenuItem text="Close" onAction="#handleClose" styleClass="menu-item"/>
         </Menu>
+        <Menu text="Edit" styleClass="menu">
+            <MenuItem text="Undo" onAction="#handleUndo" styleClass="menu-item" accelerator="Ctrl+Z"/>
+            <MenuItem text="Redo" onAction="#handleRedo" styleClass="menu-item" accelerator="Ctrl+Y"/>
+            <MenuItem text="Cut" onAction="#handleCut" styleClass="menu-item" accelerator="Ctrl+X"/>
+            <MenuItem text="Copy" onAction="#handleCopy" styleClass="menu-item" accelerator="Ctrl+C"/>
+            <MenuItem text="Paste" onAction="#handlePaste" styleClass="menu-item" accelerator="Ctrl+V"/>
+            <MenuItem text="Select All" onAction="#handleSelectAll" styleClass="menu-item" accelerator="Ctrl+A"/>
+        </Menu>
+        <Menu text="View" styleClass="menu">
+            <Menu text="Font" styleClass="menu">
+                <MenuItem text="Increase Font Size" onAction="#increaseFontSize" styleClass="menu-item"/>
+                <MenuItem text="Decrease Font Size" onAction="#decreaseFontSize" styleClass="menu-item"/>
+            </Menu>
+        </Menu>
+
+        <Menu text="Help" styleClass="menu">
+            <MenuItem text="About" onAction="#handleAbout" styleClass="menu-item"/>
+        </Menu>
     </MenuBar>
 
     <!-- Button for running code -->
