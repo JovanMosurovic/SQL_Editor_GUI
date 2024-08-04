@@ -175,6 +175,6 @@ public class MainWindowController extends ControllerBase {
     }
 
     public void handleAbout() {
-        //todo: show about dialog
+        WindowHelper.showWindow(Window.ABOUT_WINDOW);
     }
 }

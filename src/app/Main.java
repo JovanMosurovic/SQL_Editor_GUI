@@ -1,5 +1,6 @@
 package app;
 
+import app.aboutwindow.AboutWindow;
 import app.closingwindow.ClosingWindow;
 import app.mainwindow.MainWindow;
 import app.savingwindow.SavingWindow;
@@ -14,6 +15,7 @@ public class Main extends Application {
         Window.setWindowAt(Window.CLOSE_WINDOW, new ClosingWindow());
         Window.setWindowAt(Window.SAVE_WINDOW, new SavingWindow());
         Window.setWindowAt(Window.WELCOME_WINDOW, new WelcomeWindow());
+        Window.setWindowAt(Window.ABOUT_WINDOW, new AboutWindow());
         Window.initAllWindows();
         WindowHelper.showOnly(Window.WELCOME_WINDOW);
         WindowHelper.centerOnScreen(Window.WELCOME_WINDOW);
