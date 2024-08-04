@@ -27,6 +27,8 @@ public class MainWindowController extends ControllerBase {
     public ScrollPane resultScrollPane;
     public TextFlow resultTextFlow;
     public TableView<String> resultTableView;
+    private static final double MAX_FONT_SIZE = 72.0;
+    private static final double MIN_FONT_SIZE = 2.0;
     private double currentFontSize = 16.0;
 
     @Override
@@ -60,6 +62,8 @@ public class MainWindowController extends ControllerBase {
         codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), this::handleCopy);
         codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN), this::handlePaste);
         codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN), this::handleSelectAll);
+        codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN), this::increaseFontSize);
+        codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN), this::decreaseFontSize);
     }
 
     public void handleSaveAs() {
@@ -83,23 +87,26 @@ public class MainWindowController extends ControllerBase {
         File selectedFile = fileChooser.showOpenDialog(stage);
         clearResultTextFlow();
         if (selectedFile == null) {
-            updateResultTextFlow("No file selected. Please select a valid .sql or .dbexp file.", Color.RED);
+            updateResultTextFlow("No file selected. Please select a valid .sql or .dbexp file.", Color.RED, false);
             return false;
         }
 
         String filePath = selectedFile.getAbsolutePath();
         if (filePath.endsWith(".sql") || filePath.endsWith(".dbexp")) {
             // TODO: import database
-            updateResultTextFlow("Selected file: " + filePath, Color.BLACK);
-            updateResultTextFlow("\nDatabase imported successfully!", Color.GREEN);
+            updateResultTextFlow("Selected file: " + filePath, Color.BLACK, false);
+            updateResultTextFlow("\nDatabase imported successfully!", Color.GREEN, true);
             return true;
         } else {
-            updateResultTextFlow("Invalid file type selected. Please select a .sql or .dbexp file.", Color.RED);
+            updateResultTextFlow("Invalid file type selected. Please select a .sql or .dbexp file.", Color.RED, false);
             return false;
         }
     }
 
-    private void updateResultTextFlow(String message, Color color) {
+    private void updateResultTextFlow(String message, Color color, boolean append) {
+        if (!append) {
+            clearResultTextFlow();
+        }
         Text text = new Text(message);
         text.setFill(color);
         resultTextFlow.getChildren().add(text);
@@ -150,12 +157,20 @@ public class MainWindowController extends ControllerBase {
     }
 
     public void increaseFontSize() {
-        changeFontSize(2.0);
+        if(currentFontSize < MAX_FONT_SIZE) {
+            changeFontSize(2.0);
+        }
+        else {
+            updateResultTextFlow("\nCannot increase font size further.", Color.RED, true);
+        }
     }
 
     public void decreaseFontSize() {
-        if(currentFontSize > 2.0) {
+        if(currentFontSize > MIN_FONT_SIZE) {
             changeFontSize(-2.0);
+        }
+        else {
+            updateResultTextFlow("\nCannot decrease font size further.", Color.RED, true);
         }
     }
 

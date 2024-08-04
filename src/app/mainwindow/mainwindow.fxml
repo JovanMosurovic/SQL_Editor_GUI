@@ -41,8 +41,8 @@
         </Menu>
         <Menu text="View" styleClass="menu">
             <Menu text="Font" styleClass="menu">
-                <MenuItem text="Increase Font Size" onAction="#increaseFontSize" styleClass="menu-item"/>
-                <MenuItem text="Decrease Font Size" onAction="#decreaseFontSize" styleClass="menu-item"/>
+                <MenuItem text="Increase Font Size" onAction="#increaseFontSize" styleClass="menu-item" accelerator="CTRL + EQUALS"/>
+                <MenuItem text="Decrease Font Size" onAction="#decreaseFontSize" styleClass="menu-item" accelerator="CTRL + MINUS"/>
             </Menu>
         </Menu>
 
