@@ -27,8 +27,8 @@
     <!-- Menu Bar -->
     <MenuBar styleClass="menu-bar">
         <Menu text="File" styleClass="menu">
-            <MenuItem text="Save As" onAction="#handleSaveAs" styleClass="menu-item"/>
-            <MenuItem text="Import Database" onAction="#handleImportDatabase" styleClass="menu-item"/>
+            <MenuItem text="Save As" onAction="#handleSaveAs" styleClass="menu-item" accelerator="CTRL+S"/>
+            <MenuItem text="Import Database" onAction="#handleImportDatabase" styleClass="menu-item" accelerator="CTRL+I"/>
             <MenuItem text="Close" onAction="#handleClose" styleClass="menu-item"/>
         </Menu>
         <Menu text="Edit" styleClass="menu">
@@ -41,8 +41,8 @@
         </Menu>
         <Menu text="View" styleClass="menu">
             <Menu text="Font" styleClass="menu">
-                <MenuItem text="Increase Font Size" onAction="#increaseFontSize" styleClass="menu-item" accelerator="CTRL + EQUALS"/>
-                <MenuItem text="Decrease Font Size" onAction="#decreaseFontSize" styleClass="menu-item" accelerator="CTRL + MINUS"/>
+                <MenuItem text="Increase Font Size" onAction="#increaseFontSize" styleClass="menu-item" accelerator="CTRL+EQUALS"/>
+                <MenuItem text="Decrease Font Size" onAction="#decreaseFontSize" styleClass="menu-item" accelerator="CTRL+MINUS"/>
             </Menu>
         </Menu>
 

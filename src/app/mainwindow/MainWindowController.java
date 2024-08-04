@@ -56,6 +56,8 @@ public class MainWindowController extends ControllerBase {
     }
 
     private void addShortcuts() {
+        codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), this::handleSaveAs);
+        codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.I, KeyCombination.CONTROL_DOWN), this::handleImportDatabase);
         codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN), this::handleUndo);
         codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN), this::handleRedo);
         codeArea.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), this::handleCut);
