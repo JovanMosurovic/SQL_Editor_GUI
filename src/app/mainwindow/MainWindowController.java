@@ -37,7 +37,11 @@ public class MainWindowController extends ControllerBase {
     }
 
     private void setupCodeAreaFont() {
-        Font jetBrainsMono = Font.loadFont(getClass().getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), 16);
+        Font jetBrainsMono = Font.loadFont(getClass().getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
+        if(jetBrainsMono == null) {
+            jetBrainsMono = Font.font("Monospaced", currentFontSize);
+            System.out.println("Failed to load JetBrains Mono font. Using default monospaced font.");
+        }
         codeArea.setFont(jetBrainsMono);
     }
 
@@ -142,7 +146,7 @@ public class MainWindowController extends ControllerBase {
 
     private void changeFontSize(double size) {
         currentFontSize += size;
-        codeArea.setFont(Font.font(currentFontSize));
+        codeArea.setFont(Font.font(codeArea.getFont().getFamily(), currentFontSize));
     }
 
     public void increaseFontSize() {
