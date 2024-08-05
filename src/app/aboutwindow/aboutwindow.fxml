@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -8,20 +9,20 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="app.aboutwindow.AboutWindowController">
     <VBox alignment="CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0">
-        <Label text="About This Project" styleClass="label"/>
+        <Label text="About This Project" styleClass="header-label"/>
         <TextFlow>
             <Text styleClass="text" text="This project was developed as the second university assignment for 'Practicum of Object-Oriented Programming' at the University of Belgrade School of Electrical Engineering majoring in Software Engineering."/>
         </TextFlow>
-        <HBox spacing="10.0">
+        <HBox spacing="10.0" styleClass="hbox">
             <Label text="Project GitHub:" styleClass="label"/>
-            <Text styleClass="link" text="https://github.com/JovanMosurovic/Elemental_SQL_Implementation_with_GUI"/>
+            <Hyperlink text="https://github.com/JovanMosurovic/Elemental_SQL_Implementation_with_GUI" onAction="#handleOpenLink"/>
         </HBox>
-        <HBox spacing="10.0">
+        <HBox spacing="10.0" styleClass="hbox">
             <Label text="Author's GitHub:" styleClass="label"/>
-            <Text styleClass="link" text="https://github.com/JovanMosurovic"/>
+            <Hyperlink text="https://github.com/JovanMosurovic" onAction="#handleOpenLink"/>
         </HBox>
         <Button text="Close" onAction="#handleClose" styleClass="button"/>
     </VBox>

@@ -16,4 +16,7 @@ public class AboutWindowController extends ControllerBase {
     public void handleClose() {
         WindowHelper.hideWindow(Window.ABOUT_WINDOW);
     }
+
+    public void handleOpenLink() {
+    }
 }
