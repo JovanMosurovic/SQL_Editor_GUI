@@ -4,26 +4,58 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="app.aboutwindow.AboutWindowController">
-    <VBox alignment="CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0">
-        <Label text="About This Project" styleClass="header-label"/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.aboutwindow.AboutWindowController">
+    <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <Label styleClass="header-label" text="About This Project" />
         <TextFlow>
-            <Text styleClass="text" text="This project was developed as the second university assignment for 'Practicum of Object-Oriented Programming' at the University of Belgrade School of Electrical Engineering majoring in Software Engineering."/>
+            <Text styleClass="text" text="This project was developed as part of the second university assignment for 'Practicum of Object-Oriented Programming' at the University of Belgrade School of Electrical Engineering, majoring in Software Engineering." />
         </TextFlow>
-        <HBox spacing="10.0" styleClass="hbox">
-            <Label text="Project GitHub:" styleClass="label"/>
-            <Hyperlink text="https://github.com/JovanMosurovic/Elemental_SQL_Implementation_with_GUI" onAction="#handleOpenLink"/>
+        <TextFlow>
+            <Text styleClass="text" text="Instructions for this project can be found " />
+            <Hyperlink onAction="#handleOpenInstructionsLink" styleClass="hyperlink" text="here" />
+            <Text styleClass="text" text="." />
+        </TextFlow>
+
+        <GridPane hgap="15.0" vgap="10.0">
+            <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label styleClass="label" text="Version:" />
+                <Label styleClass="label" text="Date:" />
+                <Label styleClass="label" text="Contact:" />
+            </VBox>
+            <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label styleClass="value" text="1.0" />
+                <Label styleClass="value" text="August 2024" />
+                <Label styleClass="value" text="mosurovicjovan@gmail.com" />
+            </VBox>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <HBox alignment="CENTER" spacing="15.0" styleClass="links-box">
+            <Hyperlink alignment="CENTER" focusTraversable="false" onAction="#handleOpenProjectGitHub" styleClass="hyperlink" text="Project GitHub">
+            <font>
+               <Font name="Calibri" size="15.0" />
+            </font></Hyperlink>
+            <Hyperlink alignment="CENTER" focusTraversable="false" onAction="#handleOpenAuthorGitHub" styleClass="hyperlink" text="Author's GitHub">
+            <font>
+               <Font name="Calibri" size="15.0" />
+            </font></Hyperlink>
         </HBox>
-        <HBox spacing="10.0" styleClass="hbox">
-            <Label text="Author's GitHub:" styleClass="label"/>
-            <Hyperlink text="https://github.com/JovanMosurovic" onAction="#handleOpenLink"/>
-        </HBox>
-        <Button text="Close" onAction="#handleClose" styleClass="button"/>
+   
+        <Button onAction="#handleClose" styleClass="button" text="Close" />
     </VBox>
 </AnchorPane>

@@ -19,7 +19,6 @@ public class Main extends Application {
         Window.setWindowAt(Window.ABOUT_WINDOW, new AboutWindow());
         Window.initAllWindows();
         WindowHelper.showOnly(Window.WELCOME_WINDOW);
-        WindowHelper.centerOnScreen(Window.WELCOME_WINDOW);
 
         AboutWindowController aboutWindowController = (AboutWindowController) Window.getWindowAt(Window.ABOUT_WINDOW).getController();
         aboutWindowController.setHostServices(getHostServices());
