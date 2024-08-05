@@ -26,6 +26,11 @@ public class WelcomeWindow extends Window {
             stage.setScene(scene);
             stage.setResizable(false);
             WindowHelper.centerOnScreen(Window.WELCOME_WINDOW);
+
+            stage.setOnCloseRequest(event -> {
+                event.consume();
+                WindowHelper.closeAllWindows();
+            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
