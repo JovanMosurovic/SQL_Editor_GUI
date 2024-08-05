@@ -73,14 +73,19 @@ public class MainWindowController extends ControllerBase {
     }
 
     public boolean handleImportDatabase() {
+        return handleImportDatabase(false);
+    }
+
+    public boolean handleImportDatabase(boolean isFromWelcomeWindow) {
         return showImportDatabaseDialog(
+                isFromWelcomeWindow,
                 new FileChooser.ExtensionFilter("SQL Files", "*.sql"),
                 new FileChooser.ExtensionFilter("Custom format files", "*dbexp"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
     }
 
-    private boolean showImportDatabaseDialog(FileChooser.ExtensionFilter... filters) {
+    private boolean showImportDatabaseDialog(boolean isFromWelcomeWindow, FileChooser.ExtensionFilter... filters) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Database");
         fileChooser.getExtensionFilters().addAll(filters);
@@ -89,7 +94,9 @@ public class MainWindowController extends ControllerBase {
         File selectedFile = fileChooser.showOpenDialog(stage);
         clearResultTextFlow();
         if (selectedFile == null) {
-            updateResultTextFlow("No file selected. Please select a valid .sql or .dbexp file.", Color.RED, false);
+            if(!isFromWelcomeWindow) {
+                updateResultTextFlow("No file selected. Please select a valid .sql or .dbexp file.", Color.RED, false);
+            }
             return false;
         }
 

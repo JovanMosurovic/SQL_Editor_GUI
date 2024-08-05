@@ -20,7 +20,7 @@ public class WelcomeWindowController extends ControllerBase {
 
     public void handleImportDatabase() {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-        if(mainWindowController.handleImportDatabase()) {
+        if(mainWindowController.handleImportDatabase(true)) {
             statusMessage.setText("Database imported successfully!");
             statusMessage.setStyle("-fx-text-fill: green;");
             WindowHelper.hideWindow(Window.WELCOME_WINDOW);
