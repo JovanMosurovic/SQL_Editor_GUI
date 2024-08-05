@@ -5,6 +5,7 @@ import app.Window;
 import app.WindowHelper;
 import app.mainwindow.MainWindowController;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +21,8 @@ public class WelcomeWindowController extends ControllerBase {
 
     public void handleImportDatabase() {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-        if(mainWindowController.handleImportDatabase(true)) {
+        Stage welcomeWindoStage = Window.getWindowAt(Window.WELCOME_WINDOW).getStage();
+        if(mainWindowController.handleImportDatabase(welcomeWindoStage, true)) {
             statusMessage.setText("Database imported successfully!");
             statusMessage.setStyle("-fx-text-fill: green;");
             WindowHelper.hideWindow(Window.WELCOME_WINDOW);

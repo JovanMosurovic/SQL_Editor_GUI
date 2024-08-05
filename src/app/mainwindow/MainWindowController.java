@@ -73,11 +73,12 @@ public class MainWindowController extends ControllerBase {
     }
 
     public boolean handleImportDatabase() {
-        return handleImportDatabase(false);
+        return handleImportDatabase(Window.getWindowAt(Window.MAIN_WINDOW).getStage(), false);
     }
 
-    public boolean handleImportDatabase(boolean isFromWelcomeWindow) {
+    public boolean handleImportDatabase(Stage ownerStage, boolean isFromWelcomeWindow) {
         return showImportDatabaseDialog(
+                ownerStage,
                 isFromWelcomeWindow,
                 new FileChooser.ExtensionFilter("SQL Files", "*.sql"),
                 new FileChooser.ExtensionFilter("Custom format files", "*dbexp"),
@@ -85,13 +86,12 @@ public class MainWindowController extends ControllerBase {
         );
     }
 
-    private boolean showImportDatabaseDialog(boolean isFromWelcomeWindow, FileChooser.ExtensionFilter... filters) {
+    private boolean showImportDatabaseDialog(Stage ownerStage, boolean isFromWelcomeWindow, FileChooser.ExtensionFilter... filters) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Database");
         fileChooser.getExtensionFilters().addAll(filters);
 
-        Stage stage = (Stage) tablesListView.getScene().getWindow();
-        File selectedFile = fileChooser.showOpenDialog(stage);
+        File selectedFile = fileChooser.showOpenDialog(ownerStage);
         clearResultTextFlow();
         if (selectedFile == null) {
             if(!isFromWelcomeWindow) {
