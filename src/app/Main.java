@@ -1,6 +1,7 @@
 package app;
 
 import app.aboutwindow.AboutWindow;
+import app.aboutwindow.AboutWindowController;
 import app.closingwindow.ClosingWindow;
 import app.mainwindow.MainWindow;
 import app.savingwindow.SavingWindow;
@@ -19,6 +20,9 @@ public class Main extends Application {
         Window.initAllWindows();
         WindowHelper.showOnly(Window.WELCOME_WINDOW);
         WindowHelper.centerOnScreen(Window.WELCOME_WINDOW);
+
+        AboutWindowController aboutWindowController = (AboutWindowController) Window.getWindowAt(Window.ABOUT_WINDOW).getController();
+        aboutWindowController.setHostServices(getHostServices());
     }
 
     public static void main(String[] args) {
