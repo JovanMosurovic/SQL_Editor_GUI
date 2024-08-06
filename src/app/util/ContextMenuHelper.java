@@ -13,4 +13,12 @@ public class ContextMenuHelper {
         contextMenu.getItems().add(clearConsoleItem);
         return contextMenu;
     }
+
+    public static ContextMenu createTableListViewContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem refreshTablesItem = new MenuItem("Show tables");
+        MenuItem dropTableItem = new MenuItem("Drop table");
+        contextMenu.getItems().addAll(refreshTablesItem, dropTableItem);
+        return contextMenu;
+    }
 }

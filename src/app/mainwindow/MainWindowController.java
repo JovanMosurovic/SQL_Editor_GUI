@@ -81,7 +81,9 @@ public class MainWindowController extends ControllerBase {
 
     public void handleRun() {
         System.out.println("Run button clicked");
-        //todo: run the code
+        String code = codeArea.getText();
+        System.out.println("Code: |" + code + "|");
+
     }
 
     //region Code area actions
