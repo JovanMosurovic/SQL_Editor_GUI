@@ -64,10 +64,6 @@ public class MainWindowController extends ControllerBase {
         });
     }
 
-    public void handleSaveAs() {
-        WindowHelper.showWindow(Window.SAVE_WINDOW);
-    }
-
     public boolean handleImportDatabase() {
         return handleImportDatabase(Window.getWindowAt(Window.MAIN_WINDOW).getStage(), false);
     }
@@ -83,12 +79,12 @@ public class MainWindowController extends ControllerBase {
         );
     }
 
-    public void handleClose() {}
-
     public void handleRun() {
         System.out.println("Run button clicked");
         //todo: run the code
     }
+
+    //region Code area actions
 
     public void handleUndo() {
         CodeAreaHelper.handleEditAction(codeArea, TextArea::undo);
@@ -120,6 +116,16 @@ public class MainWindowController extends ControllerBase {
 
     public void decreaseFontSize() {
         CodeAreaHelper.decreaseFontSize(resultTextFlow, codeArea);
+    }
+
+    //endregion
+
+    public void handleClose() {
+        // Do nothing
+    }
+
+    public void handleSaveAs() {
+        WindowHelper.showWindow(Window.SAVE_WINDOW);
     }
 
     public void handleAbout() {

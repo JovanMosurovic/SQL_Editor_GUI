@@ -16,9 +16,9 @@ public class CodeAreaHelper {
 
     private static final double MAX_FONT_SIZE = 72.0;
     private static final double MIN_FONT_SIZE = 2.0;
-    private static double currentFontSize = 16.0;
     private static final double FONT_SIZE_STEP = 2.0;
 
+    private static double currentFontSize = 16.0;
 
     public static void setupCodeAreaFont(TextArea codeArea) {
         Font jetBrainsMono = Font.loadFont(CodeAreaHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);

@@ -4,15 +4,17 @@ import javafx.stage.Stage;
 
 public abstract class Window {
 
-    protected Stage stage;
-    protected ControllerBase controller;
     public static final int WINDOWS;
     public static final int MAIN_WINDOW;
     public static final int CLOSE_WINDOW;
     public static final int SAVE_WINDOW;
     public static final int WELCOME_WINDOW;
     public static final int ABOUT_WINDOW;
+
     private static final Window[] windows;
+
+    protected Stage stage;
+    protected ControllerBase controller;
 
     static {
         WINDOWS = 5;

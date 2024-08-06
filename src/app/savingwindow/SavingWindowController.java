@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 public class SavingWindowController extends ControllerBase {
 
     private static final Logger logger = Logger.getLogger(SavingWindowController.class.getName());
+
     public Button customFormatButton;
     public Button SQLFormatButton;
     public Button cancelButton;
