@@ -31,7 +31,6 @@ public class TextFlowHelper {
         }
     }
 
-
     public static void clearResultTextFlow(TextFlow textFlow) {
         textFlow.getChildren().clear();
     }
