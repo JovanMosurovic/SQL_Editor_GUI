@@ -4,8 +4,10 @@ import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
 import app.util.CodeAreaHelper;
+import app.util.ContextMenuHelper;
 import app.util.DatabaseManager;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,6 +29,19 @@ public class MainWindowController extends ControllerBase {
         CodeAreaHelper.setupCodeAreaFont(codeArea);
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
         setupSceneListener();
+        setupContextMenu();
+    }
+
+    private void setupContextMenu() {
+        ContextMenu contextMenu = ContextMenuHelper.createConsoleContextMenu(resultTextFlow);
+
+        resultTextFlow.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                contextMenu.show(resultTextFlow, event.getScreenX(), event.getScreenY());
+            } else {
+                contextMenu.hide();
+            }
+        });
     }
 
     private void setupSceneListener() {
@@ -74,7 +89,6 @@ public class MainWindowController extends ControllerBase {
         System.out.println("Run button clicked");
         //todo: run the code
     }
-
 
     public void handleUndo() {
         CodeAreaHelper.handleEditAction(codeArea, TextArea::undo);
