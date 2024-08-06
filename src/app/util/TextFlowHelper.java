@@ -29,7 +29,6 @@ public class TextFlowHelper {
             }
             parent = parent.getParent();
         }
-        System.out.println("[TEXT FLOW]: ScrollPane not found");
     }
 
 

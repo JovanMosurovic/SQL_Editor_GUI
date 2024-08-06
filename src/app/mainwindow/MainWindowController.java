@@ -4,14 +4,12 @@ import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
 import app.util.CodeAreaHelper;
-import app.util.TextFlowHelper;
+import app.util.DatabaseManager;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -60,39 +58,14 @@ public class MainWindowController extends ControllerBase {
     }
 
     public boolean handleImportDatabase(Stage ownerStage, boolean isFromWelcomeWindow) {
-        return showImportDatabaseDialog(
+        return DatabaseManager.showImportDatabaseDialog(
                 ownerStage,
+                resultTextFlow,
                 isFromWelcomeWindow,
                 new FileChooser.ExtensionFilter("SQL Files", "*.sql"),
                 new FileChooser.ExtensionFilter("Custom format files", "*dbexp"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
-    }
-
-    private boolean showImportDatabaseDialog(Stage ownerStage, boolean isFromWelcomeWindow, FileChooser.ExtensionFilter... filters) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Import Database");
-        fileChooser.getExtensionFilters().addAll(filters);
-
-        File selectedFile = fileChooser.showOpenDialog(ownerStage);
-        TextFlowHelper.clearResultTextFlow(resultTextFlow);
-        if (selectedFile == null) {
-            if(!isFromWelcomeWindow) {
-                TextFlowHelper.updateResultTextFlow(resultTextFlow, "No file selected. Please select a valid .sql or .dbexp file.", Color.RED, false);
-            }
-            return false;
-        }
-
-        String filePath = selectedFile.getAbsolutePath();
-        if (filePath.endsWith(".sql") || filePath.endsWith(".dbexp")) {
-            // TODO: import database
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "Selected file: " + filePath, Color.BLACK, false);
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\nDatabase imported successfully!", Color.GREEN, true);
-            return true;
-        } else {
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "Invalid file type selected. Please select a .sql or .dbexp file.", Color.RED, false);
-            return false;
-        }
     }
 
     public void handleClose() {}
