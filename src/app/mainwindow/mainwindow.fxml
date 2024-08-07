@@ -6,10 +6,12 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,42 +19,49 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="app.mainwindow.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mainwindow.MainWindowController">
 
     <!-- Menu Bar -->
     <MenuBar styleClass="menu-bar">
-        <Menu text="File" styleClass="menu">
-            <MenuItem text="Save As" onAction="#handleSaveAs" styleClass="menu-item" accelerator="CTRL+S"/>
-            <MenuItem text="Import Database" onAction="#handleImportDatabase" styleClass="menu-item" accelerator="CTRL+I"/>
-            <MenuItem text="Close" onAction="#handleClose" styleClass="menu-item"/>
+        <Menu styleClass="menu" text="File">
+            <MenuItem accelerator="CTRL+S" onAction="#handleSaveAs" styleClass="menu-item" text="Save As" />
+            <MenuItem accelerator="CTRL+I" onAction="#handleImportDatabase" styleClass="menu-item" text="Import Database" />
+            <MenuItem onAction="#handleClose" styleClass="menu-item" text="Close" />
         </Menu>
-        <Menu text="Edit" styleClass="menu">
-            <MenuItem text="Undo" onAction="#handleUndo" styleClass="menu-item" accelerator="Ctrl+Z"/>
-            <MenuItem text="Redo" onAction="#handleRedo" styleClass="menu-item" accelerator="Ctrl+Y"/>
-            <MenuItem text="Cut" onAction="#handleCut" styleClass="menu-item" accelerator="Ctrl+X"/>
-            <MenuItem text="Copy" onAction="#handleCopy" styleClass="menu-item" accelerator="Ctrl+C"/>
-            <MenuItem text="Paste" onAction="#handlePaste" styleClass="menu-item" accelerator="Ctrl+V"/>
-            <MenuItem text="Select All" onAction="#handleSelectAll" styleClass="menu-item" accelerator="Ctrl+A"/>
+        <Menu styleClass="menu" text="Edit">
+            <MenuItem accelerator="Ctrl+Z" onAction="#handleUndo" styleClass="menu-item" text="Undo" />
+            <MenuItem accelerator="Ctrl+Y" onAction="#handleRedo" styleClass="menu-item" text="Redo" />
+            <MenuItem accelerator="Ctrl+X" onAction="#handleCut" styleClass="menu-item" text="Cut" />
+            <MenuItem accelerator="Ctrl+C" onAction="#handleCopy" styleClass="menu-item" text="Copy" />
+            <MenuItem accelerator="Ctrl+V" onAction="#handlePaste" styleClass="menu-item" text="Paste" />
+            <MenuItem accelerator="Ctrl+A" onAction="#handleSelectAll" styleClass="menu-item" text="Select All" />
         </Menu>
-        <Menu text="View" styleClass="menu">
-            <Menu text="Font" styleClass="menu">
-                <MenuItem text="Increase Font Size" onAction="#increaseFontSize" styleClass="menu-item" accelerator="CTRL+EQUALS"/>
-                <MenuItem text="Decrease Font Size" onAction="#decreaseFontSize" styleClass="menu-item" accelerator="CTRL+MINUS"/>
+        <Menu styleClass="menu" text="View">
+            <Menu styleClass="menu" text="Font Size">
+                <Menu styleClass="menu" text="Editor">
+                    <MenuItem accelerator="CTRL+SHIFT+EQUALS" onAction="#increaseEditorFontSize" styleClass="menu-item" text="Increase font size" />
+                    <MenuItem accelerator="CTRL+SHIFT+MINUS" onAction="#decreaseEditorFontSize" styleClass="menu-item" text="Decrease font size" />
+                </Menu>
+                <Menu styleClass="menu" text="Console">
+                    <MenuItem accelerator="CTRL+ALT+EQUALS" onAction="#increaseConsoleFontSize" styleClass="menu-item" text="Increase font size" />
+                    <MenuItem accelerator="CTRL+ALT+MINUS" onAction="#decreaseConsoleFontSize" styleClass="menu-item" text="Decrease font size" />
+                </Menu>
+                <Menu styleClass="menu" text="Code Area">
+                    <MenuItem accelerator="CTRL+EQUALS" onAction="#increaseCodeAreaFontSize" styleClass="menu-item" text="Increase font size" />
+                    <MenuItem accelerator="CTRL+MINUS" onAction="#decreaseCodeAreaFontSize" styleClass="menu-item" text="Decrease font size" />
+                </Menu>
             </Menu>
         </Menu>
 
-        <Menu text="Help" styleClass="menu">
-            <MenuItem text="About" onAction="#handleAbout" styleClass="menu-item"/>
+        <Menu styleClass="menu" text="Help">
+            <MenuItem onAction="#handleAbout" styleClass="menu-item" text="About" />
         </Menu>
     </MenuBar>
 
     <!-- Button for running code -->
-    <Button fx:id="runButton" layoutX="1050.0" layoutY="5.0" text="Run Code" onAction="#handleRun" styleClass="run-button">
+    <Button fx:id="runButton" layoutX="1050.0" layoutY="5.0" onAction="#handleRun" styleClass="run-button" text="Run Code">
         <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../resources/icons/run_icon.png" />
@@ -65,13 +74,13 @@
 
     <!-- Left Pane for Tables -->
     <VBox layoutX="10.0" layoutY="50.0" prefHeight="500.0" prefWidth="135.0" styleClass="left-pane">
-        <Label text="Tables" styleClass="left-pane-label"/>
-        <ListView fx:id="tablesListView" prefHeight="450.0" prefWidth="113.0"/>
+        <Label fx:id="tablesLabel" styleClass="left-pane-label" text="Tables" />
+        <ListView fx:id="tablesListView" prefHeight="450.0" prefWidth="113.0" />
     </VBox>
 
     <!-- Center Pane for Code Area -->
     <Pane layoutX="150.0" layoutY="50.0" prefHeight="480.0" prefWidth="1025.0">
-        <TextArea fx:id="codeArea" prefHeight="500.0" prefWidth="1025.0" styleClass="text-area"/>
+        <TextArea fx:id="codeArea" prefHeight="500.0" prefWidth="1025.0" styleClass="text-area" />
     </Pane>
 
     <!-- TabPane for Results and TableView -->
@@ -84,13 +93,13 @@
                     </ImageView>
                     <Label text="Console Log">
                         <font>
-                            <Font size="15.0"/>
+                            <Font size="15.0" />
                         </font>
                     </Label>
                 </HBox>
             </graphic>
-            <ScrollPane fx:id="resultScrollPane" fitToWidth="true" fitToHeight="true" prefHeight="291.0" prefWidth="1200.0">
-                <TextFlow fx:id="resultTextFlow" styleClass="result-text-flow"/>
+            <ScrollPane fx:id="resultScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="291.0" prefWidth="1200.0">
+                <TextFlow fx:id="resultTextFlow" styleClass="result-text-flow" />
             </ScrollPane>
         </Tab>
 
@@ -102,12 +111,12 @@
                     </ImageView>
                     <Label text="Table View">
                         <font>
-                            <Font size="15.0"/>
+                            <Font size="15.0" />
                         </font>
                     </Label>
                 </HBox>
             </graphic>
-            <TableView fx:id="resultTableView"/>
+            <TableView fx:id="resultTableView" />
         </Tab>
     </TabPane>
 </AnchorPane>

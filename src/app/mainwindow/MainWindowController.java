@@ -3,9 +3,7 @@ package app.mainwindow;
 import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
-import app.util.CodeAreaHelper;
-import app.util.ContextMenuHelper;
-import app.util.DatabaseManager;
+import app.util.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
@@ -23,6 +21,7 @@ public class MainWindowController extends ControllerBase {
     public ScrollPane resultScrollPane;
     public TextFlow resultTextFlow;
     public TableView<String> resultTableView;
+    public Label tablesLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,8 +56,8 @@ public class MainWindowController extends ControllerBase {
                         this::handleCopy,
                         this::handlePaste,
                         this::handleSelectAll,
-                        this::increaseFontSize,
-                        this::decreaseFontSize
+                        this::increaseCodeAreaFontSize,
+                        this::decreaseCodeAreaFontSize
                 );
             }
         });
@@ -112,15 +111,37 @@ public class MainWindowController extends ControllerBase {
         CodeAreaHelper.handleEditAction(codeArea, TextArea::selectAll);
     }
 
-    public void increaseFontSize() {
-        CodeAreaHelper.increaseFontSize(resultTextFlow, codeArea);
+    //endregion
+
+    //region Font configuration
+    public void increaseEditorFontSize() {
+        FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), tablesLabel, tablesListView, codeArea, resultScrollPane, resultTextFlow, resultTableView);
     }
 
-    public void decreaseFontSize() {
-        CodeAreaHelper.decreaseFontSize(resultTextFlow, codeArea);
+    public void decreaseEditorFontSize() {
+        FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), tablesLabel, tablesListView, codeArea, resultScrollPane, resultTextFlow, resultTableView);
+    }
+
+    public void increaseConsoleFontSize() {
+        FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), resultTextFlow);
+        FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() + FontSizeConfig.getFontStep());
+    }
+
+    public void decreaseConsoleFontSize() {
+        FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), resultTextFlow);
+        FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() - FontSizeConfig.getFontStep());
+    }
+
+    public void increaseCodeAreaFontSize() {
+        CodeAreaHelper.increaseCodeAreaFontSize(resultTextFlow, codeArea);
+    }
+
+    public void decreaseCodeAreaFontSize() {
+        CodeAreaHelper.decreaseCodeAreaFontSize(resultTextFlow, codeArea);
     }
 
     //endregion
+
 
     public void handleClose() {
         // Do nothing
@@ -133,4 +154,5 @@ public class MainWindowController extends ControllerBase {
     public void handleAbout() {
         WindowHelper.showWindow(Window.ABOUT_WINDOW);
     }
+
 }

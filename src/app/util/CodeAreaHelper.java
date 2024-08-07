@@ -9,18 +9,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
 
-import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 public class CodeAreaHelper {
-
-    private static final double MAX_FONT_SIZE = 72.0;
-    private static final double MIN_FONT_SIZE = 2.0;
     private static final double FONT_SIZE_STEP = 2.0;
 
-    private static double currentFontSize = 16.0;
-
     public static void setupCodeAreaFont(TextArea codeArea) {
+        double currentFontSize = FontSizeConfig.getCodeAreaFontSize();
         Font jetBrainsMono = Font.loadFont(CodeAreaHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
         if(jetBrainsMono == null) {
             jetBrainsMono = Font.font("Monospaced", currentFontSize);
@@ -46,31 +41,23 @@ public class CodeAreaHelper {
         action.accept(codeArea);
     }
 
-    public static void increaseFontSize(TextFlow resultTextFlow, Node node) {
-        if(currentFontSize < MAX_FONT_SIZE) {
-            changeFontSize(node, FONT_SIZE_STEP);
+    public static void increaseCodeAreaFontSize(TextFlow resultTextFlow, Node node) {
+        double currentFontSize = FontSizeConfig.getCodeAreaFontSize();
+        if(currentFontSize < FontSizeConfig.getCodeAreaMaxFontSize()) {
+            FontHelper.increaseFontSize(FONT_SIZE_STEP, node);
+            FontSizeConfig.setCodeAreaFontSize(currentFontSize + FONT_SIZE_STEP);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size reached", Color.RED, true);
         }
     }
 
-    public static void decreaseFontSize(TextFlow resultTextFlow, Node node) {
-        if(currentFontSize > MIN_FONT_SIZE) {
-            changeFontSize(node, -FONT_SIZE_STEP);
+    public static void decreaseCodeAreaFontSize(TextFlow resultTextFlow, Node node) {
+        double currentFontSize = FontSizeConfig.getCodeAreaFontSize();
+        if(currentFontSize > FontSizeConfig.getCodeAreaMinFontSize()) {
+            FontHelper.decreaseFontSize(FONT_SIZE_STEP, node);
+            FontSizeConfig.setCodeAreaFontSize(currentFontSize - FONT_SIZE_STEP);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size reached", Color.RED, true);
-        }
-    }
-
-    private static void changeFontSize(Node node, double fontSizeStep) {
-        currentFontSize += fontSizeStep;
-        try {
-            Method setFontMethod = node.getClass().getMethod("setFont", Font.class);
-            Font currentFont = (Font) node.getClass().getMethod("getFont").invoke(node);
-            Font newFont = Font.font(currentFont.getFamily(), currentFontSize);
-            setFontMethod.invoke(node, newFont);
-        } catch (Exception e) {
-            System.out.println("This component does not support font changes: " + node.getClass().getName());
         }
     }
 }
