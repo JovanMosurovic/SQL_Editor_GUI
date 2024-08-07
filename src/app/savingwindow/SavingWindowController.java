@@ -58,8 +58,10 @@ public class SavingWindowController extends ControllerBase {
     private void saveFile(File file, String format) {
         try (FileWriter writer = new FileWriter(file)) {
             if ("sql".equals(format)) {
+                System.out.println("Saving as SQL");
                 //todo SQL save logic
             } else if ("dbexp".equals(format)) {
+                System.out.println("Saving as Custom Format");
                 //todo Custom save logic
             }
         } catch (IOException e) {

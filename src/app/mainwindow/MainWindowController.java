@@ -28,7 +28,6 @@ public class MainWindowController extends ControllerBase {
     public void initialize(URL location, ResourceBundle resources) {
         CodeAreaHelper.setupCodeAreaFont(codeArea);
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
-        setupSceneListener(); //todo is it necessary?
         setupContextMenu();
     }
 
@@ -40,26 +39,6 @@ public class MainWindowController extends ControllerBase {
                 contextMenu.show(resultTextFlow, event.getScreenX(), event.getScreenY());
             } else {
                 contextMenu.hide();
-            }
-        });
-    }
-
-    private void setupSceneListener() {
-        codeArea.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                CodeAreaHelper.addShortcuts(
-                        codeArea,
-                        this::handleSaveAs,
-                        this::handleImportDatabase,
-                        this::handleUndo,
-                        this::handleRedo,
-                        this::handleCut,
-                        this::handleCopy,
-                        this::handlePaste,
-                        this::handleSelectAll,
-                        this::increaseCodeAreaFontSize,
-                        this::decreaseCodeAreaFontSize
-                );
             }
         });
     }
