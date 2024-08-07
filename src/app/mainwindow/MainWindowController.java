@@ -104,6 +104,7 @@ public class MainWindowController extends ControllerBase {
     //endregion
 
     //region Font configuration
+
     public void increaseEditorFontSize() {
         if(FontSizeConfig.getEditorFontSize() < FontSizeConfig.getEditorMaxFontSize()) {
             FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), tablesLabel, tablesListView, codeArea, resultScrollPane, resultTextFlow, resultTableView);
