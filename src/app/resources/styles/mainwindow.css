@@ -80,10 +80,10 @@
     -fx-background-radius: 5px;
 }
 
-/* Left pane label */
+/* tablesLabel */
 .left-pane-label {
     -fx-font-family: 'Calibri';
-    -fx-font-size: 14px;
+    -fx-font-size: 14px; /* maybe overriding font size for label */
     -fx-text-fill: #333333;
     -fx-padding: 0 0 10px 0;
 }

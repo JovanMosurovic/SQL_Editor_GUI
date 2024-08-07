@@ -47,7 +47,7 @@ public class CodeAreaHelper {
             FontHelper.increaseFontSize(FONT_SIZE_STEP, node);
             FontSizeConfig.setCodeAreaFontSize(currentFontSize + FONT_SIZE_STEP);
         } else {
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size reached", Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size  reached", Color.RED, true);
         }
     }
 
@@ -57,7 +57,7 @@ public class CodeAreaHelper {
             FontHelper.decreaseFontSize(FONT_SIZE_STEP, node);
             FontSizeConfig.setCodeAreaFontSize(currentFontSize - FONT_SIZE_STEP);
         } else {
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size reached", Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size for code area reached", Color.RED, true);
         }
     }
 }

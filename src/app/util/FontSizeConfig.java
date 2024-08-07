@@ -6,6 +6,10 @@ public class FontSizeConfig {
     private static final double FONT_STEP = 2.0;
     private static final double CODE_AREA_MAX_FONT_SIZE = 72.0;
     private static final double CODE_AREA_MIN_FONT_SIZE = 8.0;
+    private static final double CONSOLE_MAX_FONT_SIZE = 72.0;
+    private static final double CONSOLE_MIN_FONT_SIZE = 10.0;
+    private static final double EDITOR_MAX_FONT_SIZE = 42.0;
+    private static final double EDITOR_MIN_FONT_SIZE = 10.0;
 
     private static double editorFontSize; // todo: not all components have same font size
     private static double consoleFontSize;
@@ -31,6 +35,22 @@ public class FontSizeConfig {
 
     public static double getCodeAreaMinFontSize() {
         return CODE_AREA_MIN_FONT_SIZE;
+    }
+
+    public static double getConsoleMaxFontSize() {
+        return CONSOLE_MAX_FONT_SIZE;
+    }
+
+    public static double getConsoleMinFontSize() {
+        return CONSOLE_MIN_FONT_SIZE;
+    }
+
+    public static double getEditorMaxFontSize() {
+        return EDITOR_MAX_FONT_SIZE;
+    }
+
+    public static double getEditorMinFontSize() {
+        return EDITOR_MIN_FONT_SIZE;
     }
 
     public static double getEditorFontSize() {

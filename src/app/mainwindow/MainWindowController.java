@@ -6,6 +6,7 @@ import app.WindowHelper;
 import app.util.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,7 +28,7 @@ public class MainWindowController extends ControllerBase {
     public void initialize(URL location, ResourceBundle resources) {
         CodeAreaHelper.setupCodeAreaFont(codeArea);
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
-        setupSceneListener();
+        setupSceneListener(); //todo is it necessary?
         setupContextMenu();
     }
 
@@ -115,21 +116,39 @@ public class MainWindowController extends ControllerBase {
 
     //region Font configuration
     public void increaseEditorFontSize() {
-        FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), tablesLabel, tablesListView, codeArea, resultScrollPane, resultTextFlow, resultTableView);
+        if(FontSizeConfig.getEditorFontSize() < FontSizeConfig.getEditorMaxFontSize()) {
+            FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), tablesLabel, tablesListView, codeArea, resultScrollPane, resultTextFlow, resultTableView);
+            FontSizeConfig.setEditorFontSize(FontSizeConfig.getEditorFontSize() + FontSizeConfig.getFontStep());
+        } else {
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size for editor reached", Color.RED, true);
+        }
     }
 
     public void decreaseEditorFontSize() {
-        FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), tablesLabel, tablesListView, codeArea, resultScrollPane, resultTextFlow, resultTableView);
+        if(FontSizeConfig.getEditorFontSize() > FontSizeConfig.getEditorMinFontSize()) {
+            FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), tablesLabel, tablesListView, codeArea, resultScrollPane, resultTextFlow, resultTableView);
+            FontSizeConfig.setEditorFontSize(FontSizeConfig.getEditorFontSize() - FontSizeConfig.getFontStep());
+        } else {
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size for editor reached", Color.RED, true);
+        }
     }
 
     public void increaseConsoleFontSize() {
-        FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), resultTextFlow);
-        FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() + FontSizeConfig.getFontStep());
+        if(FontSizeConfig.getConsoleFontSize() < FontSizeConfig.getConsoleMaxFontSize()) {
+            FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), resultTextFlow);
+            FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() + FontSizeConfig.getFontStep());
+        } else {
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size for console reached", Color.RED, true);
+        }
     }
 
     public void decreaseConsoleFontSize() {
-        FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), resultTextFlow);
-        FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() - FontSizeConfig.getFontStep());
+        if(FontSizeConfig.getConsoleFontSize() > FontSizeConfig.getConsoleMinFontSize()) {
+            FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), resultTextFlow);
+            FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() - FontSizeConfig.getFontStep());
+        } else {
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size for console reached", Color.RED, true);
+        }
     }
 
     public void increaseCodeAreaFontSize() {
