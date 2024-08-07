@@ -32,13 +32,23 @@ public class MainWindowController extends ControllerBase {
     }
 
     private void setupContextMenu() {
-        ContextMenu contextMenu = ContextMenuHelper.createConsoleContextMenu(resultTextFlow);
+        ContextMenu consoleContextMenu = ContextMenuHelper.createConsoleContextMenu(resultTextFlow);
 
         resultTextFlow.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                contextMenu.show(resultTextFlow, event.getScreenX(), event.getScreenY());
+                consoleContextMenu.show(resultTextFlow, event.getScreenX(), event.getScreenY());
             } else {
-                contextMenu.hide();
+                consoleContextMenu.hide();
+            }
+        });
+
+        ContextMenu tablesContextMenu = ContextMenuHelper.createTableListViewContextMenu();
+
+        tablesListView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY && !tablesListView.getSelectionModel().isEmpty()) {
+                tablesContextMenu.show(tablesListView, event.getScreenX(), event.getScreenY());
+            } else {
+                tablesContextMenu.hide();
             }
         });
     }
