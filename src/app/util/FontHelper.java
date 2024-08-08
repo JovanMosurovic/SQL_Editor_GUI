@@ -1,6 +1,8 @@
 package app.util;
 
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.TextFlow;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,7 @@ public class FontHelper {
             logger.log(Level.INFO, "Increasing font size for node: " + node.getClass().getName() + " from " + currentFontSize + " to " + (currentFontSize + fontSizeStep));
             currentFontSize += fontSizeStep;
             changeFontSize(currentFontSize, node);
+            updateFontSizeConfig(currentFontSize, node);
         }
     }
 
@@ -24,6 +27,7 @@ public class FontHelper {
             logger.log(Level.INFO, "Decreasing font size for node: " + node.getClass().getName() + " from " + currentFontSize + " to " + (currentFontSize - fontSizeStep));
             currentFontSize -= fontSizeStep;
             changeFontSize(currentFontSize, node);
+            updateFontSizeConfig(currentFontSize, node);
         }
     }
 
@@ -50,6 +54,14 @@ public class FontHelper {
             logger.log(Level.SEVERE, "An error occurred while getting current font size", e);
         }
         return FontSizeConfig.getDefaultFontSize();
+    }
+
+    private static void updateFontSizeConfig(double newFontSize, Node node) {
+        if (node instanceof TextArea) {
+            FontSizeConfig.setCodeAreaFontSize(newFontSize);
+        } else if (node instanceof TextFlow) {
+            FontSizeConfig.setConsoleFontSize(newFontSize);
+        }
     }
 
 
