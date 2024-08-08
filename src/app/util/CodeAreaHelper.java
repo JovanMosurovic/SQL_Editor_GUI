@@ -12,13 +12,19 @@ public class CodeAreaHelper {
     private static final double FONT_SIZE_STEP = 2.0;
 
     public static void setupCodeAreaFont(TextArea codeArea) {
-        double currentFontSize = FontSizeConfig.getCodeAreaFontSize();
-        Font jetBrainsMono = Font.loadFont(CodeAreaHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
+        final double currentFontSize = FontSizeConfig.getCodeAreaFontSize();
+        final Font jetBrainsMono = Font.loadFont(CodeAreaHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
+        final Font fontToUse = (jetBrainsMono != null) ? jetBrainsMono : Font.font("Monospaced", currentFontSize);
         if(jetBrainsMono == null) {
-            jetBrainsMono = Font.font("Monospaced", currentFontSize);
             System.out.println("[CODE AREA]: Failed to load JetBrains Mono font. Using default monospaced font.");
         }
-        codeArea.setFont(jetBrainsMono);
+        codeArea.setFont(fontToUse);
+
+        codeArea.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if(!newVal) {
+                codeArea.setFont(fontToUse);
+            }
+        });
     }
 
     public static void handleEditAction(TextArea codeArea, Consumer<TextArea> action) {
