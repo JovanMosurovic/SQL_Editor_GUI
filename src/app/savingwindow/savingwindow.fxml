@@ -6,26 +6,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.savingwindow.SavingWindowController">
+<AnchorPane minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.savingwindow.SavingWindowController">
     <Label layoutX="15.0" layoutY="40.0" text="Choose the format to save the file:">
         <font>
-            <Font name="Calibri" size="20.0" />
+            <Font name="Calibri" size="20.0"/>
         </font>
     </Label>
-    <HBox layoutX="15.0" layoutY="105.0" spacing="20.0">
-        <Button fx:id="customFormatButton" alignment="CENTER" onAction="#handleSaveAsCustom" prefHeight="30.0" prefWidth="110.0" text="Custom">
+    <HBox alignment="CENTER" layoutX="15.0" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="10.0"
+          AnchorPane.rightAnchor="10.0">
+        <Button fx:id="customFormatButton" alignment="CENTER" minHeight="30.0" minWidth="110.0"
+                onAction="#handleSaveAsCustom" text="Custom">
             <font>
-                <Font name="Calibri" size="18.0" />
+                <Font name="Calibri" size="18.0"/>
             </font>
         </Button>
-        <Button fx:id="SQLFormatButton" onAction="#handleSaveAsSQL" prefHeight="30.0" prefWidth="110.0" text="SQL">
+        <Button fx:id="SQLFormatButton" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsSQL" text="SQL">
             <font>
-                <Font name="Calibri" size="18.0" />
+                <Font name="Calibri" size="18.0"/>
             </font>
         </Button>
-        <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="30.0" prefWidth="110.0" text="Cancel">
+        <Button fx:id="cancelButton" minHeight="30.0" minWidth="110.0" onAction="#handleCancel" text="Cancel">
             <font>
-                <Font name="Calibri" size="18.0" />
+                <Font name="Calibri" size="18.0"/>
             </font>
         </Button>
     </HBox>

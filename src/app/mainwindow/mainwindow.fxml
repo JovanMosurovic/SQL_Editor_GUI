@@ -21,33 +21,33 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mainwindow.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mainwindow.MainWindowController">
 
     <!-- Menu Bar -->
     <MenuBar styleClass="menu-bar">
         <Menu styleClass="menu" text="File">
-            <MenuItem accelerator="CTRL+S" onAction="#handleSaveAs" styleClass="menu-item" text="Save As" >
+            <MenuItem accelerator="CTRL+S" onAction="#handleSaveAs" styleClass="menu-item" text="Save As">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/save_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem accelerator="CTRL+I" onAction="#handleImportDatabase" styleClass="menu-item" text="Import Database" >
+            <MenuItem accelerator="CTRL+I" onAction="#handleImportDatabase" styleClass="menu-item" text="Import Database">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/import_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem onAction="#handleExit" styleClass="menu-item" text="Exit" >
+            <MenuItem accelerator="ALT+F4" onAction="#handleExit" styleClass="menu-item" text="Exit">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/exit_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem styleClass="menu-item" text="Close" >
+            <MenuItem styleClass="menu-item" text="Close">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/close_icon.png" />
@@ -56,42 +56,42 @@
             </MenuItem>
         </Menu>
         <Menu styleClass="menu" text="Edit">
-            <MenuItem accelerator="Ctrl+Z" onAction="#handleUndo" styleClass="menu-item" text="Undo" >
+            <MenuItem accelerator="Ctrl+Z" onAction="#handleUndo" styleClass="menu-item" text="Undo">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/undo_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem accelerator="Ctrl+Y" onAction="#handleRedo" styleClass="menu-item" text="Redo" >
+            <MenuItem accelerator="Ctrl+Y" onAction="#handleRedo" styleClass="menu-item" text="Redo">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/redo_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem accelerator="Ctrl+X" onAction="#handleCut" styleClass="menu-item" text="Cut" >
+            <MenuItem accelerator="Ctrl+X" onAction="#handleCut" styleClass="menu-item" text="Cut">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/cut_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem accelerator="Ctrl+C" onAction="#handleCopy" styleClass="menu-item" text="Copy" >
+            <MenuItem accelerator="Ctrl+C" onAction="#handleCopy" styleClass="menu-item" text="Copy">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/copy_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem accelerator="Ctrl+V" onAction="#handlePaste" styleClass="menu-item" text="Paste" >
+            <MenuItem accelerator="Ctrl+V" onAction="#handlePaste" styleClass="menu-item" text="Paste">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/paste_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem accelerator="Ctrl+A" onAction="#handleSelectAll" styleClass="menu-item" text="Select All" >
+            <MenuItem accelerator="Ctrl+A" onAction="#handleSelectAll" styleClass="menu-item" text="Select All">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/select_all_icon.png" />
@@ -100,7 +100,7 @@
             </MenuItem>
         </Menu>
         <Menu styleClass="menu" text="View">
-            <MenuItem onAction="#handleSettings" styleClass="menu-item" text="Settings" >
+            <MenuItem onAction="#handleSettings" styleClass="menu-item" text="Settings">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/settings_icon.png" />
@@ -110,7 +110,7 @@
         </Menu>
 
         <Menu styleClass="menu" text="Help">
-            <MenuItem onAction="#handleAbout" styleClass="menu-item" text="About" >
+            <MenuItem onAction="#handleAbout" styleClass="menu-item" text="About">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/about_icon.png" />
@@ -133,21 +133,21 @@
     </Button>
 
     <!-- Left Pane for Tables -->
-    <VBox layoutX="10.0" layoutY="50.0" prefHeight="500.0" prefWidth="135.0" styleClass="left-pane">
+    <VBox layoutX="10.0" layoutY="50.0" minHeight="500.0" minWidth="135.0" prefWidth="135.0" styleClass="left-pane">
         <Label fx:id="tablesLabel" styleClass="left-pane-label" text="Tables" />
-        <ListView fx:id="tablesListView" prefHeight="450.0" prefWidth="113.0" />
+        <ListView fx:id="tablesListView" minHeight="450.0" minWidth="113.0" />
     </VBox>
 
     <!-- Center Pane for Code Area -->
-    <Pane layoutX="150.0" layoutY="50.0" prefHeight="480.0" prefWidth="1025.0">
-        <TextArea fx:id="codeArea" prefHeight="500.0" prefWidth="1025.0" styleClass="text-area" />
+    <Pane layoutX="150.0" layoutY="50.0" minHeight="480.0" minWidth="1025.0">
+        <TextArea fx:id="codeArea" minHeight="500.0" minWidth="1025.0" styleClass="text-area" />
     </Pane>
 
     <!-- TabPane for Results and TableView -->
-    <TabPane layoutY="560.0" prefHeight="240.0" prefWidth="1200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+    <TabPane layoutY="560.0" minHeight="240.0" minWidth="1200.0" prefHeight="240.0" prefWidth="1200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
         <Tab>
             <graphic>
-                <HBox spacing="5" alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="5">
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/console_icon.png" />
                     </ImageView>
@@ -158,14 +158,14 @@
                     </Label>
                 </HBox>
             </graphic>
-            <ScrollPane fx:id="resultScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="291.0" prefWidth="1200.0">
+            <ScrollPane fx:id="resultScrollPane" fitToHeight="true" fitToWidth="true" minHeight="291.0" minWidth="1200.0" prefHeight="291.0" prefWidth="1200.0">
                 <TextFlow fx:id="resultTextFlow" styleClass="result-text-flow" />
             </ScrollPane>
         </Tab>
 
         <Tab>
             <graphic>
-                <HBox spacing="5" alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="5">
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/table_icon.png" />
                     </ImageView>

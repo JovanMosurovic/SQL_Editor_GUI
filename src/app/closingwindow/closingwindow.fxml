@@ -6,23 +6,32 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.closingwindow.ClosingWindowController">
-    <Label layoutX="10.0" layoutY="40.0" text="Do you want to save changes before closing?">
-      <font>
-         <Font name="Calibri" size="20.0" />
-      </font></Label>
-    <HBox layoutX="15.0" layoutY="105.0" spacing="20.0">
-        <Button fx:id="saveButton" alignment="CENTER" onAction="#handleSave" prefHeight="30.0" prefWidth="110.0" text="Save" styleClass="button-blue">
-         <font>
-            <Font name="Calibri Bold" size="18.0" />
-         </font></Button>
-        <Button fx:id="dontSaveButton" onAction="#handleDontSave" prefHeight="30.0" prefWidth="110.0" text="Don't Save" styleClass="button">
-         <font>
-            <Font name="Calibri" size="18.0" />
-         </font></Button>
-        <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="30.0" prefWidth="110.0" text="Cancel" styleClass="button">
-         <font>
-            <Font name="Calibri" size="18.0" />
-         </font></Button>
+<AnchorPane minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.closingwindow.ClosingWindowController">
+    <Label layoutX="10.0" layoutY="40.0" minHeight="20.0" minWidth="320.0"
+           text="Do you want to save changes before closing?">
+        <font>
+            <Font name="Calibri" size="20.0"/>
+        </font>
+    </Label>
+    <HBox alignment="CENTER" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <Button fx:id="saveButton" alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSave"
+                styleClass="button-blue" text="Save">
+            <font>
+                <Font name="Calibri Bold" size="18.0"/>
+            </font>
+        </Button>
+        <Button fx:id="dontSaveButton" minHeight="30.0" minWidth="110.0" onAction="#handleDontSave" styleClass="button"
+                text="Don't Save">
+            <font>
+                <Font name="Calibri" size="18.0"/>
+            </font>
+        </Button>
+        <Button fx:id="cancelButton" minHeight="30.0" minWidth="110.0" onAction="#handleCancel" styleClass="button"
+                text="Cancel">
+            <font>
+                <Font name="Calibri" size="18.0"/>
+            </font>
+        </Button>
     </HBox>
 </AnchorPane>
