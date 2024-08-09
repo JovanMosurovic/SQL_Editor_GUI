@@ -151,11 +151,6 @@ public class MainWindowController extends ControllerBase {
 
     //endregion
 
-
-    public void handleClose() {
-        // Do nothing
-    }
-
     public void handleSaveAs() {
         WindowHelper.showWindow(Window.SAVE_WINDOW);
     }
@@ -164,4 +159,7 @@ public class MainWindowController extends ControllerBase {
         WindowHelper.showWindow(Window.ABOUT_WINDOW);
     }
 
+    public void handleExit() {
+        WindowHelper.closeAllWindows();
+    }
 }

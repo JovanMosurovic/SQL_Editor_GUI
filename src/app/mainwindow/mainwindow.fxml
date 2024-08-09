@@ -26,17 +26,78 @@
     <!-- Menu Bar -->
     <MenuBar styleClass="menu-bar">
         <Menu styleClass="menu" text="File">
-            <MenuItem accelerator="CTRL+S" onAction="#handleSaveAs" styleClass="menu-item" text="Save As" />
-            <MenuItem accelerator="CTRL+I" onAction="#handleImportDatabase" styleClass="menu-item" text="Import Database" />
-            <MenuItem onAction="#handleClose" styleClass="menu-item" text="Close" />
+            <MenuItem accelerator="CTRL+S" onAction="#handleSaveAs" styleClass="menu-item" text="Save As" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/save_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem accelerator="CTRL+I" onAction="#handleImportDatabase" styleClass="menu-item" text="Import Database" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/import_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem onAction="#handleExit" styleClass="menu-item" text="Exit" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/exit_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem styleClass="menu-item" text="Close" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/close_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
         </Menu>
         <Menu styleClass="menu" text="Edit">
-            <MenuItem accelerator="Ctrl+Z" onAction="#handleUndo" styleClass="menu-item" text="Undo" />
-            <MenuItem accelerator="Ctrl+Y" onAction="#handleRedo" styleClass="menu-item" text="Redo" />
-            <MenuItem accelerator="Ctrl+X" onAction="#handleCut" styleClass="menu-item" text="Cut" />
-            <MenuItem accelerator="Ctrl+C" onAction="#handleCopy" styleClass="menu-item" text="Copy" />
-            <MenuItem accelerator="Ctrl+V" onAction="#handlePaste" styleClass="menu-item" text="Paste" />
-            <MenuItem accelerator="Ctrl+A" onAction="#handleSelectAll" styleClass="menu-item" text="Select All" />
+            <MenuItem accelerator="Ctrl+Z" onAction="#handleUndo" styleClass="menu-item" text="Undo" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/undo_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem accelerator="Ctrl+Y" onAction="#handleRedo" styleClass="menu-item" text="Redo" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/redo_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem accelerator="Ctrl+X" onAction="#handleCut" styleClass="menu-item" text="Cut" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/cut_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem accelerator="Ctrl+C" onAction="#handleCopy" styleClass="menu-item" text="Copy" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/copy_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem accelerator="Ctrl+V" onAction="#handlePaste" styleClass="menu-item" text="Paste" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/paste_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem accelerator="Ctrl+A" onAction="#handleSelectAll" styleClass="menu-item" text="Select All" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/select_all_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
         </Menu>
         <Menu styleClass="menu" text="View">
             <Menu styleClass="menu" text="Font Size">
@@ -56,7 +117,13 @@
         </Menu>
 
         <Menu styleClass="menu" text="Help">
-            <MenuItem onAction="#handleAbout" styleClass="menu-item" text="About" />
+            <MenuItem onAction="#handleAbout" styleClass="menu-item" text="About" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/about_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
         </Menu>
     </MenuBar>
 
