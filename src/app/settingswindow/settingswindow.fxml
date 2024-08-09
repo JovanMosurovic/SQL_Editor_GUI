@@ -34,7 +34,7 @@
                     <TextArea fx:id="fontPreviewTextArea" text="Sample Text"/>
                 </VBox>
                 <HBox alignment="CENTER" spacing="10.0">
-                    <Button text="OK" onAction="#applySettings"/>
+                    <Button text="OK" onAction="#applySettings" styleClass="button-blue"/>
                     <Button text="Cancel" onAction="#cancelSettings"/>
                     <Button text="Apply" onAction="#applySettings"/>
                 </HBox>
