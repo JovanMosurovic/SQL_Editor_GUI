@@ -52,14 +52,14 @@
     -fx-text-fill: #1a73e8;
 }
 
-.welcome-label {
+.welcome-label .text {
     -fx-text-fill: #333333 !important;
     -fx-font-weight: bold !important;
     -fx-font-family: 'Calibri' !important;
     -fx-font-size: 24px !important; /* Adjusted to match FXML */
 }
 
-.welcome-sub-label {
+.welcome-sub-label .text {
     -fx-text-fill: #666666 !important;
     -fx-font-family: 'Calibri' !important;
     -fx-font-size: 18px !important; /* Adjusted to match FXML */

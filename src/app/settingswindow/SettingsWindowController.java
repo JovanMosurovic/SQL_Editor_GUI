@@ -18,19 +18,16 @@ import java.util.ResourceBundle;
 
 public class SettingsWindowController extends ControllerBase {
 
-    private final MainWindowController mainWindowController;
+    private MainWindowController mainWindowController;
 
     public ComboBox<String> fontFamilyComboBox;
     public TextField fontSizeTextField;
     public TextArea fontPreviewTextArea;
 
-    public SettingsWindowController(MainWindowController mainWindowController) {
-        this.mainWindowController = mainWindowController;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
+        mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
     }
 
     //region Font configuration

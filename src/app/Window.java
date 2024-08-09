@@ -18,7 +18,7 @@ public abstract class Window {
     protected ControllerBase controller;
 
     static {
-        WINDOWS = 5;
+        WINDOWS = 6;
         MAIN_WINDOW = 0;
         CLOSE_WINDOW = 1;
         SAVE_WINDOW = 2;

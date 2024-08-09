@@ -28,7 +28,7 @@ public class SettingsWindow extends Window {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
-            WindowHelper.centerOnScreen(Window.CLOSE_WINDOW);
+            WindowHelper.centerOnScreen(Window.SETTINGS_WINDOW);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

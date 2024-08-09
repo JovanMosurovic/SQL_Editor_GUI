@@ -5,6 +5,7 @@ import app.aboutwindow.AboutWindowController;
 import app.closingwindow.ClosingWindow;
 import app.mainwindow.MainWindow;
 import app.savingwindow.SavingWindow;
+import app.settingswindow.SettingsWindow;
 import app.welcomewindow.WelcomeWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -18,7 +19,7 @@ public class Main extends Application {
         Window.setWindowAt(Window.SAVE_WINDOW, new SavingWindow());
         Window.setWindowAt(Window.WELCOME_WINDOW, new WelcomeWindow());
         Window.setWindowAt(Window.ABOUT_WINDOW, new AboutWindow());
-      //  Window.setWindowAt(Window.SETTINGS_WINDOW, new SettingsWindow());
+        Window.setWindowAt(Window.SETTINGS_WINDOW, new SettingsWindow());
         Window.initAllWindows();
         WindowHelper.showOnly(Window.WELCOME_WINDOW);
 
