@@ -10,6 +10,7 @@ public abstract class Window {
     public static final int SAVE_WINDOW;
     public static final int WELCOME_WINDOW;
     public static final int ABOUT_WINDOW;
+    public static final int SETTINGS_WINDOW;
 
     private static final Window[] windows;
 
@@ -23,6 +24,7 @@ public abstract class Window {
         SAVE_WINDOW = 2;
         WELCOME_WINDOW = 3;
         ABOUT_WINDOW = 4;
+        SETTINGS_WINDOW = 5;
         windows = new Window[WINDOWS];
     }
 

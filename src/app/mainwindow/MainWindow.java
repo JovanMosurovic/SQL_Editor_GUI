@@ -16,13 +16,14 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class MainWindow extends Window {
+
     @Override
     public void init(Stage stage) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainwindow.fxml")));
             Scene scene = new Scene(root);
 
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/mainwindow.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/styles.css")).toExternalForm());
 
             this.stage = stage;
             stage.setTitle("SQL Editor");

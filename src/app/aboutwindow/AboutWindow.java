@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class AboutWindow extends Window {
+
     @Override
     public void init(Stage stage) {
         try {
@@ -20,7 +21,7 @@ public class AboutWindow extends Window {
             Scene scene = new Scene(root);
 
 
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/aboutwindow.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/styles.css")).toExternalForm());
 
             this.stage = stage;
             stage.setTitle("About");

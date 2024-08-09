@@ -100,20 +100,13 @@
             </MenuItem>
         </Menu>
         <Menu styleClass="menu" text="View">
-            <Menu styleClass="menu" text="Font Size">
-                <Menu styleClass="menu" text="Editor">
-                    <MenuItem accelerator="CTRL+SHIFT+EQUALS" onAction="#increaseEditorFontSize" styleClass="menu-item" text="Increase" />
-                    <MenuItem accelerator="CTRL+SHIFT+MINUS" onAction="#decreaseEditorFontSize" styleClass="menu-item" text="Decrease" />
-                </Menu>
-                <Menu styleClass="menu" text="Console">
-                    <MenuItem accelerator="CTRL+ALT+EQUALS" onAction="#increaseConsoleFontSize" styleClass="menu-item" text="Increase" />
-                    <MenuItem accelerator="CTRL+ALT+MINUS" onAction="#decreaseConsoleFontSize" styleClass="menu-item" text="Decrease" />
-                </Menu>
-                <Menu styleClass="menu" text="Code Area">
-                    <MenuItem accelerator="CTRL+EQUALS" onAction="#increaseCodeAreaFontSize" styleClass="menu-item" text="Increase" />
-                    <MenuItem accelerator="CTRL+MINUS" onAction="#decreaseCodeAreaFontSize" styleClass="menu-item" text="Decrease" />
-                </Menu>
-            </Menu>
+            <MenuItem onAction="#handleSettings" styleClass="menu-item" text="Settings" >
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/settings_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
         </Menu>
 
         <Menu styleClass="menu" text="Help">

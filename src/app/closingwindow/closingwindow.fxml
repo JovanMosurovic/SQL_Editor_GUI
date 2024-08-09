@@ -12,15 +12,15 @@
          <Font name="Calibri" size="20.0" />
       </font></Label>
     <HBox layoutX="15.0" layoutY="105.0" spacing="20.0">
-        <Button fx:id="saveButton" alignment="CENTER" onAction="#handleSave" prefHeight="30.0" prefWidth="110.0" text="Save">
+        <Button fx:id="saveButton" alignment="CENTER" onAction="#handleSave" prefHeight="30.0" prefWidth="110.0" text="Save" styleClass="button-blue">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Button>
-        <Button fx:id="dontSaveButton" onAction="#handleDontSave" prefHeight="42.0" prefWidth="110.0" text="Don't Save">
+        <Button fx:id="dontSaveButton" onAction="#handleDontSave" prefHeight="30.0" prefWidth="110.0" text="Don't Save" styleClass="button">
          <font>
             <Font name="Calibri" size="18.0" />
          </font></Button>
-        <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="30.0" prefWidth="110.0" text="Cancel">
+        <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="30.0" prefWidth="110.0" text="Cancel" styleClass="button">
          <font>
             <Font name="Calibri" size="18.0" />
          </font></Button>
