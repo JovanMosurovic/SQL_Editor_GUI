@@ -154,13 +154,13 @@
     <TabPane layoutY="560.0" prefHeight="240.0" prefWidth="1200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
         <Tab>
             <graphic>
-                <HBox spacing="5">
-                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/console_icon.png" />
                     </ImageView>
                     <Label text="Console Log">
                         <font>
-                            <Font size="15.0" />
+                            <Font size="16.0" />
                         </font>
                     </Label>
                 </HBox>
@@ -172,13 +172,13 @@
 
         <Tab>
             <graphic>
-                <HBox spacing="5">
-                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/table_icon.png" />
                     </ImageView>
                     <Label text="Table View">
                         <font>
-                            <Font size="15.0" />
+                            <Font size="16.0" />
                         </font>
                     </Label>
                 </HBox>
