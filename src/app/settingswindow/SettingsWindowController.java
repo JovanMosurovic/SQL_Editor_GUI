@@ -8,32 +8,48 @@ import app.util.CodeAreaHelper;
 import app.util.FontHelper;
 import app.util.FontSizeConfig;
 import app.util.TextFlowHelper;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SettingsWindowController extends ControllerBase {
+    @FXML
+    private Spinner<Double> fontSizeSpinner;
+    @FXML
+    private ComboBox<String> fontFamilyComboBox;
+    @FXML
+    private TextArea fontPreviewTextArea;
 
     private MainWindowController mainWindowController;
-
-    public ComboBox<String> fontFamilyComboBox;
-    public TextField fontSizeTextField;
-    public TextArea fontPreviewTextArea;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+        setupFontSizeSpinner();
     }
+
+    private void setupFontSizeSpinner() {
+        fontSizeSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+                FontSizeConfig.getEditorMinFontSize(),
+                FontSizeConfig.getEditorMaxFontSize(),
+                FontSizeConfig.getEditorFontSize(),
+                FontSizeConfig.getFontStep()));
+
+        fontSizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            fontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
+            FontSizeConfig.setEditorFontSize(newValue);
+        });
+    }
+
 
     //region Font configuration
 
     public void increaseEditorFontSize() {
-        if(FontSizeConfig.getEditorFontSize() < FontSizeConfig.getEditorMaxFontSize()) {
+        if (FontSizeConfig.getEditorFontSize() < FontSizeConfig.getEditorMaxFontSize()) {
             FontHelper.increaseFontSize(FontSizeConfig.getFontStep(),
                     mainWindowController.tablesLabel, mainWindowController.tablesListView,
                     mainWindowController.codeArea, mainWindowController.resultScrollPane,
@@ -45,7 +61,7 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     public void decreaseEditorFontSize() {
-        if(FontSizeConfig.getEditorFontSize() > FontSizeConfig.getEditorMinFontSize()) {
+        if (FontSizeConfig.getEditorFontSize() > FontSizeConfig.getEditorMinFontSize()) {
             FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(),
                     mainWindowController.tablesLabel, mainWindowController.tablesListView,
                     mainWindowController.codeArea, mainWindowController.resultScrollPane,
@@ -57,7 +73,7 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     public void increaseConsoleFontSize() {
-        if(FontSizeConfig.getConsoleFontSize() < FontSizeConfig.getConsoleMaxFontSize()) {
+        if (FontSizeConfig.getConsoleFontSize() < FontSizeConfig.getConsoleMaxFontSize()) {
             FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.resultTextFlow);
             FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() + FontSizeConfig.getFontStep());
         } else {
@@ -66,7 +82,7 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     public void decreaseConsoleFontSize() {
-        if(FontSizeConfig.getConsoleFontSize() > FontSizeConfig.getConsoleMinFontSize()) {
+        if (FontSizeConfig.getConsoleFontSize() > FontSizeConfig.getConsoleMinFontSize()) {
             FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.resultTextFlow);
             FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() - FontSizeConfig.getFontStep());
         } else {
@@ -84,17 +100,18 @@ public class SettingsWindowController extends ControllerBase {
 
     //endregion
 
-    public void applySettings() {
-    }
-
-    public void cancelSettings() {
+    @FXML
+    private void OKSettings() {
+        applySettings();
         WindowHelper.hideWindow(Window.SETTINGS_WINDOW);
     }
 
-    public void decreaseFontSize() {
+    @FXML
+    private void applySettings() {
     }
 
-    public void increaseFontSize() {
+    @FXML
+    private void cancelSettings() {
+        WindowHelper.hideWindow(Window.SETTINGS_WINDOW);
     }
-
 }
