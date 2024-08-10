@@ -21,9 +21,9 @@
     <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
           AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <Label styleClass="header-label" text="About This Project"/>
-        <TextFlow>
+        <TextFlow prefWidth="460">
             <Text styleClass="text"
-                  text="This project was developed as part of the second university &#10;assignment for 'Practicum of Object-Oriented Programming' &#10;at the University of Belgrade School of Electrical Engineering, &#10;majoring in Software Engineering."/>
+                  text="This project was developed as part of the second university assignment for 'Practicum of Object-Oriented Programming' at the University of Belgrade School of Electrical Engineering, majoring in Software Engineering."/>
         </TextFlow>
         <TextFlow>
             <Text styleClass="text" text="Instructions for this project can be found "/>
