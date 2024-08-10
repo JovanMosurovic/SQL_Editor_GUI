@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -23,13 +24,13 @@ import java.util.ResourceBundle;
 
 public class SettingsWindowController extends ControllerBase {
     @FXML
-    private Label appearanceLabel;
-    @FXML
-    private VBox fontOptions;
+    private VBox fontOptionsVBox;
     @FXML
     private ImageView fontArrow;
     @FXML
-    private Label editorLabel, consoleLabel, codeAreaLabel;
+    private HBox appearanceHBox, fontHBox;
+    @FXML
+    private HBox editorHBox, consoleHBox;
     @FXML
     private ComboBox<String> fontFamilyComboBox;
     @FXML
@@ -137,43 +138,49 @@ public class SettingsWindowController extends ControllerBase {
 
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(200), fontArrow);
         if (fontOptionsVisible) {
-            fontOptions.setVisible(true);
-            fontOptions.setManaged(true);
+            fontOptionsVBox.setVisible(true);
+            fontOptionsVBox.setManaged(true);
             rotateTransition.setByAngle(90);
             fontArrow.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/arrow_right_icon.png"))));
         } else {
-            fontOptions.setVisible(false);
-            fontOptions.setManaged(false);
+            fontOptionsVBox.setVisible(false);
+            fontOptionsVBox.setManaged(false);
             rotateTransition.setByAngle(-90);
             fontArrow.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/arrow_right_icon.png"))));
         }
         rotateTransition.play();
+
+        selectFontOptions();
     }
 
-    public void selectAppearance() {
+    @FXML
+    private void selectFontOptions() {
         clearSelection();
-        appearanceLabel.getStyleClass().add("selected");
+        fontHBox.getStyleClass().add("selected");
     }
 
-    public void selectEditor() {
+    @FXML
+    private void selectAppearance() {
         clearSelection();
-        editorLabel.getStyleClass().add("selected");
+        appearanceHBox.getStyleClass().add("selected");
     }
 
-    public void selectConsole() {
+    @FXML
+    private void selectConsole() {
         clearSelection();
-        consoleLabel.getStyleClass().add("selected");
+        consoleHBox.getStyleClass().add("selected");
     }
 
-    public void selectCodeArea() {
+    @FXML
+    private void selectCodeArea() {
         clearSelection();
-        codeAreaLabel.getStyleClass().add("selected");
+        editorHBox.getStyleClass().add("selected");
     }
 
     private void clearSelection() {
-        appearanceLabel.getStyleClass().remove("selected");
-        editorLabel.getStyleClass().remove("selected");
-        consoleLabel.getStyleClass().remove("selected");
-        codeAreaLabel.getStyleClass().remove("selected");
+        appearanceHBox.getStyleClass().remove("selected");
+        consoleHBox.getStyleClass().remove("selected");
+        editorHBox.getStyleClass().remove("selected");
+        fontHBox.getStyleClass().remove("selected");
     }
 }

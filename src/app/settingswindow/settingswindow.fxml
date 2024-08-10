@@ -18,16 +18,19 @@
 
     <SplitPane dividerPositions="0.15" minHeight="400.0" minWidth="600.0">
         <VBox minWidth="130.0">
-            <HBox>
-                <Label fx:id="appearanceLabel" onMouseClicked="#selectAppearance" styleClass="appearance-settings-label"
-                       text="Appearance">
+            <HBox fx:id="appearanceHBox" alignment="CENTER" styleClass="appearance-settings-HBox"
+                  onMouseClicked="#selectAppearance">
+                <Label text="Appearance">
                     <HBox.margin>
-                        <Insets left="20.0" top="10.0"/>
+                        <Insets/>
                     </HBox.margin>
                 </Label>
+                <VBox.margin>
+                    <Insets top="10.0"/>
+                </VBox.margin>
             </HBox>
-            <HBox onMouseClicked="#toggleFontOptions">
-                <Label styleClass="font-settings-label" text="Font">
+            <HBox fx:id="fontHBox" styleClass="font-settings-HBox" onMouseClicked="#toggleFontOptions">
+                <Label text="Font">
                     <graphic>
                         <ImageView fx:id="fontArrow" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
                                    preserveRatio="true">
@@ -35,30 +38,26 @@
                         </ImageView>
                     </graphic>
                     <HBox.margin>
-                        <Insets bottom="2.0" right="10.0" top="5.0"/>
+                        <Insets/>
                     </HBox.margin>
                 </Label>
             </HBox>
-            <VBox fx:id="fontOptions" managed="false" spacing="5.0" visible="false">
-                <Label fx:id="editorLabel" onMouseClicked="#selectEditor" styleClass="font-option-label" text="Editor">
-                    <padding>
-                        <Insets left="20.0"/>
-                    </padding>
-                </Label>
-                <Label fx:id="consoleLabel" onMouseClicked="#selectConsole" styleClass="font-option-label"
-                       text="Console">
-                    <padding>
-                        <Insets left="20.0"/>
-                    </padding>
-                </Label>
-                <Label fx:id="codeAreaLabel" onMouseClicked="#selectCodeArea" styleClass="font-option-label"
-                       text="Code Area">
-                    <padding>
-                        <Insets left="20.0"/>
-                    </padding>
-                </Label>
+            <VBox fx:id="fontOptionsVBox" managed="false" spacing="5.0" visible="false">
+                <HBox fx:id="editorHBox" onMouseClicked="#selectCodeArea" styleClass="font-option-HBox">
+                    <Label text="Editor">
+                        <padding>
+                            <Insets left="20.0"/>
+                        </padding>
+                    </Label>
+                </HBox>
+                <HBox fx:id="consoleHBox" onMouseClicked="#selectConsole" styleClass="font-option-HBox">
+                    <Label text="Console">
+                        <padding>
+                            <Insets left="20.0"/>
+                        </padding>
+                    </Label>
+                </HBox>
             </VBox>
-
         </VBox>
         <VBox alignment="CENTER" spacing="10.0">
             <HBox alignment="CENTER" spacing="10.0">

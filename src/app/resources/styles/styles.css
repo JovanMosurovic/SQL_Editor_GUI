@@ -178,36 +178,31 @@
 
 /* Options Styles for Settings window */
 
-.appearance-settings-label, .font-settings-label {
+.appearance-settings-HBox, .font-settings-HBox, .font-option-HBox {
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-color: transparent;
+}
+
+.appearance-settings-HBox:hover, .font-settings-HBox:hover, .font-option-HBox:hover,
+.appearance-settings-HBox:selected, .font-settings-HBox:selected, .font-option-HBox:selected {
+    -fx-font-weight: bold;
+    -fx-border-color: #d4e2ff;
+    -fx-background-color: #d4e2ff;
+
+}
+
+.appearance-settings-HBox Label, .font-settings-HBox Label {
     -fx-font-family: 'Calibri';
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
-    -fx-padding: 5 10 5 5;
 }
 
-.font-option-label {
+.font-option-HBox Label {
     -fx-font-family: 'Calibri';
     -fx-font-size: 15px;
-    -fx-text-fill: #333333;
-    -fx-padding: 1 10 1 30;
-}
-
-.font-option-label:hover, .appearance-settings-label:hover {
-    -fx-border-color: #d4e2ff;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
-    -fx-background-color: #d4e2ff;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-}
-
-.font-option-label:selected, .appearance-settings-label:selected {
-    -fx-border-color: #d4e2ff;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
-    -fx-background-color: #d4e2ff;
-    -fx-font-weight: bold;
     -fx-text-fill: #333333;
 }
 
