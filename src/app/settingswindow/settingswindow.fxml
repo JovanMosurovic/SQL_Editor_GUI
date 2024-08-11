@@ -74,7 +74,7 @@
                     <VBox.margin>
                         <Insets bottom="10.0" top="15.0" />
                     </VBox.margin>
-                    <Label text="Editor Font Family:" />
+                    <Label text="Font:" />
                     <ComboBox fx:id="editorFontFamilyComboBox" />
                 </HBox>
                 <HBox alignment="CENTER" spacing="10.0">
@@ -100,7 +100,7 @@
                     <VBox.margin>
                         <Insets bottom="10.0" top="15.0" />
                     </VBox.margin>
-                    <Label text="Console Font Family:" />
+                    <Label text="Font:" />
                     <ComboBox fx:id="consoleFontFamilyComboBox" />
                 </HBox>
                 <HBox alignment="CENTER" spacing="10.0">

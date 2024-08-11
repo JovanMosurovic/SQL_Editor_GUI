@@ -9,10 +9,12 @@ import app.util.FontHelper;
 import app.util.FontSizeConfig;
 import app.util.TextFlowHelper;
 import javafx.animation.RotateTransition;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -53,26 +55,59 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     private void setupFontSizeSpinners() {
-        editorFontSizeSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+        setupEditorFontSizeSpinner();
+        setupConsoleFontSizeSpinner();
+    }
+
+    private void setupEditorFontSizeSpinner() {
+        SpinnerValueFactory<Double> editorFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
                 FontSizeConfig.getEditorMinFontSize(),
                 FontSizeConfig.getEditorMaxFontSize(),
                 FontSizeConfig.getEditorFontSize(),
-                FontSizeConfig.getFontStep()));
+                FontSizeConfig.getFontStep()
+        );
 
-        editorFontSizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+        editorFontSizeSpinner.setValueFactory(editorFactory);
+
+        editorFontSizeSpinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
             editorFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
             FontSizeConfig.setEditorFontSize(newValue);
         });
 
-        consoleFontSizeSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+        editorFontSizeSpinner.getEditor().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.UP) {
+                increaseEditorFontSize();
+                event.consume();
+            } else if (event.getCode() == KeyCode.DOWN) {
+                decreaseEditorFontSize();
+                event.consume();
+            }
+        });
+    }
+
+    private void setupConsoleFontSizeSpinner() {
+        SpinnerValueFactory<Double> consoleFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
                 FontSizeConfig.getConsoleMinFontSize(),
                 FontSizeConfig.getConsoleMaxFontSize(),
                 FontSizeConfig.getConsoleFontSize(),
-                FontSizeConfig.getFontStep()));
+                FontSizeConfig.getFontStep()
+        );
 
-        consoleFontSizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+        consoleFontSizeSpinner.setValueFactory(consoleFactory);
+
+        consoleFontSizeSpinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
             consoleFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
             FontSizeConfig.setConsoleFontSize(newValue);
+        });
+
+        consoleFontSizeSpinner.getEditor().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.UP) {
+                increaseConsoleFontSize();
+                event.consume();
+            } else if (event.getCode() == KeyCode.DOWN) {
+                decreaseConsoleFontSize();
+                event.consume();
+            }
         });
     }
 
