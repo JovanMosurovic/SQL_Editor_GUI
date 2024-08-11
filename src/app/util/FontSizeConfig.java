@@ -4,9 +4,9 @@ public class FontSizeConfig {
 
     private static final double DEFAULT_FONT_SIZE = 16.0;
     private static final double FONT_STEP = 2.0;
-    private static final double EDITOR_MAX_FONT_SIZE = 72.0;
-    private static final double EDITOR_MIN_FONT_SIZE = 8.0;
-    private static final double CONSOLE_MAX_FONT_SIZE = 72.0;
+    private static final double EDITOR_MAX_FONT_SIZE = 42.0;
+    private static final double EDITOR_MIN_FONT_SIZE = 10.0;
+    private static final double CONSOLE_MAX_FONT_SIZE = 42.0;
     private static final double CONSOLE_MIN_FONT_SIZE = 10.0;
 
     private static double editorFontSize;

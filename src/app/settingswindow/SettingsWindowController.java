@@ -43,12 +43,10 @@ public class SettingsWindowController extends ControllerBase {
     private TextArea editorFontPreviewTextArea, consoleFontPreviewTextArea;
 
     private boolean fontOptionsVisible = false;
-
     private MainWindowController mainWindowController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         setupFontSizeSpinners();
