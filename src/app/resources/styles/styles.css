@@ -90,6 +90,7 @@
     -fx-font-size: 14px;
     -fx-padding: 10px 20px;
     -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
     -fx-border-color: #cccccc;
     -fx-border-width: 1px;
 }
@@ -101,7 +102,7 @@
 .button:pressed {
     -fx-background-color: #a9a9a9;
     -fx-border-color: #808080;
-    -fx-border-width: 2px;
+    -fx-border-width: 1px;
 }
 
 .button-blue {
@@ -110,7 +111,8 @@
     -fx-font-size: 14px;
     -fx-padding: 10px 20px;
     -fx-background-radius: 5px;
-    -fx-border-color: #0056b3;
+    -fx-border-radius: 5px;
+    -fx-border-color: #2d5fd0;
     -fx-border-width: 1px;
 }
 
@@ -121,7 +123,7 @@
 .button-blue:pressed {
     -fx-background-color: #004085;
     -fx-border-color: #076dd5;
-    -fx-border-width: 2px;
+    -fx-border-width: 1px;
 }
 
 .run-button {
@@ -130,6 +132,7 @@
     -fx-font-size: 14px !important;
     -fx-padding: 10px 20px !important;
     -fx-background-radius: 5px !important;
+    -fx-border-radius: 5px !important;
     -fx-border-color: #28a745 !important;
 }
 
