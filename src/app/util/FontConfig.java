@@ -1,6 +1,10 @@
 package app.util;
 
-public class FontSizeConfig {
+public class FontConfig {
+
+    public static final String DEFAULT_FONT_FAMILY = "Calibri";
+    public static final String JETBRAINS_MONO_NL_FONT = "JetBrains Mono NL";
+    public static final String MONOSPACED_FONT = "Monospaced";
 
     private static final double DEFAULT_FONT_SIZE = 16.0;
     private static final double FONT_STEP = 2.0;
@@ -46,7 +50,7 @@ public class FontSizeConfig {
     }
 
     public static void setEditorFontSize(double editorFontSize) {
-        FontSizeConfig.editorFontSize = editorFontSize;
+        FontConfig.editorFontSize = editorFontSize;
     }
 
     public static double getConsoleFontSize() {
@@ -54,7 +58,7 @@ public class FontSizeConfig {
     }
 
     public static void setConsoleFontSize(double consoleFontSize) {
-        FontSizeConfig.consoleFontSize = consoleFontSize;
+        FontConfig.consoleFontSize = consoleFontSize;
     }
 
 }

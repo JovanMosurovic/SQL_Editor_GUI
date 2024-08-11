@@ -53,14 +53,22 @@ public class FontHelper {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "An error occurred while getting current font size", e);
         }
-        return FontSizeConfig.getDefaultFontSize();
+        return FontConfig.getDefaultFontSize();
+    }
+
+    public static void setFontSize(double newFontSize, Node... nodes) {
+        for (Node node : nodes) {
+            logger.log(Level.INFO, "Setting font size for node: " + node.getClass().getName() + " to " + newFontSize);
+            changeFontSize(newFontSize, node);
+            updateFontSizeConfig(newFontSize, node);
+        }
     }
 
     private static void updateFontSizeConfig(double newFontSize, Node node) {
         if (node instanceof TextArea) {
-            FontSizeConfig.setEditorFontSize(newFontSize);
+            FontConfig.setEditorFontSize(newFontSize);
         } else if (node instanceof TextFlow) {
-            FontSizeConfig.setConsoleFontSize(newFontSize);
+            FontConfig.setConsoleFontSize(newFontSize);
         }
     }
 

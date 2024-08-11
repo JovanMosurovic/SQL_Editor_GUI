@@ -4,20 +4,16 @@ import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
 import app.mainwindow.MainWindowController;
-import app.util.CodeAreaHelper;
 import app.util.FontHelper;
-import app.util.FontSizeConfig;
-import app.util.TextFlowHelper;
+import app.util.FontConfig;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -45,6 +41,8 @@ public class SettingsWindowController extends ControllerBase {
     private boolean fontOptionsVisible = false;
     private MainWindowController mainWindowController;
 
+    private double tempEditorFontSize, tempConsoleFontSize;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
@@ -59,82 +57,34 @@ public class SettingsWindowController extends ControllerBase {
 
     private void setupEditorFontSizeSpinner() {
         SpinnerValueFactory<Double> editorFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                FontSizeConfig.getEditorMinFontSize(),
-                FontSizeConfig.getEditorMaxFontSize(),
-                FontSizeConfig.getEditorFontSize(),
-                FontSizeConfig.getFontStep()
+                FontConfig.getEditorMinFontSize(),
+                FontConfig.getEditorMaxFontSize(),
+                FontConfig.getEditorFontSize(),
+                FontConfig.getFontStep()
         );
 
         editorFontSizeSpinner.setValueFactory(editorFactory);
 
         editorFontSizeSpinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
             editorFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
-            FontSizeConfig.setEditorFontSize(newValue);
-        });
-
-        editorFontSizeSpinner.getEditor().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.UP) {
-                increaseEditorFontSize();
-                event.consume();
-            } else if (event.getCode() == KeyCode.DOWN) {
-                decreaseEditorFontSize();
-                event.consume();
-            }
+            tempEditorFontSize = newValue;
         });
     }
 
     private void setupConsoleFontSizeSpinner() {
         SpinnerValueFactory<Double> consoleFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                FontSizeConfig.getConsoleMinFontSize(),
-                FontSizeConfig.getConsoleMaxFontSize(),
-                FontSizeConfig.getConsoleFontSize(),
-                FontSizeConfig.getFontStep()
+                FontConfig.getConsoleMinFontSize(),
+                FontConfig.getConsoleMaxFontSize(),
+                FontConfig.getConsoleFontSize(),
+                FontConfig.getFontStep()
         );
 
         consoleFontSizeSpinner.setValueFactory(consoleFactory);
 
         consoleFontSizeSpinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
             consoleFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
-            FontSizeConfig.setConsoleFontSize(newValue);
+            tempConsoleFontSize = newValue;
         });
-
-        consoleFontSizeSpinner.getEditor().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.UP) {
-                increaseConsoleFontSize();
-                event.consume();
-            } else if (event.getCode() == KeyCode.DOWN) {
-                decreaseConsoleFontSize();
-                event.consume();
-            }
-        });
-    }
-
-    //region Font configuration
-
-    public void increaseEditorFontSize() {
-        CodeAreaHelper.increaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
-    }
-
-    public void decreaseEditorFontSize() {
-        CodeAreaHelper.decreaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
-    }
-
-    public void increaseConsoleFontSize() {
-        if (FontSizeConfig.getConsoleFontSize() < FontSizeConfig.getConsoleMaxFontSize()) {
-            FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.consoleTextFlow);
-            FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() + FontSizeConfig.getFontStep());
-        } else {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[FONT SIZE]: Maximum font size for console reached", Color.RED, true);
-        }
-    }
-
-    public void decreaseConsoleFontSize() {
-        if (FontSizeConfig.getConsoleFontSize() > FontSizeConfig.getConsoleMinFontSize()) {
-            FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.consoleTextFlow);
-            FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() - FontSizeConfig.getFontStep());
-        } else {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[FONT SIZE]: Minimum font size for console reached", Color.RED, true);
-        }
     }
 
     //endregion
@@ -147,6 +97,21 @@ public class SettingsWindowController extends ControllerBase {
 
     @FXML
     private void applySettings() {
+        if (editorFontOptionsVBox.isVisible()) {
+            applyEditorSettings();
+        } else if (consoleFontOptionsVBox.isVisible()) {
+            applyConsoleSettings();
+        }
+    }
+
+    private void applyEditorSettings() {
+        FontHelper.setFontSize(tempEditorFontSize, mainWindowController.codeArea);
+        FontConfig.setEditorFontSize(tempEditorFontSize);
+    }
+
+    private void applyConsoleSettings() {
+        FontHelper.setFontSize(tempConsoleFontSize, mainWindowController.consoleTextFlow);
+        FontConfig.setConsoleFontSize(tempConsoleFontSize);
     }
 
     @FXML

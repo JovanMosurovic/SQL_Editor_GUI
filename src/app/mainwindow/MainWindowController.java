@@ -24,7 +24,7 @@ public class MainWindowController extends ControllerBase {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        CodeAreaHelper.setupCodeAreaFont(codeArea);
+        EditorHelper.setupEditorFont(codeArea);
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
         setupContextMenu();
     }
@@ -76,27 +76,27 @@ public class MainWindowController extends ControllerBase {
     //region Code area actions
 
     public void handleUndo() {
-        CodeAreaHelper.handleEditAction(codeArea, TextArea::undo);
+        EditorHelper.handleEditAction(codeArea, TextArea::undo);
     }
 
     public void handleRedo() {
-        CodeAreaHelper.handleEditAction(codeArea, TextArea::redo);
+        EditorHelper.handleEditAction(codeArea, TextArea::redo);
     }
 
     public void handleCut() {
-        CodeAreaHelper.handleEditAction(codeArea, TextArea::cut);
+        EditorHelper.handleEditAction(codeArea, TextArea::cut);
     }
 
     public void handleCopy() {
-        CodeAreaHelper.handleEditAction(codeArea, TextArea::copy);
+        EditorHelper.handleEditAction(codeArea, TextArea::copy);
     }
 
     public void handlePaste() {
-        CodeAreaHelper.handleEditAction(codeArea, TextArea::paste);
+        EditorHelper.handleEditAction(codeArea, TextArea::paste);
     }
 
     public void handleSelectAll() {
-        CodeAreaHelper.handleEditAction(codeArea, TextArea::selectAll);
+        EditorHelper.handleEditAction(codeArea, TextArea::selectAll);
     }
 
     //endregion
