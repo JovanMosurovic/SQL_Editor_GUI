@@ -134,7 +134,7 @@
 
     <!-- Left Pane for Tables -->
     <VBox layoutX="10.0" layoutY="50.0" minHeight="500.0" minWidth="135.0" prefWidth="135.0" styleClass="left-pane">
-        <Label fx:id="tablesLabel" styleClass="left-pane-label" text="Tables" />
+        <Label styleClass="left-pane-label" text="Tables" />
         <ListView fx:id="tablesListView" minHeight="450.0" minWidth="113.0" />
     </VBox>
 
@@ -159,7 +159,7 @@
                 </HBox>
             </graphic>
             <ScrollPane fx:id="resultScrollPane" fitToHeight="true" fitToWidth="true" minHeight="291.0" minWidth="1200.0" prefHeight="291.0" prefWidth="1200.0">
-                <TextFlow fx:id="resultTextFlow" styleClass="result-text-flow" />
+                <TextFlow fx:id="consoleTextFlow" styleClass="result-text-flow" />
             </ScrollPane>
         </Tab>
 

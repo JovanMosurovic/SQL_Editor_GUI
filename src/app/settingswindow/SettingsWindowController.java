@@ -65,54 +65,30 @@ public class SettingsWindowController extends ControllerBase {
 
     //region Font configuration
 
-    public void increaseEditorFontSize() {
-        if (FontSizeConfig.getEditorFontSize() < FontSizeConfig.getEditorMaxFontSize()) {
-            FontHelper.increaseFontSize(FontSizeConfig.getFontStep(),
-                    mainWindowController.tablesLabel, mainWindowController.tablesListView,
-                    mainWindowController.codeArea, mainWindowController.resultScrollPane,
-                    mainWindowController.resultTextFlow, mainWindowController.resultTableView);
-            FontSizeConfig.setEditorFontSize(FontSizeConfig.getEditorFontSize() + FontSizeConfig.getFontStep());
-        } else {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.resultTextFlow, "\n[FONT SIZE]: Maximum font size for editor reached", Color.RED, true);
-        }
-    }
-
-    public void decreaseEditorFontSize() {
-        if (FontSizeConfig.getEditorFontSize() > FontSizeConfig.getEditorMinFontSize()) {
-            FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(),
-                    mainWindowController.tablesLabel, mainWindowController.tablesListView,
-                    mainWindowController.codeArea, mainWindowController.resultScrollPane,
-                    mainWindowController.resultTextFlow, mainWindowController.resultTableView);
-            FontSizeConfig.setEditorFontSize(FontSizeConfig.getEditorFontSize() - FontSizeConfig.getFontStep());
-        } else {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.resultTextFlow, "\n[FONT SIZE]: Minimum font size for editor reached", Color.RED, true);
-        }
-    }
-
     public void increaseConsoleFontSize() {
         if (FontSizeConfig.getConsoleFontSize() < FontSizeConfig.getConsoleMaxFontSize()) {
-            FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.resultTextFlow);
+            FontHelper.increaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.consoleTextFlow);
             FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() + FontSizeConfig.getFontStep());
         } else {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.resultTextFlow, "\n[FONT SIZE]: Maximum font size for console reached", Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[FONT SIZE]: Maximum font size for console reached", Color.RED, true);
         }
     }
 
     public void decreaseConsoleFontSize() {
         if (FontSizeConfig.getConsoleFontSize() > FontSizeConfig.getConsoleMinFontSize()) {
-            FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.resultTextFlow);
+            FontHelper.decreaseFontSize(FontSizeConfig.getFontStep(), mainWindowController.consoleTextFlow);
             FontSizeConfig.setConsoleFontSize(FontSizeConfig.getConsoleFontSize() - FontSizeConfig.getFontStep());
         } else {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.resultTextFlow, "\n[FONT SIZE]: Minimum font size for console reached", Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[FONT SIZE]: Minimum font size for console reached", Color.RED, true);
         }
     }
 
-    public void increaseCodeAreaFontSize() {
-        CodeAreaHelper.increaseCodeAreaFontSize(mainWindowController.resultTextFlow, mainWindowController.codeArea);
+    public void increaseEditorFontSize() {
+        CodeAreaHelper.increaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
     }
 
-    public void decreaseCodeAreaFontSize() {
-        CodeAreaHelper.decreaseCodeAreaFontSize(mainWindowController.resultTextFlow, mainWindowController.codeArea);
+    public void decreaseEditorFontSize() {
+        CodeAreaHelper.decreaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
     }
 
     //endregion

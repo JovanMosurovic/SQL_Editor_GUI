@@ -58,7 +58,7 @@ public class FontHelper {
 
     private static void updateFontSizeConfig(double newFontSize, Node node) {
         if (node instanceof TextArea) {
-            FontSizeConfig.setCodeAreaFontSize(newFontSize);
+            FontSizeConfig.setEditorFontSize(newFontSize);
         } else if (node instanceof TextFlow) {
             FontSizeConfig.setConsoleFontSize(newFontSize);
         }

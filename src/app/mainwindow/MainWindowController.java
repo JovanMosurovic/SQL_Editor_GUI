@@ -19,9 +19,8 @@ public class MainWindowController extends ControllerBase {
     public ListView<String> tablesListView;
     public TextArea codeArea;
     public ScrollPane resultScrollPane;
-    public TextFlow resultTextFlow;
+    public TextFlow consoleTextFlow;
     public TableView<String> resultTableView;
-    public Label tablesLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -31,11 +30,11 @@ public class MainWindowController extends ControllerBase {
     }
 
     private void setupContextMenu() {
-        ContextMenu consoleContextMenu = ContextMenuHelper.createConsoleContextMenu(resultTextFlow);
+        ContextMenu consoleContextMenu = ContextMenuHelper.createConsoleContextMenu(consoleTextFlow);
 
-        resultTextFlow.setOnMouseClicked(event -> {
+        consoleTextFlow.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                consoleContextMenu.show(resultTextFlow, event.getScreenX(), event.getScreenY());
+                consoleContextMenu.show(consoleTextFlow, event.getScreenX(), event.getScreenY());
             } else {
                 consoleContextMenu.hide();
             }
@@ -59,7 +58,7 @@ public class MainWindowController extends ControllerBase {
     public boolean handleImportDatabase(Stage ownerStage, boolean isFromWelcomeWindow) {
         return DatabaseManager.showImportDatabaseDialog(
                 ownerStage,
-                resultTextFlow,
+                consoleTextFlow,
                 isFromWelcomeWindow,
                 new FileChooser.ExtensionFilter("SQL Files", "*.sql"),
                 new FileChooser.ExtensionFilter("Custom format files", "*dbexp"),
@@ -116,6 +115,5 @@ public class MainWindowController extends ControllerBase {
     public void handleExit() {
         WindowHelper.closeAllWindows();
     }
-
 
 }
