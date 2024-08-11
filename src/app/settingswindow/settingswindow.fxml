@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.settingswindow.SettingsWindowController">
+<AnchorPane minHeight="400.0" minWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.settingswindow.SettingsWindowController">
 
     <SplitPane dividerPositions="0.15" minHeight="400.0" minWidth="600.0">
         <VBox minWidth="130.0">
@@ -90,7 +90,10 @@
                             <Insets bottom="10.0" />
                         </padding>
                     </Label>
-                    <TextArea fx:id="editorFontPreviewTextArea" maxHeight="195.0" text="Sample Text" />
+                    <TextArea fx:id="editorFontPreviewTextArea" maxHeight="195.0" text="Sample Text">
+                  <VBox.margin>
+                     <Insets left="5.0" />
+                  </VBox.margin></TextArea>
                 </VBox>
             </VBox>
 
@@ -116,7 +119,10 @@
                             <Insets bottom="10.0" />
                         </padding>
                     </Label>
-                    <TextArea fx:id="consoleFontPreviewTextArea" maxHeight="195.0" text="Sample Text" />
+                    <TextArea fx:id="consoleFontPreviewTextArea" maxHeight="195.0" text="Sample Text">
+                  <VBox.margin>
+                     <Insets left="5.0" />
+                  </VBox.margin></TextArea>
                 </VBox>
             </VBox>
 
