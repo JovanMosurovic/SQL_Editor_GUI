@@ -30,13 +30,15 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private HBox appearanceHBox, fontHBox;
     @FXML
+    private VBox editorFontOptionsVBox, consoleFontOptionsVBox;
+    @FXML
     private HBox editorHBox, consoleHBox;
     @FXML
-    private ComboBox<String> fontFamilyComboBox;
+    private ComboBox<String> editorFontFamilyComboBox, consoleFontFamilyComboBox;
     @FXML
-    private Spinner<Double> fontSizeSpinner;
+    private Spinner<Double> editorFontSizeSpinner, consoleFontSizeSpinner;
     @FXML
-    private TextArea fontPreviewTextArea;
+    private TextArea editorFontPreviewTextArea, consoleFontPreviewTextArea;
 
     private boolean fontOptionsVisible = false;
 
@@ -47,23 +49,42 @@ public class SettingsWindowController extends ControllerBase {
 
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-        setupFontSizeSpinner();
+        setupFontSizeSpinners();
     }
 
-    private void setupFontSizeSpinner() {
-        fontSizeSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+    private void setupFontSizeSpinners() {
+        editorFontSizeSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
                 FontSizeConfig.getEditorMinFontSize(),
                 FontSizeConfig.getEditorMaxFontSize(),
                 FontSizeConfig.getEditorFontSize(),
                 FontSizeConfig.getFontStep()));
 
-        fontSizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-            fontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
+        editorFontSizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            editorFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
             FontSizeConfig.setEditorFontSize(newValue);
+        });
+
+        consoleFontSizeSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+                FontSizeConfig.getConsoleMinFontSize(),
+                FontSizeConfig.getConsoleMaxFontSize(),
+                FontSizeConfig.getConsoleFontSize(),
+                FontSizeConfig.getFontStep()));
+
+        consoleFontSizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            consoleFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
+            FontSizeConfig.setConsoleFontSize(newValue);
         });
     }
 
     //region Font configuration
+
+    public void increaseEditorFontSize() {
+        CodeAreaHelper.increaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
+    }
+
+    public void decreaseEditorFontSize() {
+        CodeAreaHelper.decreaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
+    }
 
     public void increaseConsoleFontSize() {
         if (FontSizeConfig.getConsoleFontSize() < FontSizeConfig.getConsoleMaxFontSize()) {
@@ -81,14 +102,6 @@ public class SettingsWindowController extends ControllerBase {
         } else {
             TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[FONT SIZE]: Minimum font size for console reached", Color.RED, true);
         }
-    }
-
-    public void increaseEditorFontSize() {
-        CodeAreaHelper.increaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
-    }
-
-    public void decreaseEditorFontSize() {
-        CodeAreaHelper.decreaseCodeAreaFontSize(mainWindowController.consoleTextFlow, mainWindowController.codeArea);
     }
 
     //endregion
@@ -130,27 +143,39 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     @FXML
-    private void selectFontOptions() {
-        clearSelection();
-        fontHBox.getStyleClass().add("selected");
-    }
-
-    @FXML
     private void selectAppearance() {
         clearSelection();
         appearanceHBox.getStyleClass().add("selected");
     }
 
     @FXML
-    private void selectConsole() {
+    private void selectFontOptions() {
         clearSelection();
-        consoleHBox.getStyleClass().add("selected");
+        fontHBox.getStyleClass().add("selected");
     }
 
     @FXML
-    private void selectCodeArea() {
+    private void selectEditor() {
         clearSelection();
         editorHBox.getStyleClass().add("selected");
+        showEditorFontOptions();
+    }
+
+    @FXML
+    private void selectConsole() {
+        clearSelection();
+        consoleHBox.getStyleClass().add("selected");
+        showConsoleFontOptions();
+    }
+
+    private void showEditorFontOptions() {
+        editorFontOptionsVBox.setVisible(true);
+        consoleFontOptionsVBox.setVisible(false);
+    }
+
+    private void showConsoleFontOptions() {
+        consoleFontOptionsVBox.setVisible(true);
+        editorFontOptionsVBox.setVisible(false);
     }
 
     private void clearSelection() {

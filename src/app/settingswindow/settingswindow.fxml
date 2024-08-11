@@ -44,7 +44,7 @@
                 </VBox.margin>
             </HBox>
             <VBox fx:id="fontOptionsVBox" managed="false" spacing="2.0" visible="false">
-                <HBox fx:id="editorHBox" onMouseClicked="#selectCodeArea" styleClass="font-option-HBox">
+                <HBox fx:id="editorHBox" onMouseClicked="#selectEditor" styleClass="font-option-HBox">
                     <Label text="Editor">
                         <padding>
                             <Insets left="20.0" />
@@ -66,42 +66,72 @@
                 </VBox.margin>
             </VBox>
         </VBox>
-        <VBox alignment="CENTER">
-            <HBox alignment="CENTER" spacing="10.0">
-                <Label text="Font Family:" />
-                <ComboBox fx:id="fontFamilyComboBox" />
-            <VBox.margin>
-               <Insets bottom="10.0" top="15.0" />
-            </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" spacing="10.0">
-                <Label text="Size:" />
-                <Spinner fx:id="fontSizeSpinner" />
-            <VBox.margin>
-               <Insets bottom="10.0" top="5.0" />
-            </VBox.margin>
-            </HBox>
-            <VBox alignment="CENTER" spacing="10.0">
-                <Label text="Preview:">
-               <padding>
-                  <Insets bottom="10.0" />
-               </padding></Label>
-                <TextArea fx:id="fontPreviewTextArea" text="Sample Text" />
+
+        <AnchorPane>
+            <!-- Editor Font Options VBox -->
+            <VBox fx:id="editorFontOptionsVBox" alignment="CENTER" visible="false">
+                <HBox alignment="CENTER" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="15.0" />
+                    </VBox.margin>
+                    <Label text="Editor Font Family:" />
+                    <ComboBox fx:id="editorFontFamilyComboBox" />
+                </HBox>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="5.0" />
+                    </VBox.margin>
+                    <Label text="Size:" />
+                    <Spinner fx:id="editorFontSizeSpinner" />
+                </HBox>
+                <VBox alignment="CENTER" maxWidth="518.0" spacing="10.0">
+                    <Label text="Preview:">
+                        <padding>
+                            <Insets bottom="10.0" />
+                        </padding>
+                    </Label>
+                    <TextArea fx:id="editorFontPreviewTextArea" maxHeight="195.0" text="Sample Text" />
+                </VBox>
             </VBox>
-            <AnchorPane>
-            <Separator minWidth="518.0" />
+
+            <!-- Console Font Options VBox -->
+            <VBox fx:id="consoleFontOptionsVBox" alignment="CENTER" visible="false">
+                <HBox alignment="CENTER" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="15.0" />
+                    </VBox.margin>
+                    <Label text="Console Font Family:" />
+                    <ComboBox fx:id="consoleFontFamilyComboBox" />
+                </HBox>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="5.0" />
+                    </VBox.margin>
+                    <Label text="Size:" />
+                    <Spinner fx:id="consoleFontSizeSpinner" />
+                </HBox>
+                <VBox alignment="CENTER" maxWidth="518.0" spacing="10.0">
+                    <Label text="Preview:">
+                        <padding>
+                            <Insets bottom="10.0" />
+                        </padding>
+                    </Label>
+                    <TextArea fx:id="consoleFontPreviewTextArea" maxHeight="195.0" text="Sample Text" />
+                </VBox>
+            </VBox>
+
+            <!-- Bottom Buttons and Separator -->
+            <AnchorPane AnchorPane.topAnchor="345.0">
+                <Separator minWidth="518.0" AnchorPane.topAnchor="2.0" />
                 <HBox alignment="CENTER_RIGHT" layoutX="259.0" spacing="10.0">
                     <Button minHeight="30.0" minWidth="50.0" onAction="#OKSettings" styleClass="button-blue" text="OK" />
                     <Button minHeight="30.0" minWidth="60.0" onAction="#applySettings" text="Apply" />
                     <Button minHeight="30.0" minWidth="60.0" onAction="#cancelSettings" text="Cancel" />
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
                 </HBox>
-            <VBox.margin>
-               <Insets bottom="15.0" top="25.0" />
-            </VBox.margin>
             </AnchorPane>
-        </VBox>
+        </AnchorPane>
     </SplitPane>
 </AnchorPane>
