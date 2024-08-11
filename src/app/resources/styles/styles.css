@@ -180,7 +180,6 @@
 }
 
 /* Options Styles for Settings window */
-
 .appearance-settings-HBox, .font-settings-HBox, .font-option-HBox {
     -fx-border-color: transparent;
     -fx-border-width: 2px;

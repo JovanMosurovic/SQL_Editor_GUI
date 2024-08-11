@@ -24,7 +24,7 @@
                     </HBox.margin>
                 </Label>
                 <VBox.margin>
-                    <Insets top="10.0" />
+                    <Insets bottom="2.0" top="15.0" />
                 </VBox.margin>
             </HBox>
             <HBox fx:id="fontHBox" onMouseClicked="#toggleFontOptions" styleClass="font-settings-HBox">
@@ -38,14 +38,20 @@
                         <Insets />
                     </HBox.margin>
                 </Label>
+            <VBox.margin>
+               <Insets bottom="2.0" />
+            </VBox.margin>
             </HBox>
-            <VBox fx:id="fontOptionsVBox" managed="false" spacing="5.0" visible="false">
+            <VBox fx:id="fontOptionsVBox" managed="false" spacing="2.0" visible="false">
                 <HBox fx:id="editorHBox" onMouseClicked="#selectCodeArea" styleClass="font-option-HBox">
                     <Label text="Editor">
                         <padding>
                             <Insets left="20.0" />
                         </padding>
                     </Label>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
                 </HBox>
                 <HBox fx:id="consoleHBox" onMouseClicked="#selectConsole" styleClass="font-option-HBox">
                     <Label text="Console">
@@ -54,6 +60,9 @@
                         </padding>
                     </Label>
                 </HBox>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
             </VBox>
         </VBox>
         <VBox alignment="CENTER" spacing="10.0">
