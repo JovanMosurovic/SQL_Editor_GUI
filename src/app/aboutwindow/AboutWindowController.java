@@ -4,6 +4,7 @@ import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
 import javafx.application.HostServices;
+import javafx.fxml.FXML;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,19 +22,23 @@ public class AboutWindowController extends ControllerBase {
         Window.getWindowAt(Window.ABOUT_WINDOW).setController(this);
     }
 
-    public void handleClose() {
+    @FXML
+    private void handleClose() {
         WindowHelper.hideWindow(Window.ABOUT_WINDOW);
     }
 
-    public void handleOpenProjectGitHub() {
+    @FXML
+    private void handleOpenProjectGitHub() {
         openLink(PROJECT_GITHUB_URL);
     }
 
-    public void handleOpenAuthorGitHub() {
+    @FXML
+    private void handleOpenAuthorGitHub() {
         openLink(AUTHOR_GITHUB_URL);
     }
 
-    public void handleOpenInstructionsLink() {
+    @FXML
+    private void handleOpenInstructionsLink() {
         openLink(INSTRUCTIONS_GITHUB_URL);
     }
 

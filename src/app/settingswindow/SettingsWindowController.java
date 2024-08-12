@@ -108,16 +108,6 @@ public class SettingsWindowController extends ControllerBase {
         }
     }
 
-    private void applyEditorSettings() {
-        FontHelper.setFontSize(tempEditorFontSize, mainWindowController.editorArea);
-        FontConfig.setEditorFontSize(tempEditorFontSize);
-    }
-
-    private void applyConsoleSettings() {
-        FontHelper.setFontSize(tempConsoleFontSize, mainWindowController.consoleTextFlow);
-        FontConfig.setConsoleFontSize(tempConsoleFontSize);
-    }
-
     @FXML
     private void cancelSettings() {
         WindowHelper.hideWindow(Window.SETTINGS_WINDOW);
@@ -168,6 +158,16 @@ public class SettingsWindowController extends ControllerBase {
         clearSelection();
         consoleHBox.getStyleClass().add("selected");
         showConsoleFontOptions();
+    }
+
+    private void applyEditorSettings() {
+        FontHelper.setFontSize(tempEditorFontSize, mainWindowController.editorArea);
+        FontConfig.setEditorFontSize(tempEditorFontSize);
+    }
+
+    private void applyConsoleSettings() {
+        FontHelper.setFontSize(tempConsoleFontSize, mainWindowController.consoleTextFlow);
+        FontConfig.setConsoleFontSize(tempConsoleFontSize);
     }
 
     private void showEditorFontOptions() {

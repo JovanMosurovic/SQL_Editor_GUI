@@ -4,6 +4,7 @@ import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
 import app.util.*;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
@@ -26,10 +27,15 @@ public class MainWindowController extends ControllerBase {
     public void initialize(URL location, ResourceBundle resources) {
         EditorHelper.setupEditorFont(editorArea);
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
-        setupContextMenu();
+        setupContextMenus();
     }
 
-    private void setupContextMenu() {
+    private void setupContextMenus() {
+        setupConsoleContextMenu();
+        setupTablesContextMenu();
+    }
+
+    private void setupConsoleContextMenu() {
         ContextMenu consoleContextMenu = ContextMenuHelper.createConsoleContextMenu(consoleTextFlow);
 
         consoleTextFlow.setOnMouseClicked(event -> {
@@ -39,7 +45,9 @@ public class MainWindowController extends ControllerBase {
                 consoleContextMenu.hide();
             }
         });
+    }
 
+    private void setupTablesContextMenu() {
         ContextMenu tablesContextMenu = ContextMenuHelper.createTableListViewContextMenu();
 
         tablesListView.setOnMouseClicked(event -> {
@@ -73,46 +81,57 @@ public class MainWindowController extends ControllerBase {
 
     }
 
-    //region Code area actions
+    //region Editor actions
 
-    public void handleUndo() {
+    @FXML
+    private void handleUndo() {
         EditorHelper.handleEditAction(editorArea, TextArea::undo);
     }
 
-    public void handleRedo() {
+    @FXML
+    private void handleRedo() {
         EditorHelper.handleEditAction(editorArea, TextArea::redo);
     }
 
-    public void handleCut() {
+    @FXML
+    private void handleCut() {
         EditorHelper.handleEditAction(editorArea, TextArea::cut);
     }
 
-    public void handleCopy() {
+    @FXML
+    private void handleCopy() {
         EditorHelper.handleEditAction(editorArea, TextArea::copy);
     }
 
-    public void handlePaste() {
+    @FXML
+    private void handlePaste() {
         EditorHelper.handleEditAction(editorArea, TextArea::paste);
     }
 
-    public void handleSelectAll() {
+    @FXML
+    private void handleSelectAll() {
         EditorHelper.handleEditAction(editorArea, TextArea::selectAll);
     }
 
     //endregion
 
-    public void handleSaveAs() {
+    @FXML
+    private void handleSaveAs() {
         WindowHelper.showWindow(Window.SAVE_WINDOW);
     }
 
-    public void handleSettings() {
+    @FXML
+    private void handleSettings() {
         WindowHelper.showWindow(Window.SETTINGS_WINDOW);
     }
-    public void handleAbout() {
+
+    @FXML
+    private void handleAbout() {
         WindowHelper.showWindow(Window.ABOUT_WINDOW);
     }
 
-    public void handleExit() {
+    @FXML
+    private void handleExit() {
         WindowHelper.closeAllWindows();
     }
 

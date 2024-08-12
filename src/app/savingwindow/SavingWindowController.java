@@ -3,6 +3,7 @@ package app.savingwindow;
 import app.ControllerBase;
 import app.Window;
 import app.WindowHelper;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 
@@ -18,16 +19,20 @@ public class SavingWindowController extends ControllerBase {
 
     private static final Logger logger = Logger.getLogger(SavingWindowController.class.getName());
 
-    public Button customFormatButton;
-    public Button SQLFormatButton;
-    public Button cancelButton;
+    @FXML
+    private Button customFormatButton;
+    @FXML
+    private Button SQLFormatButton;
+    @FXML
+    private Button cancelButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SAVE_WINDOW).setController(this);
     }
 
-    public void handleSaveAsSQL() {
+    @FXML
+    private void handleSaveAsSQL() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save as SQL");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQL Files", "*.sql"));
@@ -38,7 +43,8 @@ public class SavingWindowController extends ControllerBase {
         WindowHelper.hideWindow(Window.SAVE_WINDOW);
     }
 
-    public void handleSaveAsCustom() {
+    @FXML
+    private void handleSaveAsCustom() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save as Custom Format");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Custom Files", "*.dbexp"));
@@ -49,7 +55,8 @@ public class SavingWindowController extends ControllerBase {
         WindowHelper.hideWindow(Window.SAVE_WINDOW);
     }
 
-    public void handleCancel() {
+    @FXML
+    private void handleCancel() {
         WindowHelper.hideWindow(Window.SAVE_WINDOW);
         WindowHelper.hideWindow(Window.CLOSE_WINDOW);
         WindowHelper.showWindow(Window.MAIN_WINDOW);
