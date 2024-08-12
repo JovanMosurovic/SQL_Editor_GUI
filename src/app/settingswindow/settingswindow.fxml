@@ -86,13 +86,13 @@
                 </HBox>
                 <VBox alignment="CENTER" maxWidth="518.0" spacing="10.0">
                     <Label text="Preview:">
-                        <padding>
-                            <Insets bottom="10.0" />
-                        </padding>
+                  <VBox.margin>
+                     <Insets right="420.0" top="5.0" />
+                  </VBox.margin>
                     </Label>
                     <TextArea fx:id="editorFontPreviewTextArea" maxHeight="195.0" text="Sample Text">
                   <VBox.margin>
-                     <Insets left="5.0" />
+                     <Insets left="5.0" right="5.0" />
                   </VBox.margin></TextArea>
                 </VBox>
             </VBox>
@@ -115,27 +115,24 @@
                 </HBox>
                 <VBox alignment="CENTER" maxWidth="518.0" spacing="10.0">
                     <Label text="Preview:">
-                        <padding>
-                            <Insets bottom="10.0" />
-                        </padding>
+                  <VBox.margin>
+                     <Insets right="420.0" top="5.0" />
+                  </VBox.margin>
                     </Label>
                     <TextArea fx:id="consoleFontPreviewTextArea" maxHeight="195.0" text="Sample Text">
                   <VBox.margin>
-                     <Insets left="5.0" />
+                     <Insets left="5.0" right="5.0" />
                   </VBox.margin></TextArea>
                 </VBox>
             </VBox>
 
             <!-- Bottom Buttons and Separator -->
-            <AnchorPane AnchorPane.topAnchor="345.0">
-                <Separator minWidth="518.0" AnchorPane.topAnchor="2.0" />
-                <HBox alignment="CENTER_RIGHT" layoutX="259.0" spacing="10.0">
+            <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="345.0">
+                <Separator minWidth="518.0" AnchorPane.bottomAnchor="50.0" AnchorPane.topAnchor="2.0" />
+                <HBox alignment="CENTER_RIGHT" layoutX="259.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
                     <Button minHeight="30.0" minWidth="50.0" onAction="#OKSettings" styleClass="button-blue" text="OK" />
                     <Button minHeight="30.0" minWidth="60.0" onAction="#applySettings" text="Apply" />
                     <Button minHeight="30.0" minWidth="60.0" onAction="#cancelSettings" text="Cancel" />
-                    <padding>
-                        <Insets top="10.0" />
-                    </padding>
                 </HBox>
             </AnchorPane>
         </AnchorPane>
