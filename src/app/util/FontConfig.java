@@ -6,6 +6,17 @@ public class FontConfig {
     public static final String JETBRAINS_MONO_NL_FONT = "JetBrains Mono NL";
     public static final String MONOSPACED_FONT = "Monospaced";
 
+    public static final String[] EDITOR_FONT_FAMILIES = {
+        JETBRAINS_MONO_NL_FONT,
+        MONOSPACED_FONT
+    };
+
+    public static final String[] CONSOLE_FONT_FAMILIES = {
+        DEFAULT_FONT_FAMILY,
+        JETBRAINS_MONO_NL_FONT,
+        MONOSPACED_FONT
+    };
+
     public static final double DEFAULT_FONT_SIZE = 16.0;
     public static final double FONT_STEP = 2.0;
     public static final double EDITOR_MAX_FONT_SIZE = 42.0;

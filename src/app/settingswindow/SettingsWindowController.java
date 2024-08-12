@@ -47,8 +47,38 @@ public class SettingsWindowController extends ControllerBase {
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+        setupFontFamilyComboBoxes();
         setupFontSizeSpinners();
         setupPreviewTextAreas();
+    }
+
+    private void setupFontFamilyComboBoxes() {
+        setupEditorFontFamilyComboBox();
+        setupConsoleFontFamilyComboBox();
+    }
+
+    private void setupEditorFontFamilyComboBox() {
+        editorFontFamilyComboBox.getItems().addAll(FontConfig.EDITOR_FONT_FAMILIES);
+        editorFontFamilyComboBox.setValue(FontConfig.getEditorFontFamily());
+        editorFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            double currentFontSize = tempEditorFontSize != 0 ? tempEditorFontSize : FontConfig.getEditorFontSize();
+
+            editorFontPreviewTextArea.setStyle("-fx-font-family: " + newValue + "; -fx-font-size: " + currentFontSize + "pt;");
+            FontHelper.setFontFamily(newValue, mainWindowController.editorArea);
+            FontConfig.setEditorFontFamily(newValue);
+        });
+    }
+
+    private void setupConsoleFontFamilyComboBox() {
+        consoleFontFamilyComboBox.getItems().addAll(FontConfig.CONSOLE_FONT_FAMILIES);
+        consoleFontFamilyComboBox.setValue(FontConfig.getConsoleFontFamily());
+        consoleFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            double currentFontSize = tempConsoleFontSize != 0 ? tempConsoleFontSize : FontConfig.getConsoleFontSize();
+
+            consoleFontPreviewTextArea.setStyle("-fx-font-family: " + newValue + "; -fx-font-size: " + currentFontSize + "pt;");
+            FontHelper.setFontFamily(newValue, mainWindowController.consoleTextFlow);
+            FontConfig.setConsoleFontFamily(newValue);
+        });
     }
 
     private void setupFontSizeSpinners() {

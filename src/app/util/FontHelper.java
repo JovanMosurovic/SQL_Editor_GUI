@@ -64,6 +64,29 @@ public class FontHelper {
         }
     }
 
+    public static String getCurrentFontFamily(Node node) {
+        try {
+            String style = node.getStyle();
+            String[] styles = style.split(";");
+            for (String s : styles) {
+                if (s.trim().startsWith("-fx-font-family")) {
+                    String[] parts = s.split(":");
+                    return parts[1].trim();
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "An error occurred while getting font family", e);
+        }
+        return FontConfig.DEFAULT_FONT_FAMILY;
+    }
+
+    public static void setFontFamily(String fontFamily, Node... nodes) {
+        for (Node node : nodes) {
+            logger.log(Level.INFO, "Setting font family for node: " + node.getClass().getName() + " to " + fontFamily);
+            node.setStyle("-fx-font-family: " + fontFamily + ";");
+        }
+    }
+
     private static void updateFontSizeConfig(double newFontSize, Node node) {
         if (node instanceof TextArea) {
             FontConfig.setEditorFontSize(newFontSize);
