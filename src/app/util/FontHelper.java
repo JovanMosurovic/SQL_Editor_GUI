@@ -53,7 +53,7 @@ public class FontHelper {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "An error occurred while getting current font size", e);
         }
-        return FontConfig.getDefaultFontSize();
+        return FontConfig.DEFAULT_FONT_SIZE;
     }
 
     public static void setFontSize(double newFontSize, Node... nodes) {

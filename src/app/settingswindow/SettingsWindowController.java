@@ -58,10 +58,10 @@ public class SettingsWindowController extends ControllerBase {
 
     private void setupEditorFontSizeSpinner() {
         SpinnerValueFactory<Double> editorFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                FontConfig.getEditorMinFontSize(),
-                FontConfig.getEditorMaxFontSize(),
+                FontConfig.EDITOR_MIN_FONT_SIZE,
+                FontConfig.EDITOR_MAX_FONT_SIZE,
                 FontConfig.getEditorFontSize(),
-                FontConfig.getFontStep()
+                FontConfig.FONT_STEP
         );
 
         editorFontSizeSpinner.setValueFactory(editorFactory);
@@ -74,10 +74,10 @@ public class SettingsWindowController extends ControllerBase {
 
     private void setupConsoleFontSizeSpinner() {
         SpinnerValueFactory<Double> consoleFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                FontConfig.getConsoleMinFontSize(),
-                FontConfig.getConsoleMaxFontSize(),
+                FontConfig.CONSOLE_MIN_FONT_SIZE,
+                FontConfig.CONSOLE_MAX_FONT_SIZE,
                 FontConfig.getConsoleFontSize(),
-                FontConfig.getFontStep()
+                FontConfig.FONT_STEP
         );
 
         consoleFontSizeSpinner.setValueFactory(consoleFactory);
@@ -109,7 +109,7 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     private void applyEditorSettings() {
-        FontHelper.setFontSize(tempEditorFontSize, mainWindowController.codeArea);
+        FontHelper.setFontSize(tempEditorFontSize, mainWindowController.editorArea);
         FontConfig.setEditorFontSize(tempEditorFontSize);
     }
 

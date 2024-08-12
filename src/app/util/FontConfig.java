@@ -6,43 +6,40 @@ public class FontConfig {
     public static final String JETBRAINS_MONO_NL_FONT = "JetBrains Mono NL";
     public static final String MONOSPACED_FONT = "Monospaced";
 
-    private static final double DEFAULT_FONT_SIZE = 16.0;
-    private static final double FONT_STEP = 2.0;
-    private static final double EDITOR_MAX_FONT_SIZE = 42.0;
-    private static final double EDITOR_MIN_FONT_SIZE = 10.0;
-    private static final double CONSOLE_MAX_FONT_SIZE = 42.0;
-    private static final double CONSOLE_MIN_FONT_SIZE = 10.0;
+    public static final double DEFAULT_FONT_SIZE = 16.0;
+    public static final double FONT_STEP = 2.0;
+    public static final double EDITOR_MAX_FONT_SIZE = 42.0;
+    public static final double EDITOR_MIN_FONT_SIZE = 10.0;
+    public static final double CONSOLE_MAX_FONT_SIZE = 42.0;
+    public static final double CONSOLE_MIN_FONT_SIZE = 10.0;
+
+    private static String editorFontFamily;
+    private static String consoleFontFamily;
 
     private static double editorFontSize;
     private static double consoleFontSize;
 
     static {
+        editorFontFamily = JETBRAINS_MONO_NL_FONT;
+        consoleFontFamily = DEFAULT_FONT_FAMILY;
         editorFontSize = DEFAULT_FONT_SIZE;
         consoleFontSize = DEFAULT_FONT_SIZE;
     }
 
-    public static double getDefaultFontSize() {
-        return DEFAULT_FONT_SIZE;
+    public static String getEditorFontFamily() {
+        return editorFontFamily;
     }
 
-    public static double getFontStep() {
-        return FONT_STEP;
+    public static void setEditorFontFamily(String editorFontFamily) {
+        FontConfig.editorFontFamily = editorFontFamily;
     }
 
-    public static double getEditorMaxFontSize() {
-        return EDITOR_MAX_FONT_SIZE;
+    public static String getConsoleFontFamily() {
+        return consoleFontFamily;
     }
 
-    public static double getEditorMinFontSize() {
-        return EDITOR_MIN_FONT_SIZE;
-    }
-
-    public static double getConsoleMaxFontSize() {
-        return CONSOLE_MAX_FONT_SIZE;
-    }
-
-    public static double getConsoleMinFontSize() {
-        return CONSOLE_MIN_FONT_SIZE;
+    public static void setConsoleFontFamily(String consoleFontFamily) {
+        FontConfig.consoleFontFamily = consoleFontFamily;
     }
 
     public static double getEditorFontSize() {

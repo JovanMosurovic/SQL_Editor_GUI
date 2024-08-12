@@ -32,9 +32,9 @@ public class EditorHelper {
 
     public static void increaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();
-        if(currentFontSize < FontConfig.getEditorMaxFontSize()) {
-            FontHelper.increaseFontSize(FontConfig.getFontStep(), node);
-            FontConfig.setEditorFontSize(currentFontSize + FontConfig.getFontStep());
+        if(currentFontSize < FontConfig.EDITOR_MAX_FONT_SIZE) {
+            FontHelper.increaseFontSize(FontConfig.FONT_STEP, node);
+            FontConfig.setEditorFontSize(currentFontSize + FontConfig.FONT_STEP);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size  reached", Color.RED, true);
         }
@@ -42,9 +42,9 @@ public class EditorHelper {
 
     public static void decreaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();
-        if(currentFontSize > FontConfig.getEditorMinFontSize()) {
-            FontHelper.decreaseFontSize(FontConfig.getFontStep(), node);
-            FontConfig.setEditorFontSize(currentFontSize - FontConfig.getFontStep());
+        if(currentFontSize > FontConfig.EDITOR_MIN_FONT_SIZE) {
+            FontHelper.decreaseFontSize(FontConfig.FONT_STEP, node);
+            FontConfig.setEditorFontSize(currentFontSize - FontConfig.FONT_STEP);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size for code area reached", Color.RED, true);
         }

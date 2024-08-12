@@ -17,14 +17,14 @@ public class MainWindowController extends ControllerBase {
 
     public Button runButton;
     public ListView<String> tablesListView;
-    public TextArea codeArea;
+    public TextArea editorArea;
     public ScrollPane resultScrollPane;
     public TextFlow consoleTextFlow;
     public TableView<String> resultTableView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        EditorHelper.setupEditorFont(codeArea);
+        EditorHelper.setupEditorFont(editorArea);
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
         setupContextMenu();
     }
@@ -68,7 +68,7 @@ public class MainWindowController extends ControllerBase {
 
     public void handleRun() {
         System.out.println("Run button clicked");
-        String code = codeArea.getText();
+        String code = editorArea.getText();
         System.out.println("Code: |" + code + "|");
 
     }
@@ -76,27 +76,27 @@ public class MainWindowController extends ControllerBase {
     //region Code area actions
 
     public void handleUndo() {
-        EditorHelper.handleEditAction(codeArea, TextArea::undo);
+        EditorHelper.handleEditAction(editorArea, TextArea::undo);
     }
 
     public void handleRedo() {
-        EditorHelper.handleEditAction(codeArea, TextArea::redo);
+        EditorHelper.handleEditAction(editorArea, TextArea::redo);
     }
 
     public void handleCut() {
-        EditorHelper.handleEditAction(codeArea, TextArea::cut);
+        EditorHelper.handleEditAction(editorArea, TextArea::cut);
     }
 
     public void handleCopy() {
-        EditorHelper.handleEditAction(codeArea, TextArea::copy);
+        EditorHelper.handleEditAction(editorArea, TextArea::copy);
     }
 
     public void handlePaste() {
-        EditorHelper.handleEditAction(codeArea, TextArea::paste);
+        EditorHelper.handleEditAction(editorArea, TextArea::paste);
     }
 
     public void handleSelectAll() {
-        EditorHelper.handleEditAction(codeArea, TextArea::selectAll);
+        EditorHelper.handleEditAction(editorArea, TextArea::selectAll);
     }
 
     //endregion

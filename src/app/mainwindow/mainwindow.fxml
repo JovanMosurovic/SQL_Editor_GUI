@@ -140,7 +140,7 @@
 
     <!-- Center Pane for Code Area -->
     <Pane layoutX="150.0" layoutY="50.0" minHeight="480.0" minWidth="1025.0">
-        <TextArea fx:id="codeArea" minHeight="500.0" minWidth="1025.0" styleClass="text-area" />
+        <TextArea fx:id="editorArea" minHeight="500.0" minWidth="1025.0" styleClass="text-area" />
     </Pane>
 
     <!-- TabPane for Results and TableView -->
