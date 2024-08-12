@@ -23,7 +23,7 @@ public class SavingWindow extends Window {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../resources/styles/styles.css")).toExternalForm());
 
             this.stage = stage;
-            stage.setTitle("Save as");
+            stage.setTitle("Save");
             stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/sql_icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
