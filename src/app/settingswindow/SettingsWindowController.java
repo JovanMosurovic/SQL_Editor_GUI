@@ -48,6 +48,7 @@ public class SettingsWindowController extends ControllerBase {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         setupFontSizeSpinners();
+        setupPreviewTextAreas();
     }
 
     private void setupFontSizeSpinners() {
@@ -87,7 +88,10 @@ public class SettingsWindowController extends ControllerBase {
         });
     }
 
-    //endregion
+    private void setupPreviewTextAreas() {
+        editorFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getEditorFontSize() + "pt;");
+        consoleFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getConsoleFontSize() + "pt;");
+    }
 
     @FXML
     private void OKSettings() {
