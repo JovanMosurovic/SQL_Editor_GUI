@@ -42,6 +42,7 @@ public class SettingsWindowController extends ControllerBase {
     private MainWindowController mainWindowController;
 
     private double tempEditorFontSize, tempConsoleFontSize;
+    private String tempEditorFontFamily = FontConfig.getEditorFontFamily(), tempConsoleFontFamily = FontConfig.getConsoleFontFamily();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,11 +62,10 @@ public class SettingsWindowController extends ControllerBase {
         editorFontFamilyComboBox.getItems().addAll(FontConfig.EDITOR_FONT_FAMILIES);
         editorFontFamilyComboBox.setValue(FontConfig.getEditorFontFamily());
         editorFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            tempEditorFontFamily = newValue;
             double currentFontSize = tempEditorFontSize != 0 ? tempEditorFontSize : FontConfig.getEditorFontSize();
 
             editorFontPreviewTextArea.setStyle("-fx-font-family: " + newValue + "; -fx-font-size: " + currentFontSize + "pt;");
-            FontHelper.setFontFamily(newValue, mainWindowController.editorArea);
-            FontConfig.setEditorFontFamily(newValue);
         });
     }
 
@@ -73,11 +73,10 @@ public class SettingsWindowController extends ControllerBase {
         consoleFontFamilyComboBox.getItems().addAll(FontConfig.CONSOLE_FONT_FAMILIES);
         consoleFontFamilyComboBox.setValue(FontConfig.getConsoleFontFamily());
         consoleFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            tempConsoleFontFamily = newValue;
             double currentFontSize = tempConsoleFontSize != 0 ? tempConsoleFontSize : FontConfig.getConsoleFontSize();
 
             consoleFontPreviewTextArea.setStyle("-fx-font-family: " + newValue + "; -fx-font-size: " + currentFontSize + "pt;");
-            FontHelper.setFontFamily(newValue, mainWindowController.consoleTextFlow);
-            FontConfig.setConsoleFontFamily(newValue);
         });
     }
 
@@ -191,11 +190,19 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     private void applyEditorSettings() {
+        if (tempEditorFontFamily != null) {
+            FontHelper.setFontFamily(tempEditorFontFamily, mainWindowController.editorArea);
+            FontConfig.setEditorFontFamily(tempEditorFontFamily);
+        }
         FontHelper.setFontSize(tempEditorFontSize, mainWindowController.editorArea);
         FontConfig.setEditorFontSize(tempEditorFontSize);
     }
 
     private void applyConsoleSettings() {
+        if (tempConsoleFontFamily != null) {
+            FontHelper.setFontFamily(tempConsoleFontFamily, mainWindowController.consoleTextFlow);
+            FontConfig.setConsoleFontFamily(tempConsoleFontFamily);
+        }
         FontHelper.setFontSize(tempConsoleFontSize, mainWindowController.consoleTextFlow);
         FontConfig.setConsoleFontSize(tempConsoleFontSize);
     }
