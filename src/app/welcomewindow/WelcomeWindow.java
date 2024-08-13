@@ -1,7 +1,6 @@
 package app.welcomewindow;
 
 import app.Window;
-import app.WindowHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,11 +24,11 @@ public class WelcomeWindow extends Window {
             stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/sql_icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
-            WindowHelper.centerOnScreen(Window.WELCOME_WINDOW);
+            Window.centerOnScreen(Window.WELCOME_WINDOW);
 
             stage.setOnCloseRequest(event -> {
                 event.consume();
-                WindowHelper.closeAllWindows();
+                Window.closeAllWindows();
             });
         } catch (IOException e) {
             throw new RuntimeException(e);

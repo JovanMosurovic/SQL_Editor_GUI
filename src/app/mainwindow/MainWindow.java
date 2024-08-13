@@ -1,7 +1,6 @@
 package app.mainwindow;
 
 import app.Window;
-import app.WindowHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,7 +29,7 @@ public class MainWindow extends Window {
             stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/sql_icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
-            WindowHelper.centerOnScreen(Window.MAIN_WINDOW);
+            Window.centerOnScreen(Window.MAIN_WINDOW);
 
             KeyCombination runShortcut = new KeyCodeCombination(KeyCode.F10, KeyCombination.SHIFT_DOWN);
             scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {

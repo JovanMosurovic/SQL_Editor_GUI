@@ -2,7 +2,6 @@ package app.welcomewindow;
 
 import app.ControllerBase;
 import app.Window;
-import app.WindowHelper;
 import app.mainwindow.MainWindowController;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -25,8 +24,8 @@ public class WelcomeWindowController extends ControllerBase {
         if(mainWindowController.handleImportDatabase(welcomeWindoStage, true)) {
             statusMessage.setText("Database imported successfully!");
             statusMessage.setStyle("-fx-text-fill: green;");
-            WindowHelper.hideWindow(Window.WELCOME_WINDOW);
-            WindowHelper.showWindow(Window.MAIN_WINDOW);
+            Window.hideWindow(Window.WELCOME_WINDOW);
+            Window.showWindow(Window.MAIN_WINDOW);
         } else {
             statusMessage.setText("Database import failed. Please try again.");
             statusMessage.setStyle("-fx-text-fill: red;");
@@ -35,7 +34,7 @@ public class WelcomeWindowController extends ControllerBase {
     }
 
     public void handleCreateNewDatabase() {
-        WindowHelper.hideWindow(Window.WELCOME_WINDOW);
-        WindowHelper.showWindow(Window.MAIN_WINDOW);
+        Window.hideWindow(Window.WELCOME_WINDOW);
+        Window.showWindow(Window.MAIN_WINDOW);
     }
 }

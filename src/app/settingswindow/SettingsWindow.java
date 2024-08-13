@@ -1,7 +1,6 @@
 package app.settingswindow;
 
 import app.Window;
-import app.WindowHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,7 +27,7 @@ public class SettingsWindow extends Window {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
-            WindowHelper.centerOnScreen(Window.SETTINGS_WINDOW);
+            Window.centerOnScreen(Window.SETTINGS_WINDOW);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

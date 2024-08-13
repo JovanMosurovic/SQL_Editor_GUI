@@ -2,7 +2,6 @@ package app.aboutwindow;
 
 import app.ControllerBase;
 import app.Window;
-import app.WindowHelper;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 
@@ -24,7 +23,7 @@ public class AboutWindowController extends ControllerBase {
 
     @FXML
     private void handleClose() {
-        WindowHelper.hideWindow(Window.ABOUT_WINDOW);
+        Window.hideWindow(Window.ABOUT_WINDOW);
     }
 
     @FXML

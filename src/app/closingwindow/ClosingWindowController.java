@@ -2,7 +2,6 @@ package app.closingwindow;
 
 import app.ControllerBase;
 import app.Window;
-import app.WindowHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -25,17 +24,17 @@ public class ClosingWindowController extends ControllerBase {
 
     @FXML
     private void handleSave() {
-        WindowHelper.hideWindow(Window.CLOSE_WINDOW);
-        WindowHelper.showWindow(Window.SAVE_WINDOW);
+        Window.hideWindow(Window.CLOSE_WINDOW);
+        Window.showWindow(Window.SAVE_WINDOW);
     }
 
     @FXML
     private void handleDontSave() {
-        WindowHelper.closeAllWindows();
+        Window.closeAllWindows();
     }
 
     @FXML
     private void handleCancel() {
-        WindowHelper.hideWindow(Window.CLOSE_WINDOW);
+        Window.hideWindow(Window.CLOSE_WINDOW);
     }
 }

@@ -2,7 +2,6 @@ package app.savingwindow;
 
 import app.ControllerBase;
 import app.Window;
-import app.WindowHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
@@ -40,7 +39,7 @@ public class SavingWindowController extends ControllerBase {
         if (file != null) {
             saveFile(file, "sql");
         }
-        WindowHelper.hideWindow(Window.SAVE_WINDOW);
+        Window.hideWindow(Window.SAVE_WINDOW);
     }
 
     @FXML
@@ -52,14 +51,14 @@ public class SavingWindowController extends ControllerBase {
         if (file != null) {
             saveFile(file, "dbexp");
         }
-        WindowHelper.hideWindow(Window.SAVE_WINDOW);
+        Window.hideWindow(Window.SAVE_WINDOW);
     }
 
     @FXML
     private void handleCancel() {
-        WindowHelper.hideWindow(Window.SAVE_WINDOW);
-        WindowHelper.hideWindow(Window.CLOSE_WINDOW);
-        WindowHelper.showWindow(Window.MAIN_WINDOW);
+        Window.hideWindow(Window.SAVE_WINDOW);
+        Window.hideWindow(Window.CLOSE_WINDOW);
+        Window.showWindow(Window.MAIN_WINDOW);
     }
 
     private void saveFile(File file, String format) {

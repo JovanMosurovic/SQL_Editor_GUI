@@ -2,7 +2,6 @@ package app.mainwindow;
 
 import app.ControllerBase;
 import app.Window;
-import app.WindowHelper;
 import app.util.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -117,22 +116,22 @@ public class MainWindowController extends ControllerBase {
 
     @FXML
     private void handleSaveAs() {
-        WindowHelper.showWindow(Window.SAVE_WINDOW);
+        Window.showWindow(Window.SAVE_WINDOW);
     }
 
     @FXML
     private void handleSettings() {
-        WindowHelper.showWindow(Window.SETTINGS_WINDOW);
+        Window.showWindow(Window.SETTINGS_WINDOW);
     }
 
     @FXML
     private void handleAbout() {
-        WindowHelper.showWindow(Window.ABOUT_WINDOW);
+        Window.showWindow(Window.ABOUT_WINDOW);
     }
 
     @FXML
     private void handleExit() {
-        WindowHelper.closeAllWindows();
+        Window.closeAllWindows();
     }
 
 }

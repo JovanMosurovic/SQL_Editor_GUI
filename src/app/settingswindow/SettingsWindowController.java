@@ -2,7 +2,6 @@ package app.settingswindow;
 
 import app.ControllerBase;
 import app.Window;
-import app.WindowHelper;
 import app.mainwindow.MainWindowController;
 import app.util.FontHelper;
 import app.util.FontConfig;
@@ -125,7 +124,7 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void OKSettings() {
         applySettings();
-        WindowHelper.hideWindow(Window.SETTINGS_WINDOW);
+        Window.hideWindow(Window.SETTINGS_WINDOW);
     }
 
     @FXML
@@ -139,7 +138,7 @@ public class SettingsWindowController extends ControllerBase {
 
     @FXML
     private void cancelSettings() {
-        WindowHelper.hideWindow(Window.SETTINGS_WINDOW);
+        Window.hideWindow(Window.SETTINGS_WINDOW);
     }
 
     @FXML
