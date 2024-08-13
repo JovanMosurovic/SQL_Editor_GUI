@@ -159,6 +159,42 @@
     -fx-background-radius: 10px;
 }
 
+.code-area {
+    -fx-text-fill: #333333;
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px 10px 10px 0;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.code-area .current-line {
+    -fx-background-color: #f0f0f0;
+}
+
+.code-area .red { -fx-fill: red; -fx-font-weight: bold; }
+.code-area .yellow { -fx-fill: #FFD700; -fx-font-weight: bold; } /* Using gold for better visibility */
+.code-area .cyan { -fx-fill: #00FFFF; -fx-font-weight: bold; }
+.code-area .magenta { -fx-fill: magenta; -fx-font-weight: bold; }
+.code-area .green { -fx-fill: #00FF00; -fx-font-weight: bold; } /* Using lime for better visibility */
+
+.code-area .lineno {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #999999;
+    -fx-padding: 0 5px 0 0;
+    -fx-pref-width: 30px;
+    -fx-alignment: center-right;
+}
+
+.code-area .paragraph-text {
+    -fx-padding: 0 0 0 5px;
+}
+
+.code-area .paragraph-box:focused {
+    -fx-background-color: #f0f0f0;
+}
+
 /* Menu Styles */
 .menu-bar {
     -fx-background-color: #f0f0f0;
