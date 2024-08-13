@@ -29,26 +29,6 @@ public class EditorHelper {
         });
     }
 
-    //put("SELECT", "red");
-    //    put("FROM", "red");
-    //    put("WHERE", "red");
-    //    put("INNER", "red");
-    //    put("JOIN", "red");
-    //    put("ON", "red");
-    //    put("DELETE", "red");
-    //    put("CREATE", "yellow");
-    //    put("TABLE", "yellow");
-    //    put("DROP", "yellow");
-    //    put("INSERT", "yellow");
-    //    put("INTO", "yellow");
-    //    put("VALUES", "yellow");
-    //    put("UPDATE", "cyan");
-    //    put("SET", "cyan");
-    //    put("SHOW", "magenta");
-    //    put("TABLES", "magenta");
-    //    put("AND", "green");
-    //    put("OR", "green");
-
     public static HashMap<String, String> initKeywordColors() {
         HashMap<String, String> keywordColors = new HashMap<>();
         keywordColors.put("SELECT", "red");
