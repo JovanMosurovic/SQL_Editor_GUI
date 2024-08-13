@@ -1,32 +1,34 @@
 package app.util;
 
 import javafx.scene.Node;
-import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
+import org.fxmisc.richtext.CodeArea;
 
 import java.util.function.Consumer;
 
 public class EditorHelper {
 
-    public static void setupEditorFont(TextArea codeArea) {
+    public static void setupEditorFont(CodeArea codeArea) {
         final double currentFontSize = FontConfig.getEditorFontSize();
         final Font jetBrainsMono = Font.loadFont(EditorHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
-        final Font fontToUse = (jetBrainsMono != null) ? jetBrainsMono : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
+        final Font fontFamily = (jetBrainsMono != null) ? jetBrainsMono : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
         if(jetBrainsMono == null) {
             System.out.println("[CODE AREA]: Failed to load JetBrains Mono font. Using default monospaced font.");
         }
-        codeArea.setFont(fontToUse);
+
+        String fontStyle = "-fx-font-family: " + fontFamily.getFamily() + "; -fx-font-size: " + currentFontSize + "px;";
+        codeArea.setStyle(fontStyle);
 
         codeArea.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if(!newVal) {
-                codeArea.setFont(fontToUse);
+                codeArea.setStyle(fontStyle);
             }
         });
     }
 
-    public static void handleEditAction(TextArea codeArea, Consumer<TextArea> action) {
+    public static void handleEditAction(CodeArea codeArea, Consumer<CodeArea> action) {
         action.accept(codeArea);
     }
 

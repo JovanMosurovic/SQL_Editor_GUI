@@ -9,6 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.fxmisc.richtext.CodeArea;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +18,7 @@ public class MainWindowController extends ControllerBase {
 
     public Button runButton;
     public ListView<String> tablesListView;
-    public TextArea editorArea;
+    public CodeArea editorArea;
     public ScrollPane resultScrollPane;
     public TextFlow consoleTextFlow;
     public TableView<String> resultTableView;
@@ -84,32 +85,32 @@ public class MainWindowController extends ControllerBase {
 
     @FXML
     private void handleUndo() {
-        EditorHelper.handleEditAction(editorArea, TextArea::undo);
+        EditorHelper.handleEditAction(editorArea, CodeArea::undo);
     }
 
     @FXML
     private void handleRedo() {
-        EditorHelper.handleEditAction(editorArea, TextArea::redo);
+        EditorHelper.handleEditAction(editorArea, CodeArea::redo);
     }
 
     @FXML
     private void handleCut() {
-        EditorHelper.handleEditAction(editorArea, TextArea::cut);
+        EditorHelper.handleEditAction(editorArea, CodeArea::cut);
     }
 
     @FXML
     private void handleCopy() {
-        EditorHelper.handleEditAction(editorArea, TextArea::copy);
+        EditorHelper.handleEditAction(editorArea, CodeArea::copy);
     }
 
     @FXML
     private void handlePaste() {
-        EditorHelper.handleEditAction(editorArea, TextArea::paste);
+        EditorHelper.handleEditAction(editorArea, CodeArea::paste);
     }
 
     @FXML
     private void handleSelectAll() {
-        EditorHelper.handleEditAction(editorArea, TextArea::selectAll);
+        EditorHelper.handleEditAction(editorArea, CodeArea::selectAll);
     }
 
     //endregion

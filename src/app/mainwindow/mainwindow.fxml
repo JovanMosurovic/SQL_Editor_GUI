@@ -10,7 +10,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,6 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
+<?import org.fxmisc.richtext.CodeArea?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mainwindow.MainWindowController">
 
     <!-- Menu Bar -->
@@ -140,7 +140,7 @@
 
     <!-- Center Pane for Code Area -->
     <Pane layoutX="150.0" layoutY="50.0" minHeight="480.0" minWidth="1025.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="10.0">
-        <TextArea fx:id="editorArea" maxHeight="500.0" maxWidth="1060.0" minHeight="500.0" minWidth="1060.0" styleClass="text-area" />
+        <CodeArea fx:id="editorArea" maxHeight="500.0" maxWidth="1060.0" minHeight="500.0" minWidth="1060.0" styleClass="text-area" />
     </Pane>
 
     <!-- TabPane for Results and TableView -->
