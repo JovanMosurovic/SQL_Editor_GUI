@@ -13,17 +13,17 @@
         </font>
     </Label>
     <HBox alignment="CENTER" layoutX="15.0" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-        <Button fx:id="customFormatButton" alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsCustom" text="Custom">
+        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsCustom" text="Custom">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
         </Button>
-        <Button fx:id="SQLFormatButton" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsSQL" text="SQL">
+        <Button minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsSQL" text="SQL">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
         </Button>
-        <Button fx:id="cancelButton" minHeight="30.0" minWidth="110.0" onAction="#handleCancel" text="Cancel">
+        <Button minHeight="30.0" minWidth="110.0" onAction="#handleCancel" text="Cancel">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>

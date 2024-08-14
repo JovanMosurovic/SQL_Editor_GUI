@@ -11,8 +11,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Represents the Saving Window of the application.
+ * This window allows users to save their work in different formats, such as SQL or a custom format.
+ * It provides an interface to choose the file type and location, ensuring that users can easily
+ * save their progress before closing the application or moving on to other tasks.
+ *
+ * @see app.Window
+ */
 public class SavingWindow extends Window {
 
+    /**
+     * Initializes the Saving Window and sets its properties, such as title, icon, and modality.
+     * This method loads the FXML layout, applies the stylesheet, and configures the window's
+     * appearance and behavior. The window is centered on the screen and is set to be non-resizable.
+     *
+     * @param stage The primary stage on which this window is displayed.
+     */
     @Override
     public void init(Stage stage) {
         try {

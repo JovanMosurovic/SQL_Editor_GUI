@@ -1,3 +1,25 @@
+/**
+ * styles.css
+ *
+ * This stylesheet defines the visual appearance and layout of various UI components
+ * in the application. It includes styles for panes, labels, buttons, text areas,
+ * menus, and other UI elements to ensure a consistent look and feel across different
+ * windows and dialogues.
+ *
+ * Key Styles:
+ * - Pane Styles: Styling for anchor panes and split panes.
+ * - Label Styles: Font and color settings for headers, text, labels, and hyperlinks.
+ * - Button Styles: Appearance settings for different types of buttons, including hover
+ *   and pressed states.
+ * - Text Area Styles: Formatting for text areas, code areas, and text flow elements.
+ * - Menu Styles: Styling for the application's menu bar and menu items.
+ * - Background Styles: General background color settings for the application.
+ *
+ * This file ensures that the UI components adhere to the application's design guidelines,
+ * providing a clean, modern, and user-friendly interface.
+ */
+
+
 /* Pane Styles */
 .anchor-pane {
     -fx-background-color: #f0f0f0;
