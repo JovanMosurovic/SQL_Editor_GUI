@@ -132,7 +132,13 @@ public class FontHelper {
     public static void setFontFamily(String fontFamily, Node... nodes) {
         for (Node node : nodes) {
             logger.log(Level.INFO, "Setting font family for node: " + node.getClass().getName() + " to " + fontFamily);
-            node.setStyle("-fx-font-family: " + fontFamily + ";");
+            if(fontFamily.equals(FontConfig.MONOSPACED_FONT)) {
+                node.getStyleClass().remove("calibri-font");
+                node.getStyleClass().add("monospaced-font");
+            } else if(fontFamily.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
+                node.getStyleClass().remove("monospaced-font");
+                node.getStyleClass().add("calibri-font");
+            }
         }
     }
 

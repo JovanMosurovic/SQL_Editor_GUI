@@ -19,6 +19,15 @@
  * providing a clean, modern, and user-friendly interface.
  */
 
+/* General Styles */
+
+.monospaced-font {
+    -fx-font-family: "Monospaced";
+}
+
+.calibri-font {
+    -fx-font-family: "Calibri";
+}
 
 /* Pane Styles */
 .anchor-pane {

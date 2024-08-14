@@ -62,9 +62,13 @@ public class SettingsWindowController extends ControllerBase {
         editorFontFamilyComboBox.setValue(FontConfig.getEditorFontFamily());
         editorFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             tempEditorFontFamily = newValue;
-            double currentFontSize = tempEditorFontSize != 0 ? tempEditorFontSize : FontConfig.getEditorFontSize();
-
-            editorFontPreviewTextArea.setStyle("-fx-font-family: " + newValue + "; -fx-font-size: " + currentFontSize + "pt;");
+            if(newValue.equals(FontConfig.MONOSPACED_FONT)) {
+                consoleFontPreviewTextArea.getStyleClass().remove("calibri-font");
+                consoleFontPreviewTextArea.getStyleClass().add("monospaced-font");
+            } else if(newValue.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
+                consoleFontPreviewTextArea.getStyleClass().remove("monospaced-font");
+                consoleFontPreviewTextArea.getStyleClass().add("calibri-font");
+            }
         });
     }
 
@@ -73,9 +77,13 @@ public class SettingsWindowController extends ControllerBase {
         consoleFontFamilyComboBox.setValue(FontConfig.getConsoleFontFamily());
         consoleFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             tempConsoleFontFamily = newValue;
-            double currentFontSize = tempConsoleFontSize != 0 ? tempConsoleFontSize : FontConfig.getConsoleFontSize();
-
-            consoleFontPreviewTextArea.setStyle("-fx-font-family: " + newValue + "; -fx-font-size: " + currentFontSize + "pt;");
+            if(newValue.equals(FontConfig.MONOSPACED_FONT)) {
+                consoleFontPreviewTextArea.getStyleClass().remove("calibri-font");
+                consoleFontPreviewTextArea.getStyleClass().add("monospaced-font");
+            } else if(newValue.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
+                consoleFontPreviewTextArea.getStyleClass().remove("monospaced-font");
+                consoleFontPreviewTextArea.getStyleClass().add("calibri-font");
+            }
         });
     }
 
@@ -95,7 +103,7 @@ public class SettingsWindowController extends ControllerBase {
         editorFontSizeSpinner.setValueFactory(editorFactory);
 
         editorFontSizeSpinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
-            editorFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
+            editorFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "px;");
             tempEditorFontSize = newValue;
         });
     }
@@ -130,6 +138,7 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void applySettings() {
         if (editorFontOptionsVBox.isVisible()) {
+            System.out.println("Applying editor settings");
             applyEditorSettings();
         } else if (consoleFontOptionsVBox.isVisible()) {
             applyConsoleSettings();
