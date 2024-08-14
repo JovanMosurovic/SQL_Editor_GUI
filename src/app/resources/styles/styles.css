@@ -191,6 +191,15 @@
     -fx-background-radius: 10px;
 }
 
+.code-area .lineno {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #999999;
+    -fx-padding: 0 5px 0 0;
+    -fx-min-width: 45px;
+    -fx-pref-width: 45px;
+    -fx-alignment: center-right;
+}
+
 .code-area .current-line {
     -fx-background-color: #f0f0f0;
 }
@@ -200,14 +209,6 @@
 .code-area .cyan { -fx-fill: #00FFFF; -fx-font-weight: bold; }
 .code-area .magenta { -fx-fill: magenta; -fx-font-weight: bold; }
 .code-area .green { -fx-fill: #00FF00; -fx-font-weight: bold; } /* Using lime for better visibility */
-
-.code-area .lineno {
-    -fx-background-color: #f0f0f0;
-    -fx-text-fill: #999999;
-    -fx-padding: 0 5px 0 0;
-    -fx-pref-width: 30px;
-    -fx-alignment: center-right;
-}
 
 .code-area .paragraph-text {
     -fx-padding: 0 0 0 5px;

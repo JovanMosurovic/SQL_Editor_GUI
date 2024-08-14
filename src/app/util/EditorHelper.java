@@ -74,7 +74,8 @@ public class EditorHelper {
         IntFunction<Node> graphicFactory = line -> {
             HBox hbox = new HBox(numberFactory.apply(line));
             hbox.setAlignment(Pos.CENTER_RIGHT);
-            hbox.setPrefWidth(30);
+            hbox.setPrefWidth(45);
+            hbox.setMaxHeight(Double.MAX_VALUE);
             return hbox;
         };
         editorArea.setParagraphGraphicFactory(graphicFactory);
