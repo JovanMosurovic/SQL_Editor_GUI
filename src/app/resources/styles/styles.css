@@ -205,10 +205,10 @@
 }
 
 .code-area .red { -fx-fill: red; -fx-font-weight: bold; }
-.code-area .yellow { -fx-fill: #FFD700; -fx-font-weight: bold; } /* Using gold for better visibility */
-.code-area .cyan { -fx-fill: #00FFFF; -fx-font-weight: bold; }
+.code-area .yellow { -fx-fill: #DAA520; -fx-font-weight: bold; } /* Using gold for better visibility */
+.code-area .cyan { -fx-fill: #0000CD; -fx-font-weight: bold; }
 .code-area .magenta { -fx-fill: magenta; -fx-font-weight: bold; }
-.code-area .green { -fx-fill: #00FF00; -fx-font-weight: bold; } /* Using lime for better visibility */
+.code-area .green { -fx-fill: #228B22; -fx-font-weight: bold; } /* Using lime for better visibility */
 
 .code-area .paragraph-text {
     -fx-padding: 0 0 0 5px;
