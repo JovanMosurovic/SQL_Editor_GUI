@@ -3,10 +3,12 @@ package app.mainwindow;
 import app.ControllerBase;
 import app.Window;
 import app.util.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextFlow;
@@ -62,39 +64,38 @@ public class MainWindowController extends ControllerBase {
         };
         editorArea.setParagraphGraphicFactory(graphicFactory);
 
-        editorArea.setStyle("-fx-highlight-fill: #f0f0f0; -fx-highlight-text-fill: #000000;");
-        editorArea.caretPositionProperty().addListener((obs, oldPos, newPos) -> {
-            editorArea.clearStyle(0, editorArea.getLength());
-            int paragraph = editorArea.getCurrentParagraph();
-            int lineStart = editorArea.getAbsolutePosition(paragraph, 0);
-            int lineEnd = editorArea.getAbsolutePosition(paragraph, editorArea.getParagraphLength(paragraph));
-            editorArea.setStyle(lineStart, lineEnd, Collections.singleton("-fx-fill: -fx-highlight-text-fill; -fx-background-color: -fx-highlight-fill;"));
-        });
-
         editorArea.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()) {
-                case SPACE:
-                case ENTER:
+            if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
+                Platform.runLater(() -> {
+                    int caretPosition = editorArea.getCaretPosition();
                     editorArea.setStyleSpans(0, computeHighlighting(editorArea.getText()));
-                    break;
-                default:
-                    break;
+                    editorArea.moveTo(caretPosition);
+                });
             }
         });
     }
 
     private StyleSpans<Collection<String>> computeHighlighting(String text) {
-        Matcher matcher = KEYWORD_PATTERN.matcher(text.toUpperCase());
+        Matcher matcher = KEYWORD_PATTERN.matcher(text);
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
         while (matcher.find()) {
-            String styleClass = KEYWORD_COLORS.get(matcher.group().toUpperCase());
+            String matchedText = matcher.group();
+            String upperCaseKeyword = matchedText.toUpperCase();
+            String styleClass = KEYWORD_COLORS.get(upperCaseKeyword);
+
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
             lastKwEnd = matcher.end();
+
+            // Replace the matched text with uppercase version
+            text = text.substring(0, matcher.start()) + upperCaseKeyword + text.substring(matcher.end());
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+
+        // Update the text in the editor with uppercase keywords
+        editorArea.replaceText(text);
 
         return spansBuilder.create();
     }
