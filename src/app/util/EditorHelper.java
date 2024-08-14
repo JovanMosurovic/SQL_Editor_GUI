@@ -27,8 +27,14 @@ import java.util.regex.Pattern;
  */
 public class EditorHelper {
 
+    /**
+     * A map of SQL keywords to their associated colors for syntax highlighting.
+     */
     private static final HashMap<String, String> KEYWORD_COLORS = EditorHelper.initKeywordColors();
 
+    /**
+     * A pattern to match SQL keywords for syntax highlighting.
+     */
     private static final Pattern KEYWORD_PATTERN = Pattern.compile(
             "\\b(" + String.join("|", KEYWORD_COLORS.keySet()) + ")\\b",
             Pattern.CASE_INSENSITIVE

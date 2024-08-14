@@ -10,6 +10,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The welcome window of the application that is displayed when the application is launched.
+ * It provides options to open an existing database, create a new database, or exit the application.
+ */
 public class WelcomeWindow extends Window {
     @Override
     public void init(Stage stage) {

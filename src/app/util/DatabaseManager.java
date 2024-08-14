@@ -14,6 +14,10 @@ import java.io.File;
  */
 public class DatabaseManager {
 
+    /**
+     * The last selected file in the file chooser dialog.
+     * Used to remember the last selected file for importing the database.
+     */
     private static File lastSelectedFile = null;
 
     /**

@@ -13,6 +13,9 @@ import java.util.logging.Logger;
  */
 public class FontHelper {
 
+    /**
+     * The logger for this class.
+     */
     private static final Logger logger = Logger.getLogger(FontHelper.class.getName());
 
     /**
