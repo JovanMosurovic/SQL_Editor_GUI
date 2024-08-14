@@ -7,10 +7,20 @@ import javafx.scene.text.TextFlow;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Utility class for managing font settings in this JavaFX application.
+ * Provides methods to change the font size and family of JavaFX nodes.
+ */
 public class FontHelper {
 
     private static final Logger logger = Logger.getLogger(FontHelper.class.getName());
 
+    /**
+     * Increases the font size of the specified nodes by the given step value.
+     *
+     * @param fontSizeStep the step value to increase the font size by
+     * @param nodes the JavaFX {@link Node} objects to increase the font size for
+     */
     public static void increaseFontSize(double fontSizeStep, Node... nodes) {
         for (Node node : nodes) {
             double currentFontSize = getCurrentFontSize(node);
@@ -21,6 +31,12 @@ public class FontHelper {
         }
     }
 
+    /**
+     * Decreases the font size of the specified nodes by the given step value.
+     *
+     * @param fontSizeStep the step value to decrease the font size by
+     * @param nodes the JavaFX {@link Node} objects to decrease the font size for
+     */
     public static void decreaseFontSize(double fontSizeStep, Node... nodes) {
         for (Node node : nodes) {
             double currentFontSize = getCurrentFontSize(node);
@@ -31,6 +47,12 @@ public class FontHelper {
         }
     }
 
+    /**
+     * Changes the font size of the specified node to the given value.
+     *
+     * @param newFontSize the new font size to set for the nodes
+     * @param node the JavaFX {@link Node} object to change the font size for
+     */
     private static void changeFontSize(double newFontSize, Node node) {
         try {
             node.setStyle("-fx-font-size: " + newFontSize + "px;");
@@ -40,6 +62,12 @@ public class FontHelper {
         }
     }
 
+    /**
+     * Retrieves the current font size of the specified node.
+     *
+     * @param node the JavaFX {@link Node} object to get the font size for
+     * @return the current font size of the node
+     */
     private static double getCurrentFontSize(Node node) {
         try {
             String style = node.getStyle();
@@ -56,6 +84,12 @@ public class FontHelper {
         return FontConfig.DEFAULT_FONT_SIZE;
     }
 
+    /**
+     * Sets the font size of the specified nodes to the given value.
+     *
+     * @param newFontSize the new font size to set for the nodes
+     * @param nodes the JavaFX {@link Node} objects to set the font size for
+     */
     public static void setFontSize(double newFontSize, Node... nodes) {
         for (Node node : nodes) {
             logger.log(Level.INFO, "Setting font size for node: " + node.getClass().getName() + " to " + newFontSize);
@@ -64,6 +98,12 @@ public class FontHelper {
         }
     }
 
+    /**
+     * Retrieves the current font family of the specified node.
+     *
+     * @param node the JavaFX {@link Node} object to get the font family for
+     * @return the current font family of the node
+     */
     public static String getCurrentFontFamily(Node node) {
         try {
             String style = node.getStyle();
@@ -80,6 +120,12 @@ public class FontHelper {
         return FontConfig.DEFAULT_FONT_FAMILY;
     }
 
+    /**
+     * Sets the font family of the specified nodes to the given value.
+     *
+     * @param fontFamily the new font family to set for the nodes
+     * @param nodes the JavaFX {@link Node} objects to set the font family for
+     */
     public static void setFontFamily(String fontFamily, Node... nodes) {
         for (Node node : nodes) {
             logger.log(Level.INFO, "Setting font family for node: " + node.getClass().getName() + " to " + fontFamily);
@@ -87,6 +133,12 @@ public class FontHelper {
         }
     }
 
+    /**
+     * Updates the font size configuration based on the specified node.
+     *
+     * @param newFontSize the new font size to set for the nodes
+     * @param node the JavaFX {@link Node} object to update the font size for
+     */
     private static void updateFontSizeConfig(double newFontSize, Node node) {
         if (node instanceof TextArea) {
             FontConfig.setEditorFontSize(newFontSize);

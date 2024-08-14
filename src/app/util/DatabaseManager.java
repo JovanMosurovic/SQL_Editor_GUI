@@ -8,10 +8,23 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * Utility class for managing database operations in this JavaFX application.
+ * Provides methods to import and export database files.
+ */
 public class DatabaseManager {
 
     private static File lastSelectedFile = null;
 
+    /**
+     * Shows a file chooser dialog for exporting the database to a .sql or .dbexp file.
+     *
+     * @param ownerStage the owner {@link Stage} for the file chooser dialog
+     * @param resultTextFlow the {@link TextFlow} component for displaying messages
+     * @param isFromWelcomeWindow true if the method is called from the welcome window, false otherwise
+     * @param filters the file extension filters for the file chooser dialog
+     * @return true if the database was exported successfully, false otherwise
+     */
     public static boolean showImportDatabaseDialog(Stage ownerStage, TextFlow resultTextFlow, boolean isFromWelcomeWindow, ExtensionFilter... filters) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Database");

@@ -1,5 +1,9 @@
 package app.util;
 
+/**
+ * Utility class for managing font settings in this JavaFX application.
+ * This class is used to store and retrieve the current font family and size for the editor and console components.
+ */
 public class FontConfig {
 
     public static final String DEFAULT_FONT_FAMILY = "Calibri";

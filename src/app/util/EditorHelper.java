@@ -21,6 +21,10 @@ import java.util.function.IntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for setting up and managing the behavior of a code editor area.
+ * It includes methods for configuring font settings, handling edit actions, and syntax highlighting.
+ */
 public class EditorHelper {
 
     private static final HashMap<String, String> KEYWORD_COLORS = EditorHelper.initKeywordColors();
@@ -30,6 +34,11 @@ public class EditorHelper {
             Pattern.CASE_INSENSITIVE
     );
 
+    /**
+     * Sets up the font for the code editor area based on the current font configuration.
+     *
+     * @param editorArea the {@link CodeArea} component representing the code editor
+     */
     public static void setupEditorFont(CodeArea editorArea) {
         final double currentFontSize = FontConfig.getEditorFontSize();
         final Font jetBrainsMono = Font.loadFont(EditorHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
@@ -48,6 +57,12 @@ public class EditorHelper {
         });
     }
 
+    /**
+     * Sets up the code editor area, adding line numbers and configuring behavior for key events
+     * to trigger syntax highlighting.
+     *
+     * @param editorArea the {@link CodeArea} component representing the code editor
+     */
     public static void setupEditorArea(CodeArea editorArea) {
         IntFunction<Node> numberFactory = LineNumberFactory.get(editorArea);
         IntFunction<Node> graphicFactory = line -> {
@@ -69,6 +84,12 @@ public class EditorHelper {
         });
     }
 
+    /**
+     * Computes and returns the highlighting styles for the code in the editor area.
+     *
+     * @param editorArea The {@link CodeArea} representing the code editor.
+     * @return A {@link StyleSpans} object containing the styles for syntax highlighting.
+     */
     public static StyleSpans<Collection<String>> computeHighlighting(CodeArea editorArea) {
         String text = editorArea.getText();
         Matcher matcher = KEYWORD_PATTERN.matcher(text);
@@ -95,6 +116,11 @@ public class EditorHelper {
         return spansBuilder.create();
     }
 
+    /**
+     * Initializes the color mappings for SQL keywords used in syntax highlighting.
+     *
+     * @return A map of SQL keywords to their associated colors.
+     */
     public static HashMap<String, String> initKeywordColors() {
         HashMap<String, String> keywordColors = new HashMap<>();
         keywordColors.put("SELECT", "red");
@@ -119,10 +145,22 @@ public class EditorHelper {
         return keywordColors;
     }
 
+    /**
+     * Executes an editing action on the code area.
+     *
+     * @param codeArea The {@link CodeArea} where the action will be performed.
+     * @param action The {@link Consumer} representing the editing action (e.g., undo, redo).
+     */
     public static void handleEditAction(CodeArea codeArea, Consumer<CodeArea> action) {
         action.accept(codeArea);
     }
 
+    /**
+     * Increases the font size of the code editor by the step defined in the FontConfig class and updates the font size in the configuration.
+     *
+     * @param resultTextFlow The {@link TextFlow} component for displaying console messages.
+     * @param node The {@link Node} (code editor) whose font size will be increased.
+     */
     public static void increaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();
         if (currentFontSize < FontConfig.EDITOR_MAX_FONT_SIZE) {
@@ -133,6 +171,12 @@ public class EditorHelper {
         }
     }
 
+    /**
+     * Decreases the font size of the code editor by the step defined in the FontConfig class and updates the font size in the configuration.
+     *
+     * @param resultTextFlow The {@link TextFlow} component for displaying console messages.
+     * @param node The {@link Node} (code editor) whose font size will be increased.
+     */
     public static void decreaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();
         if (currentFontSize > FontConfig.EDITOR_MIN_FONT_SIZE) {

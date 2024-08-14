@@ -8,8 +8,19 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
 
+/**
+ * Utility class for creating and managing context menus in this JavaFX application.
+ * Provides methods to create context menus for different components such as a console area,
+ * a list view of tables, and a code editor area.
+ */
 public class ContextMenuHelper {
 
+    /**
+     * Creates a context menu for a console area with an option to clear the console.
+     *
+     * @param resultTextFlow the TextFlow component representing the console area
+     * @return a {@link ContextMenu} with a "Clear console" menu item
+     */
     public static ContextMenu createConsoleContextMenu(TextFlow resultTextFlow) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem clearConsoleItem = new MenuItem("Clear console");
@@ -18,6 +29,11 @@ public class ContextMenuHelper {
         return contextMenu;
     }
 
+    /**
+     * Creates a context menu for a list view of tables with options to refresh or drop a table.
+     *
+     * @return a {@link ContextMenu} with "Show tables" and "Drop table" menu items
+     */
     public static ContextMenu createTableListViewContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem refreshTablesItem = new MenuItem("Show tables");
@@ -26,6 +42,14 @@ public class ContextMenuHelper {
         return contextMenu;
     }
 
+    /**
+     * Creates a context menu for a code editor area with various editing options
+     * such as undo, redo, cut, copy, paste, select all, font size adjustments, and clearing the editor.
+     *
+     * @param editorArea the {@link CodeArea} component representing the code editor
+     * @param consoleTextFlow the {@link TextFlow} component for displaying messages in the console
+     * @return a {@link ContextMenu} with various editing and formatting options
+     */
     public static ContextMenu createEditorAreaContextMenu(CodeArea editorArea, TextFlow consoleTextFlow) {
         ContextMenu contextMenu = new ContextMenu();
 
@@ -71,6 +95,11 @@ public class ContextMenuHelper {
         return contextMenu;
     }
 
+    /**
+     * Sets up a context menu for the console area, displaying the menu on right-click.
+     *
+     * @param consoleTextFlow the {@link TextFlow} component representing the console area
+     */
     public static void setupConsoleContextMenu(TextFlow consoleTextFlow) {
         ContextMenu consoleContextMenu = ContextMenuHelper.createConsoleContextMenu(consoleTextFlow);
 
@@ -83,6 +112,11 @@ public class ContextMenuHelper {
         });
     }
 
+    /**
+     * Sets up a context menu for a list view of tables, displaying the menu on right-click if an item is selected.
+     *
+     * @param tablesListView the {@link ListView} component containing the list of tables
+     */
     public static void setupTablesContextMenu(ListView<String> tablesListView) {
         ContextMenu tablesContextMenu = ContextMenuHelper.createTableListViewContextMenu();
 
@@ -95,6 +129,13 @@ public class ContextMenuHelper {
         });
     }
 
+    /**
+     * Sets up a context menu for the code editor area, providing various editing and formatting options
+     * through a context menu that appears on right-click.
+     *
+     * @param editorArea the {@link CodeArea} component representing the code editor
+     * @param consoleTextFlow the {@link TextFlow} component for displaying messages in the console
+     */
     public static void setupEditorAreaContextMenu(CodeArea editorArea, TextFlow consoleTextFlow) {
         ContextMenu editorAreaContextMenu = ContextMenuHelper.createEditorAreaContextMenu(editorArea, consoleTextFlow);
 
