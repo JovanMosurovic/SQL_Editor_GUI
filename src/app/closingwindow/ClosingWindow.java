@@ -11,8 +11,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Represents the Closing Window of the application.
+ * This window is shown when the user attempts to close the application or a specific window.
+ * It provides options to save changes, discard changes, or cancel the close operation.
+ * The window is styled and behaves consistently with the application's overall theme.
+ *
+ * @see app.Window
+ */
 public class ClosingWindow extends Window {
 
+    /**
+     * Initializes the Closing Window and sets its properties, such as title, icon, and modality.
+     * This method loads the FXML layout, applies the stylesheet, and configures the window's
+     * appearance and behavior. The window is centered on the screen and is set to be non-resizable.
+     *
+     * @param stage The primary stage on which this window is displayed.
+     */
     @Override
     public void init(Stage stage) {
         try {
