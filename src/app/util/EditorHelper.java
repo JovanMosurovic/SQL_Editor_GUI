@@ -1,32 +1,98 @@
 package app.util;
 
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.function.IntFunction;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditorHelper {
 
-    public static void setupEditorFont(CodeArea codeArea) {
+    private static final HashMap<String, String> KEYWORD_COLORS = EditorHelper.initKeywordColors();
+
+    private static final Pattern KEYWORD_PATTERN = Pattern.compile(
+            "\\b(" + String.join("|", KEYWORD_COLORS.keySet()) + ")\\b",
+            Pattern.CASE_INSENSITIVE
+    );
+
+    public static void setupEditorFont(CodeArea editorArea) {
         final double currentFontSize = FontConfig.getEditorFontSize();
         final Font jetBrainsMono = Font.loadFont(EditorHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
         final Font fontFamily = (jetBrainsMono != null) ? jetBrainsMono : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
-        if(jetBrainsMono == null) {
+        if (jetBrainsMono == null) {
             System.out.println("[CODE AREA]: Failed to load JetBrains Mono font. Using default monospaced font.");
         }
 
         String fontStyle = "-fx-font-family: " + fontFamily.getFamily() + "; -fx-font-size: " + currentFontSize + "px;";
-        codeArea.setStyle(fontStyle);
+        editorArea.setStyle(fontStyle);
 
-        codeArea.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if(!newVal) {
-                codeArea.setStyle(fontStyle);
+        editorArea.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                editorArea.setStyle(fontStyle);
             }
         });
+    }
+
+    public static void setupEditorArea(CodeArea editorArea) {
+        IntFunction<Node> numberFactory = LineNumberFactory.get(editorArea);
+        IntFunction<Node> graphicFactory = line -> {
+            HBox hbox = new HBox(numberFactory.apply(line));
+            hbox.setAlignment(Pos.CENTER_RIGHT);
+            hbox.setPrefWidth(30);
+            return hbox;
+        };
+        editorArea.setParagraphGraphicFactory(graphicFactory);
+
+        editorArea.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
+                Platform.runLater(() -> {
+                    int caretPosition = editorArea.getCaretPosition();
+                    editorArea.setStyleSpans(0, computeHighlighting(editorArea));
+                    editorArea.moveTo(caretPosition);
+                });
+            }
+        });
+    }
+
+    public static StyleSpans<Collection<String>> computeHighlighting(CodeArea editorArea) {
+        String text = editorArea.getText();
+        Matcher matcher = KEYWORD_PATTERN.matcher(text);
+        int lastKwEnd = 0;
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+
+        while (matcher.find()) {
+            String matchedText = matcher.group();
+            String upperCaseKeyword = matchedText.toUpperCase();
+            String styleClass = KEYWORD_COLORS.get(upperCaseKeyword);
+
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+            lastKwEnd = matcher.end();
+
+            // Replace the matched text with uppercase version
+            text = text.substring(0, matcher.start()) + upperCaseKeyword + text.substring(matcher.end());
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+
+        // Update the text in the editor with uppercase keywords
+        editorArea.replaceText(text);
+
+        return spansBuilder.create();
     }
 
     public static HashMap<String, String> initKeywordColors() {
@@ -59,7 +125,7 @@ public class EditorHelper {
 
     public static void increaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();
-        if(currentFontSize < FontConfig.EDITOR_MAX_FONT_SIZE) {
+        if (currentFontSize < FontConfig.EDITOR_MAX_FONT_SIZE) {
             FontHelper.increaseFontSize(FontConfig.FONT_STEP, node);
             FontConfig.setEditorFontSize(currentFontSize + FontConfig.FONT_STEP);
         } else {
@@ -69,7 +135,7 @@ public class EditorHelper {
 
     public static void decreaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();
-        if(currentFontSize > FontConfig.EDITOR_MIN_FONT_SIZE) {
+        if (currentFontSize > FontConfig.EDITOR_MIN_FONT_SIZE) {
             FontHelper.decreaseFontSize(FontConfig.FONT_STEP, node);
             FontConfig.setEditorFontSize(currentFontSize - FontConfig.FONT_STEP);
         } else {
