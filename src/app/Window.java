@@ -84,7 +84,7 @@ public abstract class Window {
      * @param position the position of the window to show
      */
     public static void showWindow(int position) {
-        if(position < 0 || position >= Window.WINDOWS) {
+        if (position < 0 || position >= Window.WINDOWS) {
             throw new IllegalArgumentException("[SHOW WINDOW]: Invalid window position");
         }
         Window.getWindowAt(position).getStage().show();
@@ -96,7 +96,7 @@ public abstract class Window {
      * @param position the position of the window to hide
      */
     public static void hideWindow(int position) {
-        if(position < 0 || position >= Window.WINDOWS) {
+        if (position < 0 || position >= Window.WINDOWS) {
             throw new IllegalArgumentException("[HIDE WINDOW]: Invalid window position");
         }
         Window.getWindowAt(position).getStage().hide();
@@ -108,11 +108,11 @@ public abstract class Window {
      * @param position the position of the window to show
      */
     public static void showOnly(int position) {
-        if(position < 0 || position >= Window.WINDOWS) {
+        if (position < 0 || position >= Window.WINDOWS) {
             throw new IllegalArgumentException("[SHOW ONLY WINDOW]: Invalid window position");
         }
         for (int i = 0; i < Window.WINDOWS; i++) {
-            if(i == position) {
+            if (i == position) {
                 showWindow(position);
             } else {
                 Window.getWindowAt(i).getStage().hide();
@@ -126,7 +126,7 @@ public abstract class Window {
      * @param position the position of the window to center
      */
     public static void centerOnScreen(int position) {
-        if(position < 0 || position >= Window.WINDOWS) {
+        if (position < 0 || position >= Window.WINDOWS) {
             throw new IllegalArgumentException("[CENTER ON SCREEN]: Invalid window position");
         }
         Window.getWindowAt(position).getStage().centerOnScreen();
@@ -150,7 +150,7 @@ public abstract class Window {
      * @return the window at the specified index
      */
     public static Window getWindowAt(int index) {
-        if(index < 0 || index >= WINDOWS) {
+        if (index < 0 || index >= WINDOWS) {
             throw new IllegalArgumentException("[GET WINDOW]: Invalid window position");
         }
         return windows[index];
@@ -159,11 +159,11 @@ public abstract class Window {
     /**
      * Sets the window at the specified index.
      *
-     * @param index the index of the window
+     * @param index  the index of the window
      * @param window the window to set
      */
     public static void setWindowAt(int index, Window window) {
-        if(index < 0 || index >= WINDOWS) {
+        if (index < 0 || index >= WINDOWS) {
             throw new IllegalArgumentException("[SET WINDOW]: Invalid window position");
         }
         windows[index] = window;

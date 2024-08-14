@@ -30,7 +30,7 @@ public class SavingWindowController extends ControllerBase {
      * This method sets up the controller by associating it with the corresponding window,
      * ensuring that it manages the correct UI elements and handles events properly.
      *
-     * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
@@ -76,7 +76,7 @@ public class SavingWindowController extends ControllerBase {
      * Saves the file in the specified format.
      * This private method handles the actual file writing operation, saving the content in either SQL or a custom format.
      *
-     * @param file The file to be saved.
+     * @param file   The file to be saved.
      * @param format The format in which the file should be saved (either "sql" or "dbexp").
      */
     private void saveFile(File file, String format) {

@@ -22,7 +22,7 @@ public class FontHelper {
      * Increases the font size of the specified nodes by the given step value.
      *
      * @param fontSizeStep the step value to increase the font size by
-     * @param nodes the JavaFX {@link Node} objects to increase the font size for
+     * @param nodes        the JavaFX {@link Node} objects to increase the font size for
      */
     public static void increaseFontSize(double fontSizeStep, Node... nodes) {
         for (Node node : nodes) {
@@ -38,7 +38,7 @@ public class FontHelper {
      * Decreases the font size of the specified nodes by the given step value.
      *
      * @param fontSizeStep the step value to decrease the font size by
-     * @param nodes the JavaFX {@link Node} objects to decrease the font size for
+     * @param nodes        the JavaFX {@link Node} objects to decrease the font size for
      */
     public static void decreaseFontSize(double fontSizeStep, Node... nodes) {
         for (Node node : nodes) {
@@ -54,7 +54,7 @@ public class FontHelper {
      * Changes the font size of the specified node to the given value.
      *
      * @param newFontSize the new font size to set for the nodes
-     * @param node the JavaFX {@link Node} object to change the font size for
+     * @param node        the JavaFX {@link Node} object to change the font size for
      */
     private static void changeFontSize(double newFontSize, Node node) {
         try {
@@ -91,7 +91,7 @@ public class FontHelper {
      * Sets the font size of the specified nodes to the given value.
      *
      * @param newFontSize the new font size to set for the nodes
-     * @param nodes the JavaFX {@link Node} objects to set the font size for
+     * @param nodes       the JavaFX {@link Node} objects to set the font size for
      */
     public static void setFontSize(double newFontSize, Node... nodes) {
         for (Node node : nodes) {
@@ -127,7 +127,7 @@ public class FontHelper {
      * Sets the font family of the specified nodes to the given value.
      *
      * @param fontFamily the new font family to set for the nodes
-     * @param nodes the JavaFX {@link Node} objects to set the font family for
+     * @param nodes      the JavaFX {@link Node} objects to set the font family for
      */
     public static void setFontFamily(String fontFamily, Node... nodes) {
         for (Node node : nodes) {
@@ -140,7 +140,7 @@ public class FontHelper {
      * Updates the font size configuration based on the specified node.
      *
      * @param newFontSize the new font size to set for the nodes
-     * @param node the JavaFX {@link Node} object to update the font size for
+     * @param node        the JavaFX {@link Node} object to update the font size for
      */
     private static void updateFontSizeConfig(double newFontSize, Node node) {
         if (node instanceof TextArea) {

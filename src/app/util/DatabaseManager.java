@@ -23,10 +23,10 @@ public class DatabaseManager {
     /**
      * Shows a file chooser dialog for exporting the database to a .sql or .dbexp file.
      *
-     * @param ownerStage the owner {@link Stage} for the file chooser dialog
-     * @param resultTextFlow the {@link TextFlow} component for displaying messages
+     * @param ownerStage          the owner {@link Stage} for the file chooser dialog
+     * @param resultTextFlow      the {@link TextFlow} component for displaying messages
      * @param isFromWelcomeWindow true if the method is called from the welcome window, false otherwise
-     * @param filters the file extension filters for the file chooser dialog
+     * @param filters             the file extension filters for the file chooser dialog
      * @return true if the database was exported successfully, false otherwise
      */
     public static boolean showImportDatabaseDialog(Stage ownerStage, TextFlow resultTextFlow, boolean isFromWelcomeWindow, ExtensionFilter... filters) {

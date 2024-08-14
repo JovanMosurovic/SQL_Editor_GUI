@@ -14,8 +14,24 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Represents the Main Window of the application.
+ * This window is the primary window of the application and is used to interact with the user.
+ * It provides a text area for entering SQL queries, a table view for displaying query results,
+ * and buttons for executing queries and managing the application.
+ * The window is styled and behaves consistently with the application's overall theme.
+ *
+ * @see app.Window
+ */
 public class MainWindow extends Window {
 
+    /**
+     * Initializes the Main Window and sets its properties, such as title, icon, and modality.
+     * This method loads the FXML layout, applies the stylesheet, and configures the window's
+     * appearance and behavior. The window is centered on the screen and is set to be non-resizable.
+     *
+     * @param stage The primary {@link Stage} on which this window is displayed.
+     */
     @Override
     public void init(Stage stage) {
         try {

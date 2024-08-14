@@ -155,7 +155,7 @@ public class EditorHelper {
      * Executes an editing action on the code area.
      *
      * @param codeArea The {@link CodeArea} where the action will be performed.
-     * @param action The {@link Consumer} representing the editing action (e.g., undo, redo).
+     * @param action   The {@link Consumer} representing the editing action (e.g., undo, redo).
      */
     public static void handleEditAction(CodeArea codeArea, Consumer<CodeArea> action) {
         action.accept(codeArea);
@@ -165,7 +165,7 @@ public class EditorHelper {
      * Increases the font size of the code editor by the step defined in the FontConfig class and updates the font size in the configuration.
      *
      * @param resultTextFlow The {@link TextFlow} component for displaying console messages.
-     * @param node The {@link Node} (code editor) whose font size will be increased.
+     * @param node           The {@link Node} (code editor) whose font size will be increased.
      */
     public static void increaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();
@@ -181,7 +181,7 @@ public class EditorHelper {
      * Decreases the font size of the code editor by the step defined in the FontConfig class and updates the font size in the configuration.
      *
      * @param resultTextFlow The {@link TextFlow} component for displaying console messages.
-     * @param node The {@link Node} (code editor) whose font size will be increased.
+     * @param node           The {@link Node} (code editor) whose font size will be increased.
      */
     public static void decreaseEditorFontSize(TextFlow resultTextFlow, Node node) {
         double currentFontSize = FontConfig.getEditorFontSize();

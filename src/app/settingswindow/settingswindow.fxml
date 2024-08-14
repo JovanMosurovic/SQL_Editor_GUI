@@ -14,86 +14,91 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="400.0" minWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.settingswindow.SettingsWindowController">
+<AnchorPane minHeight="400.0" minWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.settingswindow.SettingsWindowController">
 
-    <SplitPane dividerPositions="0.15" minHeight="400.0" minWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <SplitPane dividerPositions="0.15" minHeight="400.0" minWidth="600.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <VBox minWidth="130.0">
-            <HBox fx:id="appearanceHBox" alignment="CENTER_LEFT" onMouseClicked="#selectAppearance" styleClass="appearance-settings-HBox">
+            <HBox fx:id="appearanceHBox" alignment="CENTER_LEFT" onMouseClicked="#selectAppearance"
+                  styleClass="appearance-settings-HBox">
                 <Label text="Appearance">
                     <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets left="20.0"/>
                     </HBox.margin>
                 </Label>
                 <VBox.margin>
-                    <Insets bottom="2.0" top="15.0" />
+                    <Insets bottom="2.0" top="15.0"/>
                 </VBox.margin>
             </HBox>
             <HBox fx:id="fontHBox" onMouseClicked="#toggleFontOptions" styleClass="font-settings-HBox">
                 <Label text="Font">
                     <graphic>
-                        <ImageView fx:id="fontArrow" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@../resources/icons/arrow_right_icon.png" />
+                        <ImageView fx:id="fontArrow" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <Image url="@../resources/icons/arrow_right_icon.png"/>
                         </ImageView>
                     </graphic>
                     <HBox.margin>
-                        <Insets />
+                        <Insets/>
                     </HBox.margin>
                 </Label>
                 <VBox.margin>
-                    <Insets bottom="2.0" />
+                    <Insets bottom="2.0"/>
                 </VBox.margin>
             </HBox>
             <VBox fx:id="fontOptionsVBox" managed="false" spacing="2.0" visible="false">
                 <HBox fx:id="editorHBox" onMouseClicked="#selectEditor" styleClass="font-option-HBox">
                     <Label text="Editor">
                         <padding>
-                            <Insets left="20.0" />
+                            <Insets left="20.0"/>
                         </padding>
                     </Label>
                     <VBox.margin>
-                        <Insets />
+                        <Insets/>
                     </VBox.margin>
                 </HBox>
                 <HBox fx:id="consoleHBox" onMouseClicked="#selectConsole" styleClass="font-option-HBox">
                     <Label text="Console">
                         <padding>
-                            <Insets left="20.0" />
+                            <Insets left="20.0"/>
                         </padding>
                     </Label>
                 </HBox>
                 <VBox.margin>
-                    <Insets />
+                    <Insets/>
                 </VBox.margin>
             </VBox>
         </VBox>
 
         <AnchorPane>
-            <Separator AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="288.0" />
+            <Separator AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="288.0"/>
             <!-- Editor Font Options VBox -->
             <VBox fx:id="editorFontOptionsVBox" alignment="CENTER" visible="false">
                 <HBox alignment="CENTER" spacing="10.0">
                     <VBox.margin>
-                        <Insets bottom="10.0" top="15.0" />
+                        <Insets bottom="10.0" top="15.0"/>
                     </VBox.margin>
-                    <Label text="Font:" />
-                    <ComboBox fx:id="editorFontFamilyComboBox" />
+                    <Label text="Font:"/>
+                    <ComboBox fx:id="editorFontFamilyComboBox"/>
                 </HBox>
                 <HBox alignment="CENTER" spacing="10.0">
                     <VBox.margin>
-                        <Insets bottom="10.0" top="5.0" />
+                        <Insets bottom="10.0" top="5.0"/>
                     </VBox.margin>
-                    <Label text="Size:" />
-                    <Spinner fx:id="editorFontSizeSpinner" />
+                    <Label text="Size:"/>
+                    <Spinner fx:id="editorFontSizeSpinner"/>
                 </HBox>
                 <VBox alignment="CENTER" maxWidth="518.0" spacing="10.0">
                     <Label text="Preview:">
                         <VBox.margin>
-                            <Insets right="420.0" top="5.0" />
+                            <Insets right="420.0" top="5.0"/>
                         </VBox.margin>
                     </Label>
                     <TextArea fx:id="editorFontPreviewTextArea" maxHeight="195.0" text="Sample Text">
                         <VBox.margin>
-                            <Insets left="5.0" right="5.0" />
+                            <Insets left="5.0" right="5.0"/>
                         </VBox.margin>
                     </TextArea>
                 </VBox>
@@ -103,27 +108,27 @@
             <VBox fx:id="consoleFontOptionsVBox" alignment="CENTER" visible="false">
                 <HBox alignment="CENTER" spacing="10.0">
                     <VBox.margin>
-                        <Insets bottom="10.0" top="15.0" />
+                        <Insets bottom="10.0" top="15.0"/>
                     </VBox.margin>
-                    <Label text="Font:" />
-                    <ComboBox fx:id="consoleFontFamilyComboBox" />
+                    <Label text="Font:"/>
+                    <ComboBox fx:id="consoleFontFamilyComboBox"/>
                 </HBox>
                 <HBox alignment="CENTER" spacing="10.0">
                     <VBox.margin>
-                        <Insets bottom="10.0" top="5.0" />
+                        <Insets bottom="10.0" top="5.0"/>
                     </VBox.margin>
-                    <Label text="Size:" />
-                    <Spinner fx:id="consoleFontSizeSpinner" />
+                    <Label text="Size:"/>
+                    <Spinner fx:id="consoleFontSizeSpinner"/>
                 </HBox>
                 <VBox alignment="CENTER" maxWidth="518.0" spacing="10.0">
                     <Label text="Preview:">
                         <VBox.margin>
-                            <Insets right="420.0" top="5.0" />
+                            <Insets right="420.0" top="5.0"/>
                         </VBox.margin>
                     </Label>
                     <TextArea fx:id="consoleFontPreviewTextArea" maxHeight="195.0" text="Sample Text">
                         <VBox.margin>
-                            <Insets left="5.0" right="5.0" />
+                            <Insets left="5.0" right="5.0"/>
                         </VBox.margin>
                     </TextArea>
                 </VBox>
@@ -131,10 +136,11 @@
 
             <!-- Bottom Buttons -->
             <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="345.0">
-                <HBox alignment="CENTER_RIGHT" layoutX="259.0" spacing="10.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="20.0">
-                    <Button minHeight="30.0" minWidth="50.0" onAction="#OKSettings" styleClass="button-blue" text="OK" />
-                    <Button minHeight="30.0" minWidth="60.0" onAction="#applySettings" text="Apply" />
-                    <Button minHeight="30.0" minWidth="60.0" onAction="#cancelSettings" text="Cancel" />
+                <HBox alignment="CENTER_RIGHT" layoutX="259.0" spacing="10.0" AnchorPane.bottomAnchor="12.0"
+                      AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="20.0">
+                    <Button minHeight="30.0" minWidth="50.0" onAction="#OKSettings" styleClass="button-blue" text="OK"/>
+                    <Button minHeight="30.0" minWidth="60.0" onAction="#applySettings" text="Apply"/>
+                    <Button minHeight="30.0" minWidth="60.0" onAction="#cancelSettings" text="Cancel"/>
                 </HBox>
             </AnchorPane>
         </AnchorPane>

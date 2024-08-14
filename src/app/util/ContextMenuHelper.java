@@ -46,7 +46,7 @@ public class ContextMenuHelper {
      * Creates a context menu for a code editor area with various editing options
      * such as undo, redo, cut, copy, paste, select all, font size adjustments, and clearing the editor.
      *
-     * @param editorArea the {@link CodeArea} component representing the code editor
+     * @param editorArea      the {@link CodeArea} component representing the code editor
      * @param consoleTextFlow the {@link TextFlow} component for displaying messages in the console
      * @return a {@link ContextMenu} with various editing and formatting options
      */
@@ -133,7 +133,7 @@ public class ContextMenuHelper {
      * Sets up a context menu for the code editor area, providing various editing and formatting options
      * through a context menu that appears on right-click.
      *
-     * @param editorArea the {@link CodeArea} component representing the code editor
+     * @param editorArea      the {@link CodeArea} component representing the code editor
      * @param consoleTextFlow the {@link TextFlow} component for displaying messages in the console
      */
     public static void setupEditorAreaContextMenu(CodeArea editorArea, TextFlow consoleTextFlow) {

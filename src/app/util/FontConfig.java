@@ -23,17 +23,17 @@ public class FontConfig {
      * The list of font families available for the code editor area.
      */
     public static final String[] EDITOR_FONT_FAMILIES = {
-        JETBRAINS_MONO_NL_FONT,
-        MONOSPACED_FONT
+            JETBRAINS_MONO_NL_FONT,
+            MONOSPACED_FONT
     };
 
     /**
      * The list of font families available for the console area.
      */
     public static final String[] CONSOLE_FONT_FAMILIES = {
-        DEFAULT_FONT_FAMILY,
-        JETBRAINS_MONO_NL_FONT,
-        MONOSPACED_FONT
+            DEFAULT_FONT_FAMILY,
+            JETBRAINS_MONO_NL_FONT,
+            MONOSPACED_FONT
     };
 
     /**

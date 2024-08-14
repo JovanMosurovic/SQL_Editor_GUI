@@ -23,7 +23,7 @@ public class WelcomeWindowController extends ControllerBase {
     /**
      * Initializes the controller class for the welcome window.
      *
-     * @param location the {@link URL} location of the FXML file
+     * @param location  the {@link URL} location of the FXML file
      * @param resources the {@link ResourceBundle} resources for the FXML file
      */
     @Override
@@ -38,7 +38,7 @@ public class WelcomeWindowController extends ControllerBase {
     public void handleImportDatabase() {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         Stage welcomeWindoStage = Window.getWindowAt(Window.WELCOME_WINDOW).getStage();
-        if(mainWindowController.handleImportDatabase(welcomeWindoStage, true)) {
+        if (mainWindowController.handleImportDatabase(welcomeWindoStage, true)) {
             statusMessage.setText("Database imported successfully!");
             statusMessage.setStyle("-fx-text-fill: green;");
             Window.hideWindow(Window.WELCOME_WINDOW);

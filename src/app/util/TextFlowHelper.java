@@ -17,9 +17,9 @@ public class TextFlowHelper {
      * The message is appended to the existing text content if the append flag is set to true.
      *
      * @param textFlow the {@link TextFlow} component to update
-     * @param message the message to display in the text flow
-     * @param color the color of the message text
-     * @param append true to append the message, false to replace the existing text
+     * @param message  the message to display in the text flow
+     * @param color    the color of the message text
+     * @param append   true to append the message, false to replace the existing text
      */
     public static void updateResultTextFlow(TextFlow textFlow, String message, Color color, boolean append) {
         if (!append) {
