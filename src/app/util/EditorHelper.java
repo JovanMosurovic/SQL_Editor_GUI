@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -46,21 +45,8 @@ public class EditorHelper {
      * @param editorArea the {@link CodeArea} component representing the code editor
      */
     public static void setupEditorFont(CodeArea editorArea) {
-        final double currentFontSize = FontConfig.getEditorFontSize();
-        final Font consolasFont = Font.font(FontConfig.CONSOLAS_FONT, currentFontSize);
-        final Font fontFamily = (consolasFont != null) ? consolasFont : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
-        if (consolasFont == null) {
-            System.out.println("[CODE AREA]: Failed to load Consolas font. Using default Monospaced font.");
-        }
-
-        String fontStyle = "-fx-font-family: " + fontFamily.getFamily() + "; -fx-font-size: " + currentFontSize + "px;";
-        editorArea.setStyle(fontStyle);
-
-        editorArea.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal) {
-                editorArea.setStyle(fontStyle);
-            }
-        });
+        FontHelper.setFontSize((int) FontConfig.getEditorFontSize(), editorArea);
+        editorArea.setId(FontConfig.CONSOLAS_FONT.toLowerCase());
     }
 
     /**

@@ -8,7 +8,6 @@ import app.util.FontConfig;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,7 +18,6 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class SettingsWindowController extends ControllerBase {
     @FXML
@@ -114,19 +112,14 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void applySettings() {
         if (editorFontOptionsVBox.isVisible()) {
-            applyFontSettings(tempEditorFontFamily, tempEditorFontSize, mainWindowController.editorArea, FontConfig::setEditorFontFamily, FontConfig::setEditorFontSize);
+            mainWindowController.editorArea.setId(tempEditorFontFamily.toLowerCase());
+            FontHelper.setFontSize((int) tempEditorFontSize, mainWindowController.editorArea);
+        //    FontConfig.updateFontConfig(tempEditorFontFamily, tempEditorFontSize, true);
         } else if (consoleFontOptionsVBox.isVisible()) {
-            applyFontSettings(tempConsoleFontFamily, tempConsoleFontSize, mainWindowController.consoleTextFlow, FontConfig::setConsoleFontFamily, FontConfig::setConsoleFontSize);
+            mainWindowController.consoleTextFlow.setId(tempConsoleFontFamily.toLowerCase());
+            System.out.println("Console font size: " + (int) tempConsoleFontSize);
+            mainWindowController.consoleTextFlow.setStyle("-fx-font-size: " + (int) tempConsoleFontSize + "px;");
         }
-    }
-
-    private void applyFontSettings(String fontFamily, double fontSize, Node targetNode, Consumer<String> setFontFamily, Consumer<Double> setFontSize) {
-        if (fontFamily != null) {
-            FontHelper.setFontFamily(fontFamily, targetNode);
-            setFontFamily.accept(fontFamily);
-        }
-        FontHelper.setFontSize(fontSize, targetNode);
-        setFontSize.accept(fontSize);
     }
 
     @FXML

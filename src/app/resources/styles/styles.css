@@ -19,15 +19,6 @@
  * providing a clean, modern, and user-friendly interface.
  */
 
-/* Font classes */
-.monospaced-font {
-    -fx-font-family: "Monospaced";
-}
-
-.calibri-font {
-    -fx-font-family: "Calibri";
-}
-
 /* Pane Styles */
 .anchor-pane {
     -fx-background-color: #f0f0f0;
@@ -198,11 +189,6 @@
     -fx-background-radius: 10px;
 }
 
-.code-area .text {
-    -fx-font-family: 'Consolas';
-    -fx-font-size: 16px;
-}
-
 .code-area .lineno {
     -fx-background-color: #f0f0f0;
     -fx-text-fill: #999999;
@@ -294,6 +280,80 @@
     -fx-background-color: #d4e2ff;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
+}
+
+/* Font classes */
+.monospaced-font {
+    -fx-font-family: "Monospaced";
+}
+
+.calibri-font {
+    -fx-font-family: "Calibri";
+}
+
+
+#consolas,  #consolas .text {
+    -fx-font-family: 'Consolas';
+}
+
+#monospaced, #monospaced .text {
+    -fx-font-family: 'Monospaced';
+}
+
+#calibri, #calibri .text {
+    -fx-font-family: 'Calibri';
+}
+
+.font10 .text {
+    -fx-font-size: 10px;
+}
+.font12 .text {
+    -fx-font-size: 12px;
+}
+.font14 .text {
+    -fx-font-size: 14px;
+}
+.font16 .text {
+    -fx-font-size: 16px;
+}
+.font18 .text {
+    -fx-font-size: 18px;
+}
+.font20 .text {
+    -fx-font-size: 20px;
+}
+.font22 .text {
+    -fx-font-size: 22px;
+}
+.font24 .text {
+    -fx-font-size: 24px;
+}
+.font26 .text {
+    -fx-font-size: 26px;
+}
+.font28 .text {
+    -fx-font-size: 28px;
+}
+.font30 .text {
+    -fx-font-size: 30px;
+}
+.font32 .text {
+    -fx-font-size: 32px;
+}
+.font34 .text {
+    -fx-font-size: 34px;
+}
+.font36 .text {
+    -fx-font-size: 36px;
+}
+.font38 .text {
+    -fx-font-size: 38px;
+}
+.font40 .text {
+    -fx-font-size: 40px;
+}
+.font42 .text {
+    -fx-font-size: 42px;
 }
 
 

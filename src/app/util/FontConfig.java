@@ -19,7 +19,7 @@ public class FontConfig {
      */
     public static final String CONSOLAS_FONT = "Consolas";
     /**
-     * The path to the JetBrains Mono font file.
+     * The path to the JetBrains Mono font file. Not used currently.
      */
     public static final String JETBRAINS_MONO_FONT_PATH = "/app/resources/fonts/JetBrainsMonoNL-Regular.ttf";
 

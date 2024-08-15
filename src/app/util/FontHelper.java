@@ -29,7 +29,7 @@ public class FontHelper {
             double currentFontSize = getCurrentFontSize(node);
             logger.log(Level.INFO, "Increasing font size for node: " + node.getClass().getName() + " from " + currentFontSize + " to " + (currentFontSize + fontSizeStep));
             currentFontSize += fontSizeStep;
-            changeFontSize(currentFontSize, node);
+            setFontSize((int) currentFontSize, node);
             updateFontSizeConfig(currentFontSize, node);
         }
     }
@@ -45,23 +45,8 @@ public class FontHelper {
             double currentFontSize = getCurrentFontSize(node);
             logger.log(Level.INFO, "Decreasing font size for node: " + node.getClass().getName() + " from " + currentFontSize + " to " + (currentFontSize - fontSizeStep));
             currentFontSize -= fontSizeStep;
-            changeFontSize(currentFontSize, node);
+            setFontSize((int) currentFontSize, node);
             updateFontSizeConfig(currentFontSize, node);
-        }
-    }
-
-    /**
-     * Changes the font size of the specified node to the given value.
-     *
-     * @param newFontSize the new font size to set for the nodes
-     * @param node        the JavaFX {@link Node} object to change the font size for
-     */
-    private static void changeFontSize(double newFontSize, Node node) {
-        try {
-            node.setStyle("-fx-font-size: " + newFontSize + "px;");
-            logger.log(Level.INFO, "Font size changed for node: " + node.getClass().getName() + " to " + newFontSize);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "An error occurred while changing font size", e);
         }
     }
 
@@ -93,10 +78,15 @@ public class FontHelper {
      * @param newFontSize the new font size to set for the nodes
      * @param nodes       the JavaFX {@link Node} objects to set the font size for
      */
-    public static void setFontSize(double newFontSize, Node... nodes) {
+    public static void setFontSize(int newFontSize, Node... nodes) {
         for (Node node : nodes) {
             logger.log(Level.INFO, "Setting font size for node: " + node.getClass().getName() + " to " + newFontSize);
-            changeFontSize(newFontSize, node);
+            // remove all font size from 10 to 42
+            for (int i = 10; i <= 42; i += 2) {
+                node.getStyleClass().remove("font" + i);
+            }
+            System.out.println("font" + newFontSize);
+            node.getStyleClass().add("font" + newFontSize);
             updateFontSizeConfig(newFontSize, node);
         }
     }
@@ -121,25 +111,6 @@ public class FontHelper {
             logger.log(Level.SEVERE, "An error occurred while getting font family", e);
         }
         return FontConfig.DEFAULT_FONT_FAMILY;
-    }
-
-    /**
-     * Sets the font family of the specified nodes to the given value.
-     *
-     * @param fontFamily the new font family to set for the nodes
-     * @param nodes      the JavaFX {@link Node} objects to set the font family for
-     */
-    public static void setFontFamily(String fontFamily, Node... nodes) {
-        for (Node node : nodes) {
-            logger.log(Level.INFO, "Setting font family for node: " + node.getClass().getName() + " to " + fontFamily);
-            if(fontFamily.equals(FontConfig.MONOSPACED_FONT)) {
-                node.getStyleClass().remove("calibri-font");
-                node.getStyleClass().add("monospaced-font");
-            } else if(fontFamily.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
-                node.getStyleClass().remove("monospaced-font");
-                node.getStyleClass().add("calibri-font");
-            }
-        }
     }
 
     /**
