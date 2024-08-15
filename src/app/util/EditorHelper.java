@@ -47,11 +47,10 @@ public class EditorHelper {
      */
     public static void setupEditorFont(CodeArea editorArea) {
         final double currentFontSize = FontConfig.getEditorFontSize();
-        final Font jetBrainsMono = Font.loadFont(EditorHelper.class.getResourceAsStream(FontConfig.JETBRAINS_MONO_FONT_PATH), currentFontSize);
-        final Font fontFamily = (jetBrainsMono != null) ? jetBrainsMono : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
-        //final Font fontFamily = Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
-        if (jetBrainsMono == null) {
-            System.out.println("[CODE AREA]: Failed to load JetBrains Mono font. Using default monospaced font.");
+        final Font consolasFont = Font.font(FontConfig.CONSOLAS_FONT, currentFontSize);
+        final Font fontFamily = (consolasFont != null) ? consolasFont : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
+        if (consolasFont == null) {
+            System.out.println("[CODE AREA]: Failed to load Consolas font. Using default Monospaced font.");
         }
 
         String fontStyle = "-fx-font-family: " + fontFamily.getFamily() + "; -fx-font-size: " + currentFontSize + "px;";

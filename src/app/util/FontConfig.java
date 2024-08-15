@@ -15,6 +15,10 @@ public class FontConfig {
      */
     public static final String MONOSPACED_FONT = "Monospaced";
     /**
+     * The Consolas font family for the code editor area.
+     */
+    public static final String CONSOLAS_FONT = "Consolas";
+    /**
      * The path to the JetBrains Mono font file.
      */
     public static final String JETBRAINS_MONO_FONT_PATH = "/app/resources/fonts/JetBrainsMonoNL-Regular.ttf";
@@ -24,7 +28,8 @@ public class FontConfig {
      */
     public static final String[] EDITOR_FONT_FAMILIES = {
             DEFAULT_FONT_FAMILY,
-            MONOSPACED_FONT
+            MONOSPACED_FONT,
+            CONSOLAS_FONT
     };
 
     /**
@@ -66,7 +71,7 @@ public class FontConfig {
     private static double consoleFontSize;
 
     static {
-        editorFontFamily = MONOSPACED_FONT;
+        editorFontFamily = CONSOLAS_FONT;
         consoleFontFamily = DEFAULT_FONT_FAMILY;
         editorFontSize = DEFAULT_FONT_SIZE;
         consoleFontSize = DEFAULT_FONT_SIZE;

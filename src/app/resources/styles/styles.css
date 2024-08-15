@@ -199,7 +199,7 @@
 }
 
 .code-area .text {
-    -fx-font-family: 'Monospaced';
+    -fx-font-family: 'Consolas';
     -fx-font-size: 16px;
 }
 
