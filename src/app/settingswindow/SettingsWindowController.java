@@ -125,8 +125,15 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     private void setupPreviewTextAreas() {
-        editorFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getEditorFontSize() + "pt;");
-        consoleFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getConsoleFontSize() + "pt;");
+        //todo is this needed?
+//        editorFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getEditorFontSize() + "pt;");
+//        consoleFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getConsoleFontSize() + "pt;");
+//
+//        editorFontPreviewTextArea.setStyle("-fx-font-family: " + FontConfig.getEditorFontFamily() + ";");
+//        consoleFontPreviewTextArea.setStyle("-fx-font-family: " + FontConfig.getConsoleFontFamily() + ";");
+
+        editorFontPreviewTextArea.setEditable(false);
+        consoleFontPreviewTextArea.setEditable(false);
     }
 
     @FXML
