@@ -8,6 +8,7 @@ import app.util.FontConfig;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +19,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class SettingsWindowController extends ControllerBase {
     @FXML
@@ -41,97 +43,64 @@ public class SettingsWindowController extends ControllerBase {
     private MainWindowController mainWindowController;
 
     private double tempEditorFontSize, tempConsoleFontSize;
-    private String tempEditorFontFamily = FontConfig.getEditorFontFamily(), tempConsoleFontFamily = FontConfig.getConsoleFontFamily();
+    private String tempEditorFontFamily = FontConfig.getEditorFontFamily();
+    private String tempConsoleFontFamily = FontConfig.getConsoleFontFamily();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-        setupFontFamilyComboBoxes();
-        setupFontSizeSpinners();
+        setupFontOptions();
+    }
+
+    private void setupFontOptions() {
+        setupFontFamilyComboBox(editorFontFamilyComboBox, FontConfig.EDITOR_FONT_FAMILIES, FontConfig.getEditorFontFamily(), editorFontPreviewTextArea);
+        setupFontFamilyComboBox(consoleFontFamilyComboBox, FontConfig.CONSOLE_FONT_FAMILIES, FontConfig.getConsoleFontFamily(), consoleFontPreviewTextArea);
+        setupFontSizeSpinner(editorFontSizeSpinner, FontConfig.EDITOR_MIN_FONT_SIZE, FontConfig.EDITOR_MAX_FONT_SIZE, FontConfig.getEditorFontSize(), editorFontPreviewTextArea);
+        setupFontSizeSpinner(consoleFontSizeSpinner, FontConfig.CONSOLE_MIN_FONT_SIZE, FontConfig.CONSOLE_MAX_FONT_SIZE, FontConfig.getConsoleFontSize(), consoleFontPreviewTextArea);
         setupPreviewTextAreas();
     }
 
-    private void setupFontFamilyComboBoxes() {
-        setupEditorFontFamilyComboBox();
-        setupConsoleFontFamilyComboBox();
+    private void setupFontFamilyComboBox(ComboBox<String> comboBox, String[] fontFamilies, String defaultFamily, TextArea previewArea) {
+        comboBox.getItems().addAll(fontFamilies);
+        comboBox.setValue(defaultFamily);
+        comboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            updateTempFontFamily(comboBox, newValue);
+            updatePreviewAreaFontFamily(previewArea, newValue);
+        });
     }
 
-    private void setupEditorFontFamilyComboBox() {
-        editorFontFamilyComboBox.getItems().addAll(FontConfig.EDITOR_FONT_FAMILIES);
-        editorFontFamilyComboBox.setValue(FontConfig.getEditorFontFamily());
-        editorFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+    private void updateTempFontFamily(ComboBox<String> comboBox, String newValue) {
+        if (comboBox == editorFontFamilyComboBox) {
             tempEditorFontFamily = newValue;
-            if(newValue.equals(FontConfig.MONOSPACED_FONT)) {
-                editorFontPreviewTextArea.getStyleClass().remove("calibri-font");
-                editorFontPreviewTextArea.getStyleClass().add("monospaced-font");
-            } else if(newValue.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
-                editorFontPreviewTextArea.getStyleClass().remove("monospaced-font");
-                editorFontPreviewTextArea.getStyleClass().add("calibri-font");
-            }
-        });
-    }
-
-    private void setupConsoleFontFamilyComboBox() {
-        consoleFontFamilyComboBox.getItems().addAll(FontConfig.CONSOLE_FONT_FAMILIES);
-        consoleFontFamilyComboBox.setValue(FontConfig.getConsoleFontFamily());
-        consoleFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+        } else if (comboBox == consoleFontFamilyComboBox) {
             tempConsoleFontFamily = newValue;
-            if(newValue.equals(FontConfig.MONOSPACED_FONT)) {
-                consoleFontPreviewTextArea.getStyleClass().remove("calibri-font");
-                consoleFontPreviewTextArea.getStyleClass().add("monospaced-font");
-            } else if(newValue.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
-                consoleFontPreviewTextArea.getStyleClass().remove("monospaced-font");
-                consoleFontPreviewTextArea.getStyleClass().add("calibri-font");
-            }
+        }
+    }
+
+    private void updatePreviewAreaFontFamily(TextArea previewArea, String fontFamily) {
+        previewArea.getStyleClass().removeAll("calibri-font", "monospaced-font");
+        previewArea.getStyleClass().add(fontFamily.equals(FontConfig.MONOSPACED_FONT) ? "monospaced-font" : "calibri-font");
+    }
+
+    private void setupFontSizeSpinner(Spinner<Double> spinner, double min, double max, double initial, TextArea previewArea) {
+        SpinnerValueFactory<Double> factory = new SpinnerValueFactory.DoubleSpinnerValueFactory(min, max, initial, FontConfig.FONT_STEP);
+        spinner.setValueFactory(factory);
+        spinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
+            previewArea.setStyle("-fx-font-size: " + newValue + "px;");
+            updateTempFontSize(spinner, newValue);
         });
     }
 
-    private void setupFontSizeSpinners() {
-        setupEditorFontSizeSpinner();
-        setupConsoleFontSizeSpinner();
-    }
-
-    private void setupEditorFontSizeSpinner() {
-        SpinnerValueFactory<Double> editorFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                FontConfig.EDITOR_MIN_FONT_SIZE,
-                FontConfig.EDITOR_MAX_FONT_SIZE,
-                FontConfig.getEditorFontSize(),
-                FontConfig.FONT_STEP
-        );
-
-        editorFontSizeSpinner.setValueFactory(editorFactory);
-
-        editorFontSizeSpinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
-            editorFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "px;");
+    private void updateTempFontSize(Spinner<Double> spinner, double newValue) {
+        if (spinner == editorFontSizeSpinner) {
             tempEditorFontSize = newValue;
-        });
-    }
-
-    private void setupConsoleFontSizeSpinner() {
-        SpinnerValueFactory<Double> consoleFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                FontConfig.CONSOLE_MIN_FONT_SIZE,
-                FontConfig.CONSOLE_MAX_FONT_SIZE,
-                FontConfig.getConsoleFontSize(),
-                FontConfig.FONT_STEP
-        );
-
-        consoleFontSizeSpinner.setValueFactory(consoleFactory);
-
-        consoleFontSizeSpinner.valueProperty().addListener((ObservableValue<? extends Double> observable, Double oldValue, Double newValue) -> {
-            consoleFontPreviewTextArea.setStyle("-fx-font-size: " + newValue + "pt;");
+        } else if (spinner == consoleFontSizeSpinner) {
             tempConsoleFontSize = newValue;
-        });
+        }
     }
 
     private void setupPreviewTextAreas() {
-        //todo is this needed?
-//        editorFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getEditorFontSize() + "pt;");
-//        consoleFontPreviewTextArea.setStyle("-fx-font-size: " + FontConfig.getConsoleFontSize() + "pt;");
-//
-//        editorFontPreviewTextArea.setStyle("-fx-font-family: " + FontConfig.getEditorFontFamily() + ";");
-//        consoleFontPreviewTextArea.setStyle("-fx-font-family: " + FontConfig.getConsoleFontFamily() + ";");
-
         editorFontPreviewTextArea.setEditable(false);
         consoleFontPreviewTextArea.setEditable(false);
     }
@@ -145,11 +114,19 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void applySettings() {
         if (editorFontOptionsVBox.isVisible()) {
-            System.out.println("Applying editor settings");
-            applyEditorSettings();
+            applyFontSettings(tempEditorFontFamily, tempEditorFontSize, mainWindowController.editorArea, FontConfig::setEditorFontFamily, FontConfig::setEditorFontSize);
         } else if (consoleFontOptionsVBox.isVisible()) {
-            applyConsoleSettings();
+            applyFontSettings(tempConsoleFontFamily, tempConsoleFontSize, mainWindowController.consoleTextFlow, FontConfig::setConsoleFontFamily, FontConfig::setConsoleFontSize);
         }
+    }
+
+    private void applyFontSettings(String fontFamily, double fontSize, Node targetComponent, Consumer<String> setFontFamily, Consumer<Double> setFontSize) {
+        if (fontFamily != null) {
+            FontHelper.setFontFamily(fontFamily, targetComponent);
+            setFontFamily.accept(fontFamily);
+        }
+        FontHelper.setFontSize(fontSize, targetComponent);
+        setFontSize.accept(fontSize);
     }
 
     @FXML
@@ -160,76 +137,49 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void toggleFontOptions() {
         fontOptionsVisible = !fontOptionsVisible;
-
-        RotateTransition rotateTransition = new RotateTransition(Duration.millis(200), fontArrow);
-        if (fontOptionsVisible) {
-            fontOptionsVBox.setVisible(true);
-            fontOptionsVBox.setManaged(true);
-            rotateTransition.setByAngle(90);
-            fontArrow.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/arrow_right_icon.png"))));
-        } else {
-            fontOptionsVBox.setVisible(false);
-            fontOptionsVBox.setManaged(false);
-            rotateTransition.setByAngle(-90);
-            fontArrow.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/arrow_right_icon.png"))));
-        }
-        rotateTransition.play();
-
+        animateFontArrow();
+        fontOptionsVBox.setVisible(fontOptionsVisible);
+        fontOptionsVBox.setManaged(fontOptionsVisible);
         selectFontOptions();
+    }
+
+    private void animateFontArrow() {
+        RotateTransition rotateTransition = new RotateTransition(Duration.millis(200), fontArrow);
+        rotateTransition.setByAngle(fontOptionsVisible ? 90 : -90);
+        rotateTransition.play();
+        fontArrow.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/arrow_right_icon.png"))));
     }
 
     @FXML
     private void selectAppearance() {
-        clearSelection();
-        appearanceHBox.getStyleClass().add("selected");
+        setSelectedOption(appearanceHBox);
     }
 
     @FXML
     private void selectFontOptions() {
-        clearSelection();
-        fontHBox.getStyleClass().add("selected");
+        setSelectedOption(fontHBox);
     }
 
     @FXML
     private void selectEditor() {
-        clearSelection();
-        editorHBox.getStyleClass().add("selected");
-        showEditorFontOptions();
+        setSelectedOption(editorHBox);
+        showFontOptions(editorFontOptionsVBox, consoleFontOptionsVBox);
     }
 
     @FXML
     private void selectConsole() {
+        setSelectedOption(consoleHBox);
+        showFontOptions(consoleFontOptionsVBox, editorFontOptionsVBox);
+    }
+
+    private void setSelectedOption(HBox selectedBox) {
         clearSelection();
-        consoleHBox.getStyleClass().add("selected");
-        showConsoleFontOptions();
+        selectedBox.getStyleClass().add("selected");
     }
 
-    private void applyEditorSettings() {
-        if (tempEditorFontFamily != null) {
-            FontHelper.setFontFamily(tempEditorFontFamily, mainWindowController.editorArea);
-            FontConfig.setEditorFontFamily(tempEditorFontFamily);
-        }
-        FontHelper.setFontSize(tempEditorFontSize, mainWindowController.editorArea);
-        FontConfig.setEditorFontSize(tempEditorFontSize);
-    }
-
-    private void applyConsoleSettings() {
-        if (tempConsoleFontFamily != null) {
-            FontHelper.setFontFamily(tempConsoleFontFamily, mainWindowController.consoleTextFlow);
-            FontConfig.setConsoleFontFamily(tempConsoleFontFamily);
-        }
-        FontHelper.setFontSize(tempConsoleFontSize, mainWindowController.consoleTextFlow);
-        FontConfig.setConsoleFontSize(tempConsoleFontSize);
-    }
-
-    private void showEditorFontOptions() {
-        editorFontOptionsVBox.setVisible(true);
-        consoleFontOptionsVBox.setVisible(false);
-    }
-
-    private void showConsoleFontOptions() {
-        consoleFontOptionsVBox.setVisible(true);
-        editorFontOptionsVBox.setVisible(false);
+    private void showFontOptions(VBox showBox, VBox hideBox) {
+        showBox.setVisible(true);
+        hideBox.setVisible(false);
     }
 
     private void clearSelection() {
