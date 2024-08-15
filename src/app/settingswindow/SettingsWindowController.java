@@ -120,12 +120,12 @@ public class SettingsWindowController extends ControllerBase {
         }
     }
 
-    private void applyFontSettings(String fontFamily, double fontSize, Node targetComponent, Consumer<String> setFontFamily, Consumer<Double> setFontSize) {
+    private void applyFontSettings(String fontFamily, double fontSize, Node targetNode, Consumer<String> setFontFamily, Consumer<Double> setFontSize) {
         if (fontFamily != null) {
-            FontHelper.setFontFamily(fontFamily, targetComponent);
+            FontHelper.setFontFamily(fontFamily, targetNode);
             setFontFamily.accept(fontFamily);
         }
-        FontHelper.setFontSize(fontSize, targetComponent);
+        FontHelper.setFontSize(fontSize, targetNode);
         setFontSize.accept(fontSize);
     }
 

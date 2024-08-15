@@ -49,6 +49,7 @@ public class EditorHelper {
         final double currentFontSize = FontConfig.getEditorFontSize();
         final Font jetBrainsMono = Font.loadFont(EditorHelper.class.getResourceAsStream(FontConfig.JETBRAINS_MONO_FONT_PATH), currentFontSize);
         final Font fontFamily = (jetBrainsMono != null) ? jetBrainsMono : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
+        //final Font fontFamily = Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
         if (jetBrainsMono == null) {
             System.out.println("[CODE AREA]: Failed to load JetBrains Mono font. Using default monospaced font.");
         }
@@ -166,12 +167,12 @@ public class EditorHelper {
      * Increases the font size of the code editor by the step defined in the FontConfig class and updates the font size in the configuration.
      *
      * @param resultTextFlow The {@link TextFlow} component for displaying console messages.
-     * @param node           The {@link Node} (code editor) whose font size will be increased.
+     * @param codeArea           The {@link CodeArea} (code editor) whose font size will be increased.
      */
-    public static void increaseEditorFontSize(TextFlow resultTextFlow, Node node) {
+    public static void increaseEditorFontSize(TextFlow resultTextFlow, CodeArea codeArea) {
         double currentFontSize = FontConfig.getEditorFontSize();
         if (currentFontSize < FontConfig.EDITOR_MAX_FONT_SIZE) {
-            FontHelper.increaseFontSize(FontConfig.FONT_STEP, node);
+            FontHelper.increaseFontSize(FontConfig.FONT_STEP, codeArea);
             FontConfig.setEditorFontSize(currentFontSize + FontConfig.FONT_STEP);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size  reached", Color.RED, true);
@@ -182,12 +183,12 @@ public class EditorHelper {
      * Decreases the font size of the code editor by the step defined in the FontConfig class and updates the font size in the configuration.
      *
      * @param resultTextFlow The {@link TextFlow} component for displaying console messages.
-     * @param node           The {@link Node} (code editor) whose font size will be increased.
+     * @param codeArea           The {@link CodeArea} (code editor) whose font size will be increased.
      */
-    public static void decreaseEditorFontSize(TextFlow resultTextFlow, Node node) {
+    public static void decreaseEditorFontSize(TextFlow resultTextFlow, CodeArea codeArea) {
         double currentFontSize = FontConfig.getEditorFontSize();
         if (currentFontSize > FontConfig.EDITOR_MIN_FONT_SIZE) {
-            FontHelper.decreaseFontSize(FontConfig.FONT_STEP, node);
+            FontHelper.decreaseFontSize(FontConfig.FONT_STEP, codeArea);
             FontConfig.setEditorFontSize(currentFontSize - FontConfig.FONT_STEP);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size for code area reached", Color.RED, true);

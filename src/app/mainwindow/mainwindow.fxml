@@ -146,7 +146,7 @@
     <Pane layoutX="150.0" layoutY="50.0" minHeight="480.0" minWidth="1025.0" AnchorPane.leftAnchor="150.0"
           AnchorPane.rightAnchor="10.0">
         <CodeArea fx:id="editorArea" maxHeight="500.0" maxWidth="1060.0" minHeight="500.0" minWidth="1060.0"
-                  styleClass="text-area"/>
+                  styleClass="code-area"/>
     </Pane>
 
     <!-- TabPane for Results and TableView -->

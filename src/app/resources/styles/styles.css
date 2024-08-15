@@ -19,8 +19,7 @@
  * providing a clean, modern, and user-friendly interface.
  */
 
-/* General Styles */
-
+/* Font classes */
 .monospaced-font {
     -fx-font-family: "Monospaced";
 }
@@ -45,7 +44,6 @@
     -fx-border-color: transparent transparent #D3D3D3 transparent;
     -fx-border-width: 0 0 1px 0;
 }
-
 
 /* Label Styles */
 .header-label {
@@ -198,6 +196,11 @@
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
+}
+
+.code-area .text {
+    -fx-font-family: 'Monospaced';
+    -fx-font-size: 16px;
 }
 
 .code-area .lineno {
