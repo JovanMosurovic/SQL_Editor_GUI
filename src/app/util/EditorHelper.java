@@ -47,7 +47,7 @@ public class EditorHelper {
      */
     public static void setupEditorFont(CodeArea editorArea) {
         final double currentFontSize = FontConfig.getEditorFontSize();
-        final Font jetBrainsMono = Font.loadFont(EditorHelper.class.getResourceAsStream("/app/resources/fonts/JetBrainsMonoNL-Regular.ttf"), currentFontSize);
+        final Font jetBrainsMono = Font.loadFont(EditorHelper.class.getResourceAsStream(FontConfig.JETBRAINS_MONO_FONT_PATH), currentFontSize);
         final Font fontFamily = (jetBrainsMono != null) ? jetBrainsMono : Font.font(FontConfig.MONOSPACED_FONT, currentFontSize);
         if (jetBrainsMono == null) {
             System.out.println("[CODE AREA]: Failed to load JetBrains Mono font. Using default monospaced font.");

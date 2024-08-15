@@ -14,6 +14,10 @@ public class FontConfig {
      * The Monospaced font family for the code editor area and console area.
      */
     public static final String MONOSPACED_FONT = "Monospaced";
+    /**
+     * The path to the JetBrains Mono font file.
+     */
+    public static final String JETBRAINS_MONO_FONT_PATH = "/app/resources/fonts/JetBrainsMonoNL-Regular.ttf";
 
     /**
      * The list of font families available for the code editor area.
