@@ -1,10 +1,7 @@
 package app.util;
 
 import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
@@ -16,7 +13,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,15 +52,7 @@ public class EditorHelper {
      * @param editorArea the {@link CodeArea} component representing the code editor
      */
     public static void setupEditorArea(CodeArea editorArea) {
-        IntFunction<Node> numberFactory = LineNumberFactory.get(editorArea);
-        IntFunction<Node> graphicFactory = line -> {
-            HBox hbox = new HBox(numberFactory.apply(line));
-            hbox.setAlignment(Pos.CENTER_RIGHT);
-            hbox.setPrefWidth(45);
-            hbox.setMaxHeight(Double.MAX_VALUE);
-            return hbox;
-        };
-        editorArea.setParagraphGraphicFactory(graphicFactory);
+        editorArea.setParagraphGraphicFactory(LineNumberFactory.get(editorArea));
 
         editorArea.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
@@ -158,7 +146,7 @@ public class EditorHelper {
         double currentFontSize = FontConfig.getEditorFontSize();
         if (currentFontSize < FontConfig.EDITOR_MAX_FONT_SIZE) {
             FontHelper.increaseFontSize(FontConfig.FONT_STEP, codeArea);
-            FontConfig.setEditorFontSize(currentFontSize + FontConfig.FONT_STEP);
+            FontConfig.updateFontSizeConfig(currentFontSize + FontConfig.FONT_STEP, codeArea);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Maximum font size  reached", Color.RED, true);
         }
@@ -174,7 +162,7 @@ public class EditorHelper {
         double currentFontSize = FontConfig.getEditorFontSize();
         if (currentFontSize > FontConfig.EDITOR_MIN_FONT_SIZE) {
             FontHelper.decreaseFontSize(FontConfig.FONT_STEP, codeArea);
-            FontConfig.setEditorFontSize(currentFontSize - FontConfig.FONT_STEP);
+            FontConfig.updateFontSizeConfig(currentFontSize - FontConfig.FONT_STEP, codeArea);
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size for code area reached", Color.RED, true);
         }

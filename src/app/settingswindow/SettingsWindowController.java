@@ -78,7 +78,13 @@ public class SettingsWindowController extends ControllerBase {
 
     private void updatePreviewAreaFontFamily(TextArea previewArea, String fontFamily) {
         previewArea.getStyleClass().removeAll("calibri-font", "monospaced-font");
-        previewArea.getStyleClass().add(fontFamily.equals(FontConfig.MONOSPACED_FONT) ? "monospaced-font" : "calibri-font");
+        if(fontFamily.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
+            previewArea.getStyleClass().add("calibri-font");
+        } else if(fontFamily.equals(FontConfig.MONOSPACED_FONT)) {
+            previewArea.getStyleClass().add("monospaced-font");
+        } else {
+            previewArea.getStyleClass().add("consolas-font");
+        }
     }
 
     private void setupFontSizeSpinner(Spinner<Double> spinner, double min, double max, double initial, TextArea previewArea) {
@@ -99,6 +105,11 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     private void setupPreviewTextAreas() {
+        editorFontPreviewTextArea.getStyleClass().add(tempEditorFontFamily.toLowerCase() + "-font");
+        consoleFontPreviewTextArea.getStyleClass().add(tempConsoleFontFamily.toLowerCase() + "-font");
+        FontHelper.setFontSize((int) tempEditorFontSize, editorFontPreviewTextArea);
+        FontHelper.setFontSize((int) tempConsoleFontSize, consoleFontPreviewTextArea);
+
         editorFontPreviewTextArea.setEditable(false);
         consoleFontPreviewTextArea.setEditable(false);
     }
@@ -112,14 +123,24 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void applySettings() {
         if (editorFontOptionsVBox.isVisible()) {
-            mainWindowController.editorArea.setId(tempEditorFontFamily.toLowerCase());
-            FontHelper.setFontSize((int) tempEditorFontSize, mainWindowController.editorArea);
-        //    FontConfig.updateFontConfig(tempEditorFontFamily, tempEditorFontSize, true);
+            applyEditorSettings();
         } else if (consoleFontOptionsVBox.isVisible()) {
-            mainWindowController.consoleTextFlow.setId(tempConsoleFontFamily.toLowerCase());
-            System.out.println("Console font size: " + (int) tempConsoleFontSize);
-            mainWindowController.consoleTextFlow.setStyle("-fx-font-size: " + (int) tempConsoleFontSize + "px;");
+            applyConsoleSettings();
         }
+    }
+
+    private void applyEditorSettings() {
+        mainWindowController.editorArea.setId(tempEditorFontFamily.toLowerCase());
+        FontHelper.setFontSize((int) tempEditorFontSize, mainWindowController.editorArea);
+        FontConfig.updateFontSizeConfig(tempEditorFontSize, mainWindowController.editorArea);
+        FontConfig.updateFontFamilyConfig(tempEditorFontFamily, mainWindowController.editorArea);
+    }
+
+    private void applyConsoleSettings() {
+        mainWindowController.consoleTextFlow.setId(tempConsoleFontFamily.toLowerCase());
+        mainWindowController.consoleTextFlow.setStyle("-fx-font-size: " + (int) tempConsoleFontSize + "px;");
+        FontConfig.updateFontSizeConfig(tempConsoleFontSize, mainWindowController.consoleTextFlow);
+        FontConfig.updateFontFamilyConfig(tempConsoleFontFamily, mainWindowController.consoleTextFlow);
     }
 
     @FXML

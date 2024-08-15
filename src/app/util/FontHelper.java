@@ -1,8 +1,6 @@
 package app.util;
 
 import javafx.scene.Node;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.TextFlow;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +28,6 @@ public class FontHelper {
             logger.log(Level.INFO, "Increasing font size for node: " + node.getClass().getName() + " from " + currentFontSize + " to " + (currentFontSize + fontSizeStep));
             currentFontSize += fontSizeStep;
             setFontSize((int) currentFontSize, node);
-            updateFontSizeConfig(currentFontSize, node);
         }
     }
 
@@ -46,7 +43,6 @@ public class FontHelper {
             logger.log(Level.INFO, "Decreasing font size for node: " + node.getClass().getName() + " from " + currentFontSize + " to " + (currentFontSize - fontSizeStep));
             currentFontSize -= fontSizeStep;
             setFontSize((int) currentFontSize, node);
-            updateFontSizeConfig(currentFontSize, node);
         }
     }
 
@@ -85,9 +81,8 @@ public class FontHelper {
             for (int i = 10; i <= 42; i += 2) {
                 node.getStyleClass().remove("font" + i);
             }
-            System.out.println("font" + newFontSize);
             node.getStyleClass().add("font" + newFontSize);
-            updateFontSizeConfig(newFontSize, node);
+            FontConfig.updateFontSizeConfig(newFontSize, node);
         }
     }
 
@@ -111,20 +106,6 @@ public class FontHelper {
             logger.log(Level.SEVERE, "An error occurred while getting font family", e);
         }
         return FontConfig.DEFAULT_FONT_FAMILY;
-    }
-
-    /**
-     * Updates the font size configuration based on the specified node.
-     *
-     * @param newFontSize the new font size to set for the nodes
-     * @param node        the JavaFX {@link Node} object to update the font size for
-     */
-    private static void updateFontSizeConfig(double newFontSize, Node node) {
-        if (node instanceof TextArea) {
-            FontConfig.setEditorFontSize(newFontSize);
-        } else if (node instanceof TextFlow) {
-            FontConfig.setConsoleFontSize(newFontSize);
-        }
     }
 
 }

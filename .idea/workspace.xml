@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc35703d-d20b-4162-9bb2-2a83b68377c6" name="Changes" comment="Fix GUI scaling issues across multiple platforms&#10;&#10;- Ensured consistent button widths and font sizes in FXML files&#10;- Verified components layouts to ensure uniform appearance&#10;- Added shortcut for Exit">
-      <change beforePath="$PROJECT_DIR$/src/app/aboutwindow/aboutwindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/aboutwindow/aboutwindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/closingwindow/closingwindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/closingwindow/closingwindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/mainwindow/mainwindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mainwindow/mainwindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/savingwindow/savingwindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/savingwindow/savingwindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/settingswindow/settingswindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/settingswindow/settingswindow.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/welcomewindow/welcomewindow.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/welcomewindow/welcomewindow.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/resources/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/resources/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/settingswindow/SettingsWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/settingswindow/SettingsWindowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/util/EditorHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/EditorHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/util/FontConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/FontConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/util/FontHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/FontHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,25 +42,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/opt/scenebuilder/bin/SceneBuilder",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/opt/scenebuilder/bin/SceneBuilder&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="app.Main" />

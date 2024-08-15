@@ -1,5 +1,9 @@
 package app.util;
 
+import javafx.scene.Node;
+import javafx.scene.text.TextFlow;
+import org.fxmisc.richtext.CodeArea;
+
 /**
  * Utility class for managing font settings in this JavaFX application.
  * This class is used to store and retrieve the current font family and size for the editor and console components.
@@ -147,6 +151,34 @@ public class FontConfig {
      */
     public static void setConsoleFontSize(double fontSize) {
         FontConfig.consoleFontSize = fontSize;
+    }
+
+    /**
+     * Updates the font size configuration for the specified node.
+     *
+     * @param newFontSize the new font size to set for the node
+     * @param node       the JavaFX {@link Node} object to set the font size for
+     */
+    public static void updateFontSizeConfig(double newFontSize, Node node) {
+        if (node instanceof CodeArea) {
+            FontConfig.setEditorFontSize(newFontSize);
+        } else if (node instanceof TextFlow) {
+            FontConfig.setConsoleFontSize(newFontSize);
+        }
+    }
+
+    /**
+     * Updates the font family configuration for the specified node.
+     *
+     * @param newFontFamily the new font family to set for the node
+     * @param node          the JavaFX {@link Node} object to set the font family for
+     */
+    public static void updateFontFamilyConfig(String newFontFamily, Node node) {
+        if (node instanceof CodeArea) {
+            FontConfig.setEditorFontFamily(newFontFamily);
+        } else if (node instanceof TextFlow) {
+            FontConfig.setConsoleFontFamily(newFontFamily);
+        }
     }
 
 }
