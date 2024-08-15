@@ -63,11 +63,11 @@ public class SettingsWindowController extends ControllerBase {
         editorFontFamilyComboBox.valueProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             tempEditorFontFamily = newValue;
             if(newValue.equals(FontConfig.MONOSPACED_FONT)) {
-                consoleFontPreviewTextArea.getStyleClass().remove("calibri-font");
-                consoleFontPreviewTextArea.getStyleClass().add("monospaced-font");
+                editorFontPreviewTextArea.getStyleClass().remove("calibri-font");
+                editorFontPreviewTextArea.getStyleClass().add("monospaced-font");
             } else if(newValue.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
-                consoleFontPreviewTextArea.getStyleClass().remove("monospaced-font");
-                consoleFontPreviewTextArea.getStyleClass().add("calibri-font");
+                editorFontPreviewTextArea.getStyleClass().remove("monospaced-font");
+                editorFontPreviewTextArea.getStyleClass().add("calibri-font");
             }
         });
     }
