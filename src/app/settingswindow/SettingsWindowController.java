@@ -77,14 +77,8 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     private void updatePreviewAreaFontFamily(TextArea previewArea, String fontFamily) {
-        previewArea.getStyleClass().removeAll("calibri-font", "monospaced-font");
-        if(fontFamily.equals(FontConfig.DEFAULT_FONT_FAMILY)) {
-            previewArea.getStyleClass().add("calibri-font");
-        } else if(fontFamily.equals(FontConfig.MONOSPACED_FONT)) {
-            previewArea.getStyleClass().add("monospaced-font");
-        } else {
-            previewArea.getStyleClass().add("consolas-font");
-        }
+        previewArea.getStyleClass().removeAll("calibri-font", "monospaced-font", "consolas-font");
+        previewArea.getStyleClass().add(fontFamily.toLowerCase() + "-font");
     }
 
     private void setupFontSizeSpinner(Spinner<Double> spinner, double min, double max, double initial, TextArea previewArea) {
