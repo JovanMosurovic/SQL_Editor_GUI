@@ -1,5 +1,6 @@
 package app.util;
 
+import cpp.JavaInterface;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
@@ -46,7 +47,7 @@ public class DatabaseManager {
         lastSelectedFile = selectedFile;
         String filePath = selectedFile.getAbsolutePath();
         if (filePath.endsWith(".sql") || filePath.endsWith(".dbexp")) {
-            // TODO: import database
+            JavaInterface.getInstance().importDatabase(filePath);
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "Selected file: " + filePath, Color.BLACK, false);
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\nDatabase imported successfully!", Color.GREEN, true);
             return true;

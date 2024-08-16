@@ -15,6 +15,10 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+    static {
+        System.loadLibrary("native");
+    }
+
     /**
      * Starts the JavaFX application by setting up the main window and showing the welcome window.
      *

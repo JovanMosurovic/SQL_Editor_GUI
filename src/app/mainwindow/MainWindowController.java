@@ -3,6 +3,7 @@ package app.mainwindow;
 import app.ControllerBase;
 import app.Window;
 import app.util.*;
+import cpp.JavaInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.TextFlow;
@@ -22,11 +23,14 @@ public class MainWindowController extends ControllerBase {
     public TextFlow consoleTextFlow;
     public TableView<String> resultTableView;
 
+    public JavaInterface databaseManager;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
         setupEditorArea();
         setupContextMenus();
+        databaseManager = new JavaInterface();
     }
 
     private void setupEditorArea() {
@@ -57,8 +61,10 @@ public class MainWindowController extends ControllerBase {
 
     public void handleRun() {
         System.out.println("Run button clicked");
-        String code = editorArea.getText().replace("\n", " ").replaceAll(" +", " ");
-        System.out.println("Code: |" + code + "|");
+        String code = editorArea.getText().trim().replace("\n", " ").replaceAll(" +", " ");
+        System.out.println("cum");
+        databaseManager.executeQuery(code);
+
     }
 
     //region Editor actions

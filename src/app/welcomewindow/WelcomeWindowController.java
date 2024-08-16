@@ -3,6 +3,7 @@ package app.welcomewindow;
 import app.ControllerBase;
 import app.Window;
 import app.mainwindow.MainWindowController;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -35,7 +36,8 @@ public class WelcomeWindowController extends ControllerBase {
      * Handles the action when the user clicks the "Open Existing Database" button.
      * It imports the database and switches to the main window if successful.
      */
-    public void handleImportDatabase() {
+    @FXML
+    private void handleImportDatabase() {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         Stage welcomeWindoStage = Window.getWindowAt(Window.WELCOME_WINDOW).getStage();
         if (mainWindowController.handleImportDatabase(welcomeWindoStage, true)) {
@@ -54,8 +56,11 @@ public class WelcomeWindowController extends ControllerBase {
      * Handles the action when the user clicks the "Create New Database" button.
      * It switches to the main window to create a new database.
      */
-    public void handleCreateNewDatabase() {
+    @FXML
+    private void handleCreateNewDatabase() {
         Window.hideWindow(Window.WELCOME_WINDOW);
+        MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+        mainWindowController.databaseManager.createNewDatabase();
         Window.showWindow(Window.MAIN_WINDOW);
     }
 }
