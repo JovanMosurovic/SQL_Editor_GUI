@@ -40,7 +40,8 @@ public class SettingsWindowController extends ControllerBase {
     private boolean fontOptionsVisible = false;
     private MainWindowController mainWindowController;
 
-    private double tempEditorFontSize, tempConsoleFontSize;
+    private double tempEditorFontSize = FontConfig.getEditorFontSize();
+    private double tempConsoleFontSize = FontConfig.getConsoleFontSize();
     private String tempEditorFontFamily = FontConfig.getEditorFontFamily();
     private String tempConsoleFontFamily = FontConfig.getConsoleFontFamily();
 
