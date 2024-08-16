@@ -19,6 +19,21 @@
  * providing a clean, modern, and user-friendly interface.
  */
 
+@font-face {
+    -fx-font-family: Calibri;
+    src: url('../fonts/calibri-regular.ttf');
+}
+
+@font-face {
+    -fx-font-family: Monospaced;
+    src: url('../fonts/Monospace.ttf');
+}
+
+@font-face {
+    -fx-font-family: Consolas;
+    src: url('../fonts/Consolas.ttf');
+}
+
 /* Pane Styles */
 .anchor-pane {
     -fx-background-color: #f0f0f0;
