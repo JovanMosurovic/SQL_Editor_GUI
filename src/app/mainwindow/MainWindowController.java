@@ -69,7 +69,7 @@ public class MainWindowController extends ControllerBase {
         String[] splitCode = code.split(";");
 
         long startTime = System.nanoTime();
-
+        boolean hasError = false;
 
         for(String s : splitCode) {
             if(s.isEmpty()) {
@@ -77,19 +77,24 @@ public class MainWindowController extends ControllerBase {
             }
         //    System.out.println("[RUN] Executing query: " + s);
             databaseManager.executeQuery(s);
+
+            File outputFile = new File("output.txt");
+            if(FileHelper.checkErrors(outputFile, consoleTextFlow)) {
+                hasError = true;
+                break;
+            }
         }
 
         long endTime = System.nanoTime();
         long executionTime = endTime - startTime;
 
-        File file = FileHelper.openFile("output.txt");
-        if(!FileHelper.checkErrors(file, consoleTextFlow)) {
-            AnsiTextParser.parseAnsiText("Query has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
+        if(!hasError) {
+            AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
             AnsiTextParser.parseAnsiText("\033[1m\033[4mExecution time\033[0m: ", consoleTextFlow);
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, String.format("%.2f ms\n", (double) executionTime / 1000000), Color.BLACK, true);
+            FileHelper.loadTablesFromFile("output.txt");
         }
 
-        FileHelper.loadTablesFromFile("output.txt");
     }
 
     //region Editor actions
