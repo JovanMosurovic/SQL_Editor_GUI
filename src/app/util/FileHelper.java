@@ -5,7 +5,6 @@ import app.mainwindow.MainWindowController;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;

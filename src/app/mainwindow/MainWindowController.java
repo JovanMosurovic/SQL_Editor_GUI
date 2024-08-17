@@ -6,6 +6,7 @@ import app.util.*;
 import cpp.JavaInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -64,10 +65,20 @@ public class MainWindowController extends ControllerBase {
         System.out.println("[RUN] Run button clicked");
         String code = EditorHelper.trimCode(editorArea.getText());
         System.out.println("[RUN] Code: " + code);
+
+        long startTime = System.nanoTime();
+
         databaseManager.executeQuery(code);
 
+        long endTime = System.nanoTime();
+        long executionTime = endTime - startTime;
+
         File file = FileHelper.openFile("output.txt");
-        FileHelper.checkErrors(file, consoleTextFlow);
+        if(!FileHelper.checkErrors(file, consoleTextFlow)) {
+            AnsiTextParser.parseAnsiText("Query has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
+            AnsiTextParser.parseAnsiText("\033[1m\033[4mExecution time\033[0m: ", consoleTextFlow);
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, String.format("%.2f ms\n", (double) executionTime / 1000000), Color.BLACK, true);
+        }
     }
 
     //region Editor actions

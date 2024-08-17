@@ -3,6 +3,7 @@ package app.welcomewindow;
 import app.ControllerBase;
 import app.Window;
 import app.mainwindow.MainWindowController;
+import app.util.AnsiTextParser;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -61,6 +62,7 @@ public class WelcomeWindowController extends ControllerBase {
         Window.hideWindow(Window.WELCOME_WINDOW);
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         mainWindowController.databaseManager.createNewDatabase();
+        AnsiTextParser.parseAnsiText("Database \"untitled\" has been \033[1;32m\033[1msuccessfully\033[0m created!\n", mainWindowController.consoleTextFlow);
         Window.showWindow(Window.MAIN_WINDOW);
     }
 }
