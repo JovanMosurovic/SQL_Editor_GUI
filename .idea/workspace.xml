@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc35703d-d20b-4162-9bb2-2a83b68377c6" name="Changes" comment="Fix GUI scaling issues across multiple platforms&#10;&#10;- Ensured consistent button widths and font sizes in FXML files&#10;- Verified components layouts to ensure uniform appearance&#10;- Added shortcut for Exit">
+    <list default="true" id="dc35703d-d20b-4162-9bb2-2a83b68377c6" name="Changes" comment="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/resources/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/resources/styles/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/settingswindow/SettingsWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/settingswindow/SettingsWindowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/util/EditorHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/EditorHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/util/FontConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/FontConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/util/FontHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/FontHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/mainwindow/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mainwindow/MainWindowController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +61,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="app.Main" />
       <module name="Elemental_SQL_Implementation_with GUI" />
+      <option name="VM_PARAMETERS" value="-Djava.library.path=native" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="app.*" />
@@ -107,6 +104,15 @@
       <workItem from="1723159450897" duration="639000" />
       <workItem from="1723237680207" duration="4593000" />
     </task>
+    <task id="LOCAL-00001" summary="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected.">
+      <option name="closed" value="true" />
+      <created>1723919136513</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1723919136513</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +131,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix GUI scaling issues across multiple platforms&#10;&#10;- Ensured consistent button widths and font sizes in FXML files&#10;- Verified components layouts to ensure uniform appearance&#10;- Added shortcut for Exit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix GUI scaling issues across multiple platforms&#10;&#10;- Ensured consistent button widths and font sizes in FXML files&#10;- Verified components layouts to ensure uniform appearance&#10;- Added shortcut for Exit" />
+    <MESSAGE value="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected." />
   </component>
 </project>
