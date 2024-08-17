@@ -47,7 +47,7 @@ public class FontConfig {
     /**
      * The default font size for the editor and console areas.
      */
-    public static final double DEFAULT_FONT_SIZE = 16.0;
+    public static final double DEFAULT_FONT_SIZE = 18.0;
     /**
      * The step value to increase or decrease the font size by.
      */
