@@ -49,7 +49,13 @@ public class SettingsWindowController extends ControllerBase {
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+        initAreas();
         setupFontOptions();
+    }
+
+    private void initAreas() {
+        applyEditorSettings();
+        applyConsoleSettings();
     }
 
     private void setupFontOptions() {
@@ -133,7 +139,7 @@ public class SettingsWindowController extends ControllerBase {
 
     private void applyConsoleSettings() {
         mainWindowController.consoleTextFlow.setId(tempConsoleFontFamily.toLowerCase());
-        mainWindowController.consoleTextFlow.setStyle("-fx-font-size: " + (int) tempConsoleFontSize + "px;");
+        FontHelper.setFontSize((int) tempConsoleFontSize, mainWindowController.consoleTextFlow);
         FontConfig.updateFontSizeConfig(tempConsoleFontSize, mainWindowController.consoleTextFlow);
         FontConfig.updateFontFamilyConfig(tempConsoleFontFamily, mainWindowController.consoleTextFlow);
     }

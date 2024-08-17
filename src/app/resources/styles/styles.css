@@ -323,57 +323,59 @@
     -fx-font-family: 'Calibri';
 }
 
-.font10 .text {
+.font10, .font10 .text {
     -fx-font-size: 10px;
 }
-.font12 .text {
+.font12, .font12 .text {
     -fx-font-size: 12px;
 }
-.font14 .text {
+.font14, .font14 .text {
     -fx-font-size: 14px;
 }
-.font16 .text {
+.font16, .font16 .text {
     -fx-font-size: 16px;
 }
-.font18 .text {
+.font18, .font18 .text {
     -fx-font-size: 18px;
 }
-.font20 .text {
+.font20, .font20 .text {
     -fx-font-size: 20px;
 }
-.font22 .text {
+.font22, .font22 .text {
     -fx-font-size: 22px;
 }
-.font24 .text {
+.font24, .font24 .text {
     -fx-font-size: 24px;
 }
-.font26 .text {
+.font26, .font26 .text {
     -fx-font-size: 26px;
 }
-.font28 .text {
+.font28, .font28 .text {
     -fx-font-size: 28px;
 }
-.font30 .text {
+.font30, .font30 .text {
     -fx-font-size: 30px;
 }
-.font32 .text {
+.font32, .font32 .text {
     -fx-font-size: 32px;
 }
-.font34 .text {
+.font34, .font34 .text {
     -fx-font-size: 34px;
 }
-.font36 .text {
+.font36, .font36 .text {
     -fx-font-size: 36px;
 }
-.font38 .text {
+.font38, .font38 .text {
     -fx-font-size: 38px;
 }
-.font40 .text {
+.font40, .font40 .text {
     -fx-font-size: 40px;
 }
-.font42 .text {
+.font42, .font42 .text {
     -fx-font-size: 42px;
 }
+
+
 
 
 
