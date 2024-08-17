@@ -169,6 +169,6 @@ public class EditorHelper {
     }
 
     public static String trimCode(String code) {
-        return code.trim().replace("\n", " ").replaceAll(" +", " ");
+        return code.trim().replace("\n", "").replaceAll("\\s+", " ");
     }
 }

@@ -66,9 +66,17 @@ public class MainWindowController extends ControllerBase {
         String code = EditorHelper.trimCode(editorArea.getText());
         System.out.println("[RUN] Code: " + code);
 
+        String[] splitCode = code.split(";");
+
         long startTime = System.nanoTime();
 
-        databaseManager.executeQuery(code);
+        for(String s : splitCode) {
+            if(s.isEmpty()) {
+                continue;
+            }
+        //    System.out.println("[RUN] Executing query: " + s);
+            databaseManager.executeQuery(s);
+        }
 
         long endTime = System.nanoTime();
         long executionTime = endTime - startTime;
