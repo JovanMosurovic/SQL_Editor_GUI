@@ -134,6 +134,11 @@ public class FileHelper {
             final int colIndex = i;
             TableColumn<ObservableList<String>, String> column = new TableColumn<>(headers.get(i));
             column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(colIndex)));
+
+            if(i == 0) {
+                column.getStyleClass().add("first-column");
+            }
+
             tableView.getColumns().add(column);
         }
 

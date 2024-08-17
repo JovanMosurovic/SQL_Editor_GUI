@@ -227,6 +227,105 @@
     -fx-background-color: #f0f0f0;
 }
 
+/* Table View Styles */
+.table-view {
+    -fx-background-color: white;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+    -fx-border-color: #dcdcdc;
+    /*-fx-border-width: 1px;*/
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 10px 10px 0 0;
+    -fx-padding: 5px 0 5px 0;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: #dcdcdc;
+}
+
+.table-view .column-header .label {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-alignment: center-left;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #e6f2ff;
+}
+
+.table-view .table-cell {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-alignment: center-left;
+    -fx-padding: 5px 8px 5px 8px;
+}
+
+.table-view .scroll-bar:vertical,
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar:vertical .thumb,
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #dcdcdc;
+    -fx-background-radius: 5em;
+}
+
+.table-view .scroll-bar:vertical .thumb:hover,
+.table-view .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #c0c0c0;
+}
+
+/* Last row rounded corners at the bottom */
+.table-row-cell:filled:selected .table-cell {
+    -fx-background-color: #e6f2ff;
+}
+
+.table-row-cell:filled:selected:odd .table-cell {
+    -fx-background-color: #e6f2ff;
+}
+
+.table-row-cell:filled:selected:focused .table-cell {
+    -fx-background-color: #e6f2ff;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
 /* Menu Styles */
 .menu-bar {
     -fx-background-color: #f0f0f0;
@@ -291,6 +390,11 @@
     -fx-background-color: #d4e2ff;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
+}
+
+/* First column of the table */
+.first-column {
+    -fx-padding: 0 0 0 10px;
 }
 
 /* Font classes */
