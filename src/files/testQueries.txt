@@ -8,6 +8,8 @@ insert into drugaTabela (arg, nekiValue , test ) values ("test", "value1", "valu
 insert into drugaTabela (arg, nekiValue , test ) values ("test11", "value3", "value4");
 insert into drugaTabela (arg, nekiValue , test ) values ("test11", "value5", "value6");
 
+create table trecaTabela (arg, arg2, arg3, arg4, arg5);
+
 show tables;
 
 delete from drugaTabela where arg = "test" and arg <> "test" // shouldnt change the table

@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="dc35703d-d20b-4162-9bb2-2a83b68377c6" name="Changes" comment="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/mainwindow/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mainwindow/MainWindowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/savingwindow/SavingWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/savingwindow/SavingWindowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/files/testQueries.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/testQueries.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

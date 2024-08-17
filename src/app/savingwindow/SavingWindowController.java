@@ -2,6 +2,7 @@ package app.savingwindow;
 
 import app.ControllerBase;
 import app.Window;
+import cpp.JavaInterface;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 
@@ -80,14 +81,8 @@ public class SavingWindowController extends ControllerBase {
      * @param format The format in which the file should be saved (either "sql" or "dbexp").
      */
     private void saveFile(File file, String format) {
-        try (FileWriter writer = new FileWriter(file)) {
-            if ("sql".equals(format)) {
-                System.out.println("Saving as SQL");
-                //todo SQL save logic
-            } else if ("dbexp".equals(format)) {
-                System.out.println("Saving as Custom Format");
-                //todo Custom save logic
-            }
+        try (FileWriter ignored = new FileWriter(file)) {
+            JavaInterface.getInstance().exportDatabase(format, file.getAbsolutePath());
         } catch (IOException e) {
             logger.log(Level.SEVERE, "An error occurred while saving the file.", e);
         }
