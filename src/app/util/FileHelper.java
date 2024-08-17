@@ -81,29 +81,31 @@ public class FileHelper {
             List<String> headers = null;
             List<List<String>> data = new ArrayList<>();
 
-            // Preskočimo prvu liniju (Database name)
+            // skip first line (Database name)
             br.readLine();
 
-            // Uklonimo sve postojeće tabove osim prvog (Console)
+            // Remove all tabs except the console tab
             while (mainWindowController.resultTabPane.getTabs().size() > 1) {
                 mainWindowController.resultTabPane.getTabs().remove(1);
             }
 
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("\t")) {
-                    // Nova tabela
+                    // New table
                     if (currentTableName != null) {
+                        assert headers != null;
                         createTableTab(mainWindowController, currentTableName, headers, data);
                     }
                     currentTableName = line.trim();
                     headers = null;
                     data.clear();
                 } else if (line.equals("#")) {
-                    // Kraj tabele
+                    // End of table
+                    assert headers != null;
                     createTableTab(mainWindowController, currentTableName, headers, data);
                     currentTableName = null;
                 } else {
-                    // Podaci tabele
+                    // Table data
                     List<String> rowData = Arrays.asList(line.split("~"));
                     if (headers == null) {
                         headers = rowData;
@@ -113,8 +115,9 @@ public class FileHelper {
                 }
             }
 
-            // Za slučaj da fajl ne završava sa "#"
+            // In case the last table is not followed by "#"
             if (currentTableName != null) {
+                assert headers != null;
                 createTableTab(mainWindowController, currentTableName, headers, data);
             }
 
@@ -143,7 +146,7 @@ public class FileHelper {
         Tab tab = new Tab(tableName);
         tab.setContent(tableView);
 
-        // Dodajemo novi tab nakon "Console" taba
+        // Add the new tab to the result tab pane after the console tab
         mainWindowController.resultTabPane.getTabs().add(tab);
     }
 
