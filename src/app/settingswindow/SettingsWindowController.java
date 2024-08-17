@@ -23,6 +23,8 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private VBox fontOptionsVBox;
     @FXML
+    private VBox fontOverviewVBox;
+    @FXML
     private ImageView fontArrow;
     @FXML
     private HBox appearanceHBox, fontHBox;
@@ -152,10 +154,18 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void toggleFontOptions() {
         fontOptionsVisible = !fontOptionsVisible;
+        updateFontOptionsVisibility();
+    }
+
+    private void updateFontOptionsVisibility() {
         animateFontArrow();
         fontOptionsVBox.setVisible(fontOptionsVisible);
         fontOptionsVBox.setManaged(fontOptionsVisible);
-        selectFontOptions();
+        if (fontOptionsVisible) {
+            selectFontOptions();
+        } else {
+            clearSelection();
+        }
     }
 
     private void animateFontArrow() {
@@ -173,18 +183,27 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void selectFontOptions() {
         setSelectedOption(fontHBox);
+        showFontOverview();
+    }
+
+    private void showFontOverview() {
+        fontOverviewVBox.setVisible(true);
+        editorFontOptionsVBox.setVisible(false);
+        consoleFontOptionsVBox.setVisible(false);
     }
 
     @FXML
     private void selectEditor() {
         setSelectedOption(editorHBox);
         showFontOptions(editorFontOptionsVBox, consoleFontOptionsVBox);
+        fontOverviewVBox.setVisible(false);
     }
 
     @FXML
     private void selectConsole() {
         setSelectedOption(consoleHBox);
         showFontOptions(consoleFontOptionsVBox, editorFontOptionsVBox);
+        fontOverviewVBox.setVisible(false);
     }
 
     private void setSelectedOption(HBox selectedBox) {

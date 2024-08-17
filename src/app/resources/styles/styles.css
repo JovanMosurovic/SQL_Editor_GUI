@@ -116,6 +116,15 @@
     -fx-alignment: center;
 }
 
+.clickable-label {
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.clickable-label:hover {
+    -fx-text-fill: #0000FF;
+}
+
 /* Box Styles */
 .info-box, .links-box {
     -fx-spacing: 10px;
