@@ -5,9 +5,10 @@ import app.mainwindow.MainWindowController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class FileHelper {
 
@@ -148,7 +150,17 @@ public class FileHelper {
         }
         tableView.setItems(observableData);
 
-        Tab tab = new Tab(tableName);
+        Image image = new Image(Objects.requireNonNull(FileHelper.class.getResourceAsStream("../resources/icons/table_icon.png")));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(16);
+        imageView.setFitHeight(16);
+
+        Label tabLabel = new Label(tableName);
+        tabLabel.setGraphic(imageView);
+        tabLabel.setContentDisplay(ContentDisplay.LEFT);
+
+        Tab tab = new Tab();
+        tab.setGraphic(new HBox(imageView, tabLabel));
         tab.setContent(tableView);
 
         // Add the new tab to the result tab pane after the console tab
