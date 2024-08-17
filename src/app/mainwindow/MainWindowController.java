@@ -23,7 +23,7 @@ public class MainWindowController extends ControllerBase {
     public CodeArea editorArea;
     public ScrollPane resultScrollPane;
     public TextFlow consoleTextFlow;
-    public TableView<String> resultTableView;
+    public TabPane resultTabPane;
 
     public JavaInterface databaseManager;
 
@@ -70,6 +70,7 @@ public class MainWindowController extends ControllerBase {
 
         long startTime = System.nanoTime();
 
+
         for(String s : splitCode) {
             if(s.isEmpty()) {
                 continue;
@@ -87,6 +88,8 @@ public class MainWindowController extends ControllerBase {
             AnsiTextParser.parseAnsiText("\033[1m\033[4mExecution time\033[0m: ", consoleTextFlow);
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, String.format("%.2f ms\n", (double) executionTime / 1000000), Color.BLACK, true);
         }
+
+        FileHelper.loadTablesFromFile("output.txt");
     }
 
     //region Editor actions
