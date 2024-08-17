@@ -294,6 +294,10 @@
 }
 
 /* Font classes */
+.bold-font {
+    -fx-font-weight: bold;
+}
+
 .monospaced-font {
     -fx-font-family: "Monospaced";
 }

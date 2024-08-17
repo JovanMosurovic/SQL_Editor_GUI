@@ -10,7 +10,7 @@ shared_ptr<Database> database = nullptr;
 
 JNIEXPORT void JNICALL Java_cpp_JavaInterface_createNewDatabase (JNIEnv *env, jobject obj) {
     database = make_shared<Database>("untitled");
-    cout << "Database \"" << "\" has been " << green << "successfully" << resetColor << " created!" << endl;
+    cout << "Database \"" << database->getName() << "\" has been " << green << "successfully" << resetColor << " created!" << endl;
 }
 
 JNIEXPORT void JNICALL Java_cpp_JavaInterface_executeQuery (JNIEnv *env, jobject obj, jstring jquery) {
@@ -18,8 +18,13 @@ JNIEXPORT void JNICALL Java_cpp_JavaInterface_executeQuery (JNIEnv *env, jobject
     string query(jquery_ptr);
     env->ReleaseStringUTFChars(jquery, jquery_ptr);
 
-    shared_ptr<Statement> statement = Menu::parseSQLQuery(query);
-    statement->execute(*database);
+    try {
+        shared_ptr<Statement> statement = Menu::parseSQLQuery(query);
+        statement->execute(*database);
+    } catch (exception &e) {
+        cout << e.what() << endl;
+        return;
+    }
     cout << "Query has been " << green << "successfully" << resetColor << " executed!" << endl;
 };
 

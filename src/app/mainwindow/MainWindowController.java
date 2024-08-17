@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -60,11 +61,13 @@ public class MainWindowController extends ControllerBase {
     }
 
     public void handleRun() {
-        System.out.println("Run button clicked");
-        String code = editorArea.getText().trim().replace("\n", " ").replaceAll(" +", " ");
-        System.out.println("cum");
+        System.out.println("[RUN] Run button clicked");
+        String code = EditorHelper.trimCode(editorArea.getText());
+        System.out.println("[RUN] Code: " + code);
         databaseManager.executeQuery(code);
 
+        File file = FileHelper.openFile("output.txt");
+        FileHelper.checkErrors(file, consoleTextFlow);
     }
 
     //region Editor actions
