@@ -28,12 +28,12 @@ public class FileHelper {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         File file = new File(trimFilePath(filePath));
         if (!file.exists()) {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "[ERROR] File not found: " + filePath, Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[ERROR] File not found: " + filePath, Color.RED, true);
             return null;
         }
 
         if (file.isDirectory()) {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "[ERROR] File is a directory: " + filePath, Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[ERROR] File is a directory: " + filePath, Color.RED, true);
             return null;
         }
 
@@ -42,7 +42,7 @@ public class FileHelper {
 
     public static boolean checkErrors(File file, TextFlow consoleTextFlow) {
         if (file == null) {
-            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "[ERROR] File is null", Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[ERROR] File is null", Color.RED, true);
             return true;
         }
 
@@ -65,7 +65,7 @@ public class FileHelper {
                 return false;
             }
         } catch (IOException e) {
-            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
             return false;
         }
     }
@@ -128,9 +128,9 @@ public class FileHelper {
                 createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
             }
 
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "Results loaded successfully", Color.GREEN, true);
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\nResults are loaded successfully!", Color.GREEN, true);
         } catch (IOException e) {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
         }
     }
 
