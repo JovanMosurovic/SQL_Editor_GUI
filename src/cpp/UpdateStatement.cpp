@@ -83,7 +83,8 @@ void UpdateStatement::execute(Database &db) {
     }
 
     Table &table = db.getTable(table_name);
-    for (Row& row : table.getRows()) {
+    for (size_t i = 0; i < table.getRows().size(); ++i) {
+        Row& row = table.getRows()[i];
         bool shouldUpdateRow = true;
         for (const auto &filter : filters) {
             if (filter && !filter->applyFilter(row)) {
@@ -92,16 +93,14 @@ void UpdateStatement::execute(Database &db) {
             }
         }
         if (shouldUpdateRow) {
+            vector<string> newRowData = row.getData();
             for (const auto &change : changes) {
-                row.updateColumnValue(change.first, change.second);
+                int columnIndex = table.getColumnIndex(change.first);
+                newRowData[columnIndex] = change.second;
             }
+            db.updateRowInTable(table_name, i, newRowData);
         }
     }
-
-    // Insert into file for native format
-    ofstream outFile("output.txt", ios::out);
-    db.getTable(table_name).printTableInFile(outFile);
-    outFile.close();
 }
 
 void UpdateStatement::errors() {

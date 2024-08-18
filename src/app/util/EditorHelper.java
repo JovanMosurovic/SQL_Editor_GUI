@@ -167,8 +167,4 @@ public class EditorHelper {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "\n[FONT SIZE]: Minimum font size for code area reached", Color.RED, true);
         }
     }
-
-    public static String trimCode(String code) {
-        return code.trim().replace("\n", "").replaceAll("\\s+", " ");
-    }
 }

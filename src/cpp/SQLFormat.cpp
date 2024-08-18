@@ -71,10 +71,10 @@ Table SQLFormat::parseTable(const string &line) const {
 
         string columnDef;
         while (getline(ss, columnDef, ',')) {
-            // Uklanjanje vodećih i pratećih razmaka
+            // Removing leading and trailing whitespaces
             columnDef = regex_replace(columnDef, regex("^\\s+|\\s+$"), "");
 
-            // Izdvajanje imena kolone (prvi deo pre razmaka)
+            // Extracting column name (first part before space)
             istringstream columnStream(columnDef);
             string columnName;
             columnStream >> columnName;

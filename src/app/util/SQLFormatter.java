@@ -1,46 +1,44 @@
 package app.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SQLFormatter {
 
+    private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP", "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR"};
+
+    public static String trimCode(String code) {
+        return code.replaceAll("\\s+", " ").trim();
+    }
+
     public static String formatSQLQuery(String query) {
-        String[] keywords = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP", "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS"};
-
         StringBuilder formattedQuery = new StringBuilder();
-        boolean inQuotes = false;
-        String upperQuery = query.toUpperCase();
 
-        for (int i = 0; i < query.length(); i++) {
-            char c = query.charAt(i);
-            if (c == '\'' || c == '"') {
-                inQuotes = !inQuotes;
-                formattedQuery.append(c);
-            } else if (!inQuotes) {
-                boolean keywordFound = false;
-                for (String keyword : keywords) {
-                    if (upperQuery.startsWith(keyword, i) &&
-                            (i == 0 || !Character.isLetterOrDigit(query.charAt(i-1))) &&
-                            (i + keyword.length() == query.length() || !Character.isLetterOrDigit(query.charAt(i + keyword.length())))) {
-                        formattedQuery.append(" ").append(keyword).append(" ");
-                        i += keyword.length() - 1;
-                        keywordFound = true;
-                        break;
-                    }
+        // Normalize whitespace, preserving newlines
+        query = query.replaceAll("\\h+", " ").trim();
+
+        // Create a pattern to match keywords and non-keywords
+        String keywordPattern = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        Pattern pattern = Pattern.compile(keywordPattern + "|('[^']*')|([^\\s']+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+
+        while (matcher.find()) {
+            if (matcher.group(1) != null) {
+                // It's a keyword
+                if (formattedQuery.length() > 0 && formattedQuery.charAt(formattedQuery.length() - 1) != '\n') {
+                    formattedQuery.append(" ");
                 }
-                if (!keywordFound) {
-                    formattedQuery.append(c);
-                }
+                formattedQuery.append(matcher.group(1).toUpperCase());
             } else {
-                formattedQuery.append(c);
+                // It's not a keyword
+                if (formattedQuery.length() > 0 && formattedQuery.charAt(formattedQuery.length() - 1) != '\n') {
+                    formattedQuery.append(" ");
+                }
+                formattedQuery.append(matcher.group());
             }
         }
 
-        // Remove extra spaces
-        String result = formattedQuery.toString().replaceAll("\\s+", " ").trim();
-
-        // Edge case for *
-        result = result.replaceAll("\\s*\\*\\s*", " * ");
-
-        return result;
+        return formattedQuery.toString();
     }
 
 }

@@ -33,7 +33,7 @@ public:
 
     void insertIntoTable(const string& tableName, const vector<string>& columnNames, const vector<string>& rowData);
 
-    void updateRowInTable(const string& tableName, long long rowIndex, const vector<string>& rowData);
+    void updateRowInTable(const string& tableName, long long rowIndex, const vector<string>& rowData); // changed for native format
 
     void removeRowFromTable(const string& tableName, long long rowIndex);
 
@@ -47,6 +47,8 @@ public:
     void exportDatabase(const Format& format, const string& filePath);
 
     void printDatabase();
+
+    void updateTableInFile(const string& tableName);
 
     //<editor-fold desc="Getters">
 

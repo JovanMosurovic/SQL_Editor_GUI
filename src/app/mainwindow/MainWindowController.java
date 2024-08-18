@@ -64,7 +64,7 @@ public class MainWindowController extends ControllerBase {
 
     public void handleRun() {
         System.out.println("[RUN] Run button clicked");
-        String code = EditorHelper.trimCode(editorArea.getText());
+        String code = SQLFormatter.trimCode(editorArea.getText());
         System.out.println("[RUN] Code: " + code);
 
         String[] splitCode = code.split(";");
