@@ -69,7 +69,7 @@ public class FileHelper {
         }
     }
 
-    public static void loadTablesFromFile(String fileName) {
+    public static void loadTablesFromFile(String fileName, boolean isSelectQuery) {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         File file = openFile(fileName);
 
@@ -83,12 +83,16 @@ public class FileHelper {
             List<String> headers = null;
             List<List<String>> data = new ArrayList<>();
 
-            // skip first line (Database name)
-            br.readLine();
+            // Skip first line only if it's not a SELECT query
+            if (!isSelectQuery) {
+                br.readLine();
+            }
 
-            // Remove all tabs except the console tab
-            while (mainWindowController.resultTabPane.getTabs().size() > 1) {
-                mainWindowController.resultTabPane.getTabs().remove(1);
+            // Remove all tabs except the console tab only if it's not a SELECT query
+            if (!isSelectQuery) {
+                while (mainWindowController.resultTabPane.getTabs().size() > 1) {
+                    mainWindowController.resultTabPane.getTabs().remove(1);
+                }
             }
 
             while ((line = br.readLine()) != null) {
@@ -123,7 +127,7 @@ public class FileHelper {
                 createTableTab(mainWindowController, currentTableName, headers, data);
             }
 
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "Tables loaded successfully", Color.GREEN, true);
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "Results loaded successfully", Color.GREEN, true);
         } catch (IOException e) {
             TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
         }

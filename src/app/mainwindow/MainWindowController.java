@@ -76,13 +76,18 @@ public class MainWindowController extends ControllerBase {
                 continue;
             }
         //    System.out.println("[RUN] Executing query: " + s);
-            databaseManager.executeQuery(s);
+            String formattedQuery = SQLFormatter.formatSQLQuery(s.trim());
+            System.out.println("[RUN] Executing formatted query: " + formattedQuery);
+            databaseManager.executeQuery(formattedQuery);
 
             File outputFile = new File("output.txt");
             if(FileHelper.checkErrors(outputFile, consoleTextFlow)) {
                 hasError = true;
                 break;
             }
+
+            boolean isSelectQuery = formattedQuery.startsWith("SELECT");
+            FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
         }
 
         long endTime = System.nanoTime();
@@ -92,7 +97,7 @@ public class MainWindowController extends ControllerBase {
             AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
             AnsiTextParser.parseAnsiText("\033[1m\033[4mExecution time\033[0m: ", consoleTextFlow);
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, String.format("%.2f ms\n", (double) executionTime / 1000000), Color.BLACK, true);
-            FileHelper.loadTablesFromFile("output.txt");
+         //   FileHelper.loadTablesFromFile("output.txt");
         }
 
     }

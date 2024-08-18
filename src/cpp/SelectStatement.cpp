@@ -120,16 +120,21 @@ void SelectStatement::execute(Database &db) {
         shared_ptr<Table> joinedTable = db.innerJoinTables(table_name, join_table_name, join_column, join_column2);
         db.addTable(*joinedTable);  // Assuming method to add a table to the database.
         db.selectFromTable(joinedTable->getName(), joinedTable->getName(), selectedColumns, filters);
+
+        ofstream outFile("output.txt", ios::out);
+        joinedTable->printTableInFile(outFile, selectedColumns);
+        outFile.close();
+
         db.dropTable(joinedTable->getName());
     } else {
         // Select directly from the main table if no join.
         db.selectFromTable(table_name, table_name, selectedColumns, filters);
+
+        ofstream outFile("output.txt", ios::out);
+        db.getTable(table_name).printTableInFile(outFile, selectedColumns);
+        outFile.close();
     }
 
-    // Insert into file for native format
-    ofstream outFile("output.txt", ios::out);
-    db.getTable(table_name).printTableInFile(outFile);
-    outFile.close();
 
 }
 
