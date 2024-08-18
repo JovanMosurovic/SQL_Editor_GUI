@@ -1,9 +1,6 @@
 package app.util;
 
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
@@ -21,7 +18,7 @@ public class ContextMenuHelper {
      * @param resultTextFlow the TextFlow component representing the console area
      * @return a {@link ContextMenu} with a "Clear console" menu item
      */
-    public static ContextMenu createConsoleContextMenu(TextFlow resultTextFlow) {
+    private static ContextMenu createConsoleContextMenu(TextFlow resultTextFlow) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem clearConsoleItem = new MenuItem("Clear console");
         clearConsoleItem.setOnAction(event -> TextFlowHelper.clearResultTextFlow(resultTextFlow));
@@ -34,7 +31,7 @@ public class ContextMenuHelper {
      *
      * @return a {@link ContextMenu} with "Show tables" and "Drop table" menu items
      */
-    public static ContextMenu createTableListViewContextMenu() {
+    private static ContextMenu createTableListViewContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem refreshTablesItem = new MenuItem("Show tables");
         MenuItem dropTableItem = new MenuItem("Drop table");
@@ -50,7 +47,7 @@ public class ContextMenuHelper {
      * @param consoleTextFlow the {@link TextFlow} component for displaying messages in the console
      * @return a {@link ContextMenu} with various editing and formatting options
      */
-    public static ContextMenu createEditorAreaContextMenu(CodeArea editorArea, TextFlow consoleTextFlow) {
+    private static ContextMenu createEditorAreaContextMenu(CodeArea editorArea, TextFlow consoleTextFlow) {
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem undoItem = new MenuItem("Undo");
@@ -92,6 +89,22 @@ public class ContextMenuHelper {
                 clearEditorAreaItem
         );
 
+        return contextMenu;
+    }
+
+    public static ContextMenu createTabContextMenu(TabPane tabPane, Tab tab) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem closeTab = new MenuItem("Close Tab");
+        MenuItem closeAllTabs = new MenuItem("Close All Tabs");
+
+        closeTab.setOnAction(event -> closeTabIfNotConsole(tabPane, tab));
+        closeAllTabs.setOnAction(event -> closeAllTabsExceptConsole(tabPane));
+
+        if(tabPane.getTabs().indexOf(tab) == 0) {
+            closeTab.setDisable(true);
+        }
+
+        contextMenu.getItems().addAll(closeTab, closeAllTabs);
         return contextMenu;
     }
 
@@ -146,5 +159,31 @@ public class ContextMenuHelper {
                 editorAreaContextMenu.hide();
             }
         });
+    }
+
+    public static void setupTabContextMenus(TabPane resultTabPane) {
+        for (Tab tab : resultTabPane.getTabs()) {
+            ContextMenu tabContextMenu = createTabContextMenu(resultTabPane, tab);
+            tab.setContextMenu(tabContextMenu);
+
+            if (tab.getGraphic() instanceof javafx.scene.layout.HBox) {
+                javafx.scene.layout.HBox tabBox = (javafx.scene.layout.HBox) tab.getGraphic();
+                tabBox.setOnMouseClicked(event -> {
+                    if (event.getButton() == MouseButton.MIDDLE) {
+                        closeTabIfNotConsole(resultTabPane, tab);
+                    }
+                });
+            }
+        }
+    }
+
+    public static void closeTabIfNotConsole(TabPane tabPane, Tab tab) {
+        if (tabPane.getTabs().indexOf(tab) != 0) {
+            tabPane.getTabs().remove(tab);
+        }
+    }
+
+    private static void closeAllTabsExceptConsole(TabPane tabPane) {
+        tabPane.getTabs().removeIf(t -> tabPane.getTabs().indexOf(t) != 0);
     }
 }

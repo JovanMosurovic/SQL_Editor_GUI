@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
@@ -100,7 +101,7 @@ public class FileHelper {
                     // New table
                     if (currentTableName != null) {
                         assert headers != null;
-                        createTableTab(mainWindowController, currentTableName, headers, data);
+                        createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
                     }
                     currentTableName = line.trim();
                     headers = null;
@@ -108,7 +109,7 @@ public class FileHelper {
                 } else if (line.equals("#")) {
                     // End of table
                     assert headers != null;
-                    createTableTab(mainWindowController, currentTableName, headers, data);
+                    createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
                     currentTableName = null;
                 } else {
                     // Table data
@@ -124,7 +125,7 @@ public class FileHelper {
             // In case the last table is not followed by "#"
             if (currentTableName != null) {
                 assert headers != null;
-                createTableTab(mainWindowController, currentTableName, headers, data);
+                createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
             }
 
             TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "Results loaded successfully", Color.GREEN, true);
@@ -133,7 +134,7 @@ public class FileHelper {
         }
     }
 
-    private static void createTableTab(MainWindowController mainWindowController, String tableName, List<String> headers, List<List<String>> data) {
+    private static void createTableTab(MainWindowController mainWindowController, String tableName, List<String> headers, List<List<String>> data, boolean isSelectQuery) {
         TableView<ObservableList<String>> tableView = new TableView<>();
 
         for (int i = 0; i < headers.size(); i++) {
@@ -154,7 +155,12 @@ public class FileHelper {
         }
         tableView.setItems(observableData);
 
-        Image image = new Image(Objects.requireNonNull(FileHelper.class.getResourceAsStream("../resources/icons/table_icon.png")));
+        Image image;
+        if (isSelectQuery) {
+            image = new Image(Objects.requireNonNull(FileHelper.class.getResourceAsStream("../resources/icons/result_icon.png")));
+        } else {
+            image = new Image(Objects.requireNonNull(FileHelper.class.getResourceAsStream("../resources/icons/table_icon.png")));
+        }
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(16);
         imageView.setFitHeight(16);
@@ -164,8 +170,18 @@ public class FileHelper {
         tabLabel.setContentDisplay(ContentDisplay.LEFT);
 
         Tab tab = new Tab();
-        tab.setGraphic(new HBox(imageView, tabLabel));
+        HBox tabBox = new HBox(imageView, tabLabel);
+        tab.setGraphic(tabBox);
         tab.setContent(tableView);
+
+        ContextMenu tabContextMenu = ContextMenuHelper.createTabContextMenu(mainWindowController.resultTabPane, tab);
+        tab.setContextMenu(tabContextMenu);
+
+        tabBox.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.MIDDLE) {
+                ContextMenuHelper.closeTabIfNotConsole(mainWindowController.resultTabPane, tab);
+            }
+        });
 
         // Add the new tab to the result tab pane after the console tab
         mainWindowController.resultTabPane.getTabs().add(tab);

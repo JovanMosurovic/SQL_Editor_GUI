@@ -44,6 +44,7 @@ public class MainWindowController extends ControllerBase {
         ContextMenuHelper.setupConsoleContextMenu(consoleTextFlow);
         ContextMenuHelper.setupTablesContextMenu(tablesListView);
         ContextMenuHelper.setupEditorAreaContextMenu(editorArea, consoleTextFlow);
+        ContextMenuHelper.setupTabContextMenus(resultTabPane);
     }
 
     public boolean handleImportDatabase() {
