@@ -105,37 +105,27 @@ void SelectStatement::execute(Database &db) {
 
     vector<string> selectedColumns;
     if (find(column_names.begin(), column_names.end(), "*") != column_names.end()) {
-        // If SELECT * is used, fetch all columns from the main table.
         for (const auto &column: db.getTable(table_name).getColumns()) {
             selectedColumns.push_back(column.getName());
         }
     } else {
-        // Otherwise, use the specified columns.
         selectedColumns = column_names;
     }
 
-    // Handle JOIN operation if specified.
+    shared_ptr<Table> resultTable;
+
     if (!join_table_name.empty()) {
-        // Perform the inner join operation.
         shared_ptr<Table> joinedTable = db.innerJoinTables(table_name, join_table_name, join_column, join_column2);
-        db.addTable(*joinedTable);  // Assuming method to add a table to the database.
-        db.selectFromTable(joinedTable->getName(), joinedTable->getName(), selectedColumns, filters);
-
-        ofstream outFile("output.txt", ios::out);
-        joinedTable->printTableInFile(outFile, selectedColumns);
-        outFile.close();
-
+        db.addTable(*joinedTable);
+        resultTable = db.selectFromTable(joinedTable->getName(), joinedTable->getName(), selectedColumns, filters);
         db.dropTable(joinedTable->getName());
     } else {
-        // Select directly from the main table if no join.
-        db.selectFromTable(table_name, table_name, selectedColumns, filters);
-
-        ofstream outFile("output.txt", ios::out);
-        db.getTable(table_name).printTableInFile(outFile, selectedColumns);
-        outFile.close();
+        resultTable = db.selectFromTable(table_name, table_name, selectedColumns, filters);
     }
 
-
+    ofstream outFile("output.txt", ios::out);
+    resultTable->printTableInFile(outFile, selectedColumns);
+    outFile.close();
 }
 
 void SelectStatement::errors() {

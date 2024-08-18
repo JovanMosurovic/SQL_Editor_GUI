@@ -106,7 +106,7 @@ void Database::clearTable(const string &tableName) {
     table.clearRows();
 }
 
-void Database::selectFromTable(const string &tableName, const string &tableAlias, const vector<string> &columnNames, const vector<shared_ptr<IFilter>>& filters) {
+shared_ptr<Table> Database::selectFromTable(const string &tableName, const string &tableAlias, const vector<string> &columnNames, const vector<shared_ptr<IFilter>>& filters) {
     Table &table = getTable(tableName);
 
     for(const auto &columnName : columnNames) {
@@ -119,7 +119,7 @@ void Database::selectFromTable(const string &tableName, const string &tableAlias
         int columnIndex = table.getColumnIndex(columnName);
         selectedColumns.push_back(table.getColumns()[columnIndex]);
     }
-    Table selectedTable(tableAlias, selectedColumns);
+    auto selectedTable = make_shared<Table>(tableAlias, selectedColumns);
 
     for (const auto &row : table.getRows()) {
         bool shouldAddRow = true;
@@ -135,16 +135,17 @@ void Database::selectFromTable(const string &tableName, const string &tableAlias
             for (const auto &columnName : columnNames) {
                 selectedRow.push_back(row.getData()[table.getColumnIndex(columnName)]);
             }
-            selectedTable.addRow(selectedRow);
+            selectedTable->addRow(selectedRow);
         }
     }
 
-    if (selectedTable.getRows().empty()) {
+    if (selectedTable->getRows().empty()) {
         cout << "\xC4> Query did not return any results." << endl;
     } else {
-        selectedTable.printTable();
+        selectedTable->printTable();
     }
 
+    return selectedTable;
 }
 
 shared_ptr<Table> Database::innerJoinTables(const string &table1Name, const string &table2Name, const string &column1,

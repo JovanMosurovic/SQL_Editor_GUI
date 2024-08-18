@@ -39,7 +39,7 @@ public:
 
     void clearTable(const string& tableName);
 
-    void selectFromTable(const string& tableName, const string& tableAlias, const vector<string>& columnNames, const vector<shared_ptr<IFilter>>& filters);
+    shared_ptr<Table> selectFromTable(const string& tableName, const string& tableAlias, const vector<string>& columnNames, const vector<shared_ptr<IFilter>>& filters);
 
     shared_ptr<Table> innerJoinTables(const string &table1Name, const string &table2Name, const string &column1, const string &column2);
 
