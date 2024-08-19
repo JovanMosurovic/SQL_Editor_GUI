@@ -49,7 +49,7 @@ public class DatabaseManager {
         if (filePath.endsWith(".sql") || filePath.endsWith(".dbexp")) {
             JavaInterface.getInstance().importDatabase(filePath);
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "Selected file: " + filePath, Color.BLACK, false);
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\nDatabase imported successfully!", Color.GREEN, true);
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\nDatabase imported successfully!\n", Color.GREEN, true);
             return true;
         } else {
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "Invalid file type selected. Please choose a valid .sql or .dbexp file.", Color.RED, false);

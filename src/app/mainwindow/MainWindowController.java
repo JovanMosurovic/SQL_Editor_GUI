@@ -27,6 +27,7 @@ public class MainWindowController extends ControllerBase {
 
     public JavaInterface databaseManager;
     private SQLExecutor sqlExecutor;
+    private boolean isQueryFromEditor = true;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,12 +78,13 @@ public class MainWindowController extends ControllerBase {
     }
 
     public void executeQuery(String query) {
-        sqlExecutor.executeQueries(query, true); // true means it's from the editor
+        sqlExecutor.executeQueries(query, isQueryFromEditor);
+        isQueryFromEditor = true; // Reset flag after execution
     }
 
-    public void dropTableFromList(String tableName) {
-        databaseManager.executeQuery("DROP TABLE " + tableName);
-        updateTablesList();
+    public void executeQueryFromContextMenu(String query) {
+        isQueryFromEditor = false;
+        executeQuery(query);
     }
 
     public void updateTablesList() {

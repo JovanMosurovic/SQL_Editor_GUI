@@ -25,7 +25,7 @@ JNIEXPORT void JNICALL Java_cpp_JavaInterface_executeQuery (JNIEnv *env, jobject
         cout << e.what() << endl;
         return;
     }
-    cout << "Query has been " << green << "successfully" << resetColor << " executed!" << endl;
+    cout << "\nQuery has been " << green << "successfully" << resetColor << " executed!" << endl;
 };
 
 JNIEXPORT void JNICALL Java_cpp_JavaInterface_importDatabase (JNIEnv *env, jobject obj, jstring jfile_path) {
@@ -83,7 +83,7 @@ JNIEXPORT void JNICALL Java_cpp_JavaInterface_exportDatabase (JNIEnv *env, jobje
     } else if(formatStr == "dbexp") {
         format = make_shared<CustomFormat>();
     } else {
-        throw InvalidFileExportException("Invalid file format for exporting database. Please provide a valid format.");
+        throw InvalidFileExportException("\nInvalid file format for exporting database. Please provide a valid format.");
     }
     database->exportDatabase(*format, file_path);
 

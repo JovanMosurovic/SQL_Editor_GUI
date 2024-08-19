@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc35703d-d20b-4162-9bb2-2a83b68377c6" name="Changes" comment="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected.">
+    <list default="true" id="dc35703d-d20b-4162-9bb2-2a83b68377c6" name="Changes" comment="Improve ListView styles for better visual consistency&#10;&#10;- Enhance ListView appearance in the table list">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/savingwindow/SavingWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/savingwindow/SavingWindowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/testQueries.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/testQueries.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/mainwindow/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mainwindow/MainWindowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/util/ContextMenuHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/ContextMenuHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/util/SQLExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/util/SQLExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cpp/cpp_JavaInterface.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cpp/cpp_JavaInterface.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,25 +41,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/opt/scenebuilder/bin/SceneBuilder&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/opt/scenebuilder/bin/SceneBuilder",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="app.Main" />
@@ -82,8 +86,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.300" />
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.300" />
+        <option value="jdk-1.8.0_402-corretto-1.8.0_402-4caba194b151-ae57be32" />
       </set>
     </attachedChunks>
   </component>
@@ -104,6 +107,7 @@
       <workItem from="1723033608529" duration="677000" />
       <workItem from="1723159450897" duration="639000" />
       <workItem from="1723237680207" duration="4593000" />
+      <workItem from="1724085680277" duration="3320000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected.">
       <option name="closed" value="true" />
@@ -113,7 +117,23 @@
       <option name="project" value="LOCAL" />
       <updated>1723919136513</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Implement different DROP TABLE functionality for list&#10;&#10;- Add isFromEditor parameter to executeQueries method&#10;- Implement different behavior for DROP TABLE from editor vs. table list&#10;- Update table list after relevant queries (CREATE and DROP)&#10;- Modify MainWindowController to handle queries from editor and list separately&#10;- Adjust handleRun and executeQuery methods to use new executeQueries signature">
+      <option name="closed" value="true" />
+      <created>1724085586737</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1724085586737</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Improve ListView styles for better visual consistency&#10;&#10;- Enhance ListView appearance in the table list">
+      <option name="closed" value="true" />
+      <created>1724087553623</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1724087553623</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,6 +153,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix GUI scaling issues across multiple platforms&#10;&#10;- Ensured consistent button widths and font sizes in FXML files&#10;- Verified components layouts to ensure uniform appearance&#10;- Added shortcut for Exit" />
     <MESSAGE value="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed query execution to stop at the first error, ensuring subsequent queries are not executed if an error occurs&#10;&#10;- Updated query execution logic to halt on the first encountered error.&#10;- Ensured that no further queries are executed after an error is detected." />
+    <MESSAGE value="Implement different DROP TABLE functionality for list&#10;&#10;- Add isFromEditor parameter to executeQueries method&#10;- Implement different behavior for DROP TABLE from editor vs. table list&#10;- Update table list after relevant queries (CREATE and DROP)&#10;- Modify MainWindowController to handle queries from editor and list separately&#10;- Adjust handleRun and executeQuery methods to use new executeQueries signature" />
+    <MESSAGE value="Improve ListView styles for better visual consistency&#10;&#10;- Enhance ListView appearance in the table list" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve ListView styles for better visual consistency&#10;&#10;- Enhance ListView appearance in the table list" />
   </component>
 </project>

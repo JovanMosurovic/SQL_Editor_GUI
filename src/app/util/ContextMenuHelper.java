@@ -42,7 +42,7 @@ public class ContextMenuHelper {
             String selectedTable = tablesListView.getSelectionModel().getSelectedItem();
             if (selectedTable != null) {
                 MainWindowController controller = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-                controller.executeQuery("SELECT * FROM " + selectedTable);
+                controller.executeQueryFromContextMenu("SELECT * FROM " + selectedTable);
             }
         });
 
@@ -50,7 +50,7 @@ public class ContextMenuHelper {
             String selectedTable = tablesListView.getSelectionModel().getSelectedItem();
             if (selectedTable != null) {
                 MainWindowController controller = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-                controller.dropTableFromList(selectedTable);
+                controller.executeQueryFromContextMenu("DROP TABLE " + selectedTable);
             }
         });
 

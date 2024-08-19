@@ -5,6 +5,7 @@ import app.mainwindow.MainWindowController;
 import cpp.JavaInterface;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +59,9 @@ public class SQLExecutor {
         long endTime = System.nanoTime();
         long executionTime = endTime - startTime;
 
-        if (!hasError) {
+        if (!hasError && isFromEditor) {
             displaySuccessMessage(executionTime);
-            if (isFromEditor) {
-                checkForEmptyTables(executedQueries);
-            }
+            checkForEmptyTables(executedQueries);
         }
     }
 
