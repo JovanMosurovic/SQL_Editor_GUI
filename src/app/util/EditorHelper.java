@@ -31,7 +31,8 @@ public class EditorHelper {
      * A pattern to match SQL keywords for syntax highlighting.
      */
     private static final Pattern KEYWORD_PATTERN = Pattern.compile(
-            "\\b(" + String.join("|", KEYWORD_COLORS.keySet()) + ")\\b",
+            "(?<=\\s|^)(" + String.join("|", KEYWORD_COLORS.keySet()) + ")(?=\\s|$)|" +
+                    "(\"[^\"]*\"|'[^']*')",
             Pattern.CASE_INSENSITIVE
     );
 
@@ -53,6 +54,12 @@ public class EditorHelper {
      */
     public static void setupEditorArea(CodeArea editorArea) {
         editorArea.setParagraphGraphicFactory(LineNumberFactory.get(editorArea));
+
+        editorArea.textProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> {
+            int caretPosition = editorArea.getCaretPosition();
+            editorArea.setStyleSpans(0, computeHighlighting(editorArea));
+            editorArea.moveTo(caretPosition);
+        }));
 
         editorArea.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
@@ -76,23 +83,40 @@ public class EditorHelper {
         Matcher matcher = KEYWORD_PATTERN.matcher(text);
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+        boolean textChanged = false;
 
         while (matcher.find()) {
             String matchedText = matcher.group();
-            String upperCaseKeyword = matchedText.toUpperCase();
-            String styleClass = KEYWORD_COLORS.get(upperCaseKeyword);
-
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
-            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
-            lastKwEnd = matcher.end();
 
-            // Replace the matched text with uppercase version
-            text = text.substring(0, matcher.start()) + upperCaseKeyword + text.substring(matcher.end());
+            if ((matchedText.startsWith("\"") && matchedText.endsWith("\"")) ||
+                    (matchedText.startsWith("'") && matchedText.endsWith("'"))) {
+                // It's a quoted string
+                spansBuilder.add(Collections.singleton("string"), matchedText.length());
+            } else {
+                // It's a keyword
+                String upperCaseKeyword = matchedText.toUpperCase();
+                String styleClass = KEYWORD_COLORS.get(upperCaseKeyword);
+                if (styleClass != null) {
+                    spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+                    if (!matchedText.equals(upperCaseKeyword)) {
+                        // Replace the matched text with uppercase version only if it's different
+                        text = text.substring(0, matcher.start()) + upperCaseKeyword + text.substring(matcher.end());
+                        textChanged = true;
+                    }
+                } else {
+                    spansBuilder.add(Collections.emptyList(), matcher.end() - matcher.start());
+                }
+            }
+
+            lastKwEnd = matcher.end();
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
 
-        // Update the text in the editor with uppercase keywords
-        editorArea.replaceText(text);
+        // Update the text in the editor with uppercase keywords only if changes were made
+        if (textChanged) {
+            editorArea.replaceText(text);
+        }
 
         return spansBuilder.create();
     }
