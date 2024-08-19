@@ -327,6 +327,79 @@
     -fx-background-color: transparent;
 }
 
+/* ListView Table Styles */
+.list-view-table {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 0;
+}
+
+.list-view-table:focused {
+    -fx-background-insets: 0;
+}
+
+.list-view-table .list-cell {
+    -fx-background-color: white;
+    -fx-padding: 8px 0 8px 8px;
+    -fx-text-fill: #333333;
+}
+
+.list-view-table .list-cell:selected {
+    -fx-background-color: #4a90e2;
+    -fx-background-insets: 0;
+    -fx-text-fill: #333333; /* Ensure text remains black when selected */
+}
+
+.list-view-table .list-cell:focused {
+    -fx-background-insets: 0;
+}
+
+.list-view-table .list-cell .text {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 16px;
+    -fx-fill: #333333; /* Use -fx-fill for Text nodes */
+}
+
+.list-view-table .list-cell:selected .text {
+    -fx-fill: #333333; /* Ensure text remains black when selected */
+}
+
+.list-view-table .scroll-bar:vertical,
+.list-view-table .scroll-bar:horizontal {
+    -fx-background-color: white;
+}
+
+.list-view-table .scroll-bar:vertical .thumb,
+.list-view-table .scroll-bar:horizontal .thumb {
+    -fx-background-color: #c0c0c0;
+    -fx-background-radius: 3em;
+}
+
+.list-view-table .scroll-bar:vertical .thumb:hover,
+.list-view-table .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #a0a0a0;
+}
+
+/* Remove focus border */
+.list-view-table:focused {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+}
+
+/* Ensure the blue selection goes to the edges */
+.list-view-table .virtual-flow .clipped-container .sheet .list-cell:filled:selected {
+    -fx-background-insets: 0;
+}
+
+/* Additional rule to ensure text color remains black when selected */
+.list-view-table .list-cell:filled:selected,
+.list-view-table .list-cell:filled:selected:focused {
+    -fx-text-fill: #333333;
+}
+
 /* Menu Styles */
 .menu-bar {
     -fx-background-color: #f0f0f0;

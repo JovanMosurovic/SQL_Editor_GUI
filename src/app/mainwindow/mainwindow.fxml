@@ -138,7 +138,7 @@
     <!-- Left Pane for Tables -->
     <VBox layoutX="10.0" layoutY="50.0" minHeight="500.0" minWidth="135.0" prefWidth="135.0" styleClass="left-pane">
         <Label styleClass="left-pane-label" text="Tables"/>
-        <ListView fx:id="tablesListView" minHeight="450.0" minWidth="113.0"/>
+        <ListView fx:id="tablesListView" minHeight="450.0" minWidth="113.0" styleClass="list-view-table"/>
     </VBox>
 
     <!-- Center Pane for Code Area -->
