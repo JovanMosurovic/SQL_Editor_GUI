@@ -11,7 +11,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
+import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainWindowController extends ControllerBase {
@@ -52,7 +54,7 @@ public class MainWindowController extends ControllerBase {
     }
 
     public boolean handleImportDatabase(Stage ownerStage, boolean isFromWelcomeWindow) {
-        return DatabaseManager.showImportDatabaseDialog(
+        boolean result = DatabaseManager.showImportDatabaseDialog(
                 ownerStage,
                 consoleTextFlow,
                 isFromWelcomeWindow,
@@ -60,12 +62,31 @@ public class MainWindowController extends ControllerBase {
                 new FileChooser.ExtensionFilter("Custom format files", "*dbexp"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
+
+        if (result) {
+            updateTablesList();
+        }
+
+        return result;
     }
 
     public void handleRun() {
         System.out.println("[RUN] Run button clicked");
         String code = editorArea.getText();
         sqlExecutor.executeQueries(code);
+    }
+
+    public void executeQuery(String query) {
+        sqlExecutor.executeQueries(query);
+    }
+
+    public void updateTablesList() {
+        databaseManager.executeQuery("SHOW TABLES");
+        File outputFile = new File("output.txt");
+        if (!FileHelper.checkErrors(outputFile, consoleTextFlow)) {
+            List<String> tableNames = FileHelper.readTableNames("output.txt");
+            tablesListView.getItems().setAll(tableNames);
+        }
     }
 
     //region Editor actions

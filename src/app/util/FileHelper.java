@@ -151,6 +151,26 @@ public class FileHelper {
         }
     }
 
+    public static List<String> readTableNames(String fileName) {
+        List<String> tableNames = new ArrayList<>();
+        File file = openFile(fileName);
+        if (file == null) {
+            return tableNames;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("\t")) {
+                    tableNames.add(line.trim());
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.severe("[ERROR] Error reading table names: " + e.getMessage());
+        }
+        return tableNames;
+    }
+
     private static void createTableTab(MainWindowController mainWindowController, String tableName, List<String> headers, List<List<String>> data, boolean isSelectQuery) {
         TableView<ObservableList<String>> tableView = new TableView<>();
 

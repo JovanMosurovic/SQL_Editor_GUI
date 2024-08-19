@@ -1,5 +1,7 @@
 package app.util;
 
+import app.Window;
+import app.mainwindow.MainWindowController;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
@@ -31,11 +33,29 @@ public class ContextMenuHelper {
      *
      * @return a {@link ContextMenu} with "Show tables" and "Drop table" menu items
      */
-    private static ContextMenu createTableListViewContextMenu() {
+    private static ContextMenu createTableListViewContextMenu(ListView<String> tablesListView) {
         ContextMenu contextMenu = new ContextMenu();
-        MenuItem refreshTablesItem = new MenuItem("Show tables");
+        MenuItem showTableItem = new MenuItem("Show table");
         MenuItem dropTableItem = new MenuItem("Drop table");
-        contextMenu.getItems().addAll(refreshTablesItem, dropTableItem);
+
+        showTableItem.setOnAction(event -> {
+            String selectedTable = tablesListView.getSelectionModel().getSelectedItem();
+            if (selectedTable != null) {
+                MainWindowController controller = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+                controller.executeQuery("SELECT * FROM " + selectedTable);
+            }
+        });
+
+        dropTableItem.setOnAction(event -> {
+            String selectedTable = tablesListView.getSelectionModel().getSelectedItem();
+            if (selectedTable != null) {
+                MainWindowController controller = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+                controller.executeQuery("DROP TABLE " + selectedTable);
+                controller.updateTablesList();
+            }
+        });
+
+        contextMenu.getItems().addAll(showTableItem, dropTableItem);
         return contextMenu;
     }
 
@@ -131,12 +151,16 @@ public class ContextMenuHelper {
      * @param tablesListView the {@link ListView} component containing the list of tables
      */
     public static void setupTablesContextMenu(ListView<String> tablesListView) {
-        ContextMenu tablesContextMenu = ContextMenuHelper.createTableListViewContextMenu();
+        ContextMenu tablesContextMenu = ContextMenuHelper.createTableListViewContextMenu(tablesListView);
 
-        tablesListView.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.SECONDARY && !tablesListView.getSelectionModel().isEmpty()) {
+        tablesListView.setOnContextMenuRequested(event -> {
+            if (!tablesListView.getSelectionModel().isEmpty()) {
                 tablesContextMenu.show(tablesListView, event.getScreenX(), event.getScreenY());
-            } else {
+            }
+        });
+
+        tablesListView.setOnMousePressed(event -> {
+            if (event.getButton() != MouseButton.SECONDARY) {
                 tablesContextMenu.hide();
             }
         });

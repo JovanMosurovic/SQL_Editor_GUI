@@ -1,5 +1,7 @@
 package app.util;
 
+import app.Window;
+import app.mainwindow.MainWindowController;
 import cpp.JavaInterface;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
@@ -43,6 +45,11 @@ public class SQLExecutor {
             FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
 
             executedQueries.add(formattedQuery);
+
+            if (formattedQuery.startsWith("CREATE TABLE") ||
+                    formattedQuery.startsWith("DROP TABLE")) {
+                ((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).updateTablesList();
+            }
 
             if(formattedQuery.startsWith("DROP TABLE")) {
                 databaseManager.executeQuery("SHOW TABLES");
