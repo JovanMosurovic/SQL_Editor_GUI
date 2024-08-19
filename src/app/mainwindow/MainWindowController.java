@@ -73,11 +73,16 @@ public class MainWindowController extends ControllerBase {
     public void handleRun() {
         System.out.println("[RUN] Run button clicked");
         String code = editorArea.getText();
-        sqlExecutor.executeQueries(code);
+        sqlExecutor.executeQueries(code, true);
     }
 
     public void executeQuery(String query) {
-        sqlExecutor.executeQueries(query);
+        sqlExecutor.executeQueries(query, true); // true means it's from the editor
+    }
+
+    public void dropTableFromList(String tableName) {
+        databaseManager.executeQuery("DROP TABLE " + tableName);
+        updateTablesList();
     }
 
     public void updateTablesList() {

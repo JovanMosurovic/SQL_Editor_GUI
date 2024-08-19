@@ -19,7 +19,7 @@ public class SQLExecutor {
         this.consoleTextFlow = consoleTextFlow;
     }
 
-    public void executeQueries(String code) {
+    public void executeQueries(String code, boolean isFromEditor) {
         System.out.println("[RUN] Executing queries");
         String[] splitCode = SQLFormatter.trimCode(code).split(";");
 
@@ -46,14 +46,12 @@ public class SQLExecutor {
 
             executedQueries.add(formattedQuery);
 
-            if (formattedQuery.startsWith("CREATE TABLE") ||
-                    formattedQuery.startsWith("DROP TABLE")) {
-                ((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).updateTablesList();
-            }
-
-            if(formattedQuery.startsWith("DROP TABLE")) {
+            if (formattedQuery.startsWith("DROP TABLE") && isFromEditor) {
                 databaseManager.executeQuery("SHOW TABLES");
                 FileHelper.loadTablesFromFile("output.txt", false);
+            } else if (formattedQuery.startsWith("CREATE TABLE") ||
+                    formattedQuery.startsWith("DROP TABLE")) {
+                ((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).updateTablesList();
             }
         }
 
@@ -62,7 +60,9 @@ public class SQLExecutor {
 
         if (!hasError) {
             displaySuccessMessage(executionTime);
-            checkForEmptyTables(executedQueries);
+            if (isFromEditor) {
+                checkForEmptyTables(executedQueries);
+            }
         }
     }
 

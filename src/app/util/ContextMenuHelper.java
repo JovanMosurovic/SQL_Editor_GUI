@@ -50,8 +50,7 @@ public class ContextMenuHelper {
             String selectedTable = tablesListView.getSelectionModel().getSelectedItem();
             if (selectedTable != null) {
                 MainWindowController controller = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-                controller.executeQuery("DROP TABLE " + selectedTable);
-                controller.updateTablesList();
+                controller.dropTableFromList(selectedTable);
             }
         });
 
