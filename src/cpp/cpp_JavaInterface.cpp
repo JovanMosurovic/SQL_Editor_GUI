@@ -25,7 +25,7 @@ JNIEXPORT void JNICALL Java_cpp_JavaInterface_executeQuery (JNIEnv *env, jobject
         cout << e.what() << endl;
         return;
     }
-    cout << "\nQuery has been " << green << "successfully" << resetColor << " executed!" << endl;
+    cout << "Query has been " << green << "successfully" << resetColor << " executed!" << endl;
 };
 
 JNIEXPORT void JNICALL Java_cpp_JavaInterface_importDatabase (JNIEnv *env, jobject obj, jstring jfile_path) {
