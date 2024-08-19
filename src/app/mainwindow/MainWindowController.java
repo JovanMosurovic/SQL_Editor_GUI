@@ -73,7 +73,8 @@ public class MainWindowController extends ControllerBase {
 
     public void handleRun() {
         System.out.println("[RUN] Run button clicked");
-        String code = editorArea.getText();
+        String selectedText = editorArea.getSelectedText();
+        String code = selectedText.isEmpty() ? editorArea.getText() : selectedText;
         sqlExecutor.executeQueries(code, true);
     }
 
