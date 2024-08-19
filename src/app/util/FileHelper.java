@@ -21,8 +21,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class FileHelper {
+
+    // logger
+    private static final Logger LOGGER = Logger.getLogger(FileHelper.class.getName());
 
     public static File openFile(String filePath) {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
@@ -68,6 +72,21 @@ public class FileHelper {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
             return false;
         }
+    }
+
+    public static boolean hasTablesInOutput(String outputFilePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(outputFilePath))) {
+            int lineCount = 0;
+            while (reader.readLine() != null) {
+                lineCount++;
+                if (lineCount > 1) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.severe("[ERROR] Error reading file: " + e.getMessage());
+        }
+        return false;
     }
 
     public static void loadTablesFromFile(String fileName, boolean isSelectQuery) {
@@ -127,8 +146,6 @@ public class FileHelper {
                 assert headers != null;
                 createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
             }
-
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\nResults are loaded successfully!", Color.GREEN, true);
         } catch (IOException e) {
             TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
         }

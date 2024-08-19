@@ -6,13 +6,11 @@ import app.util.*;
 import cpp.JavaInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,6 +24,7 @@ public class MainWindowController extends ControllerBase {
     public TabPane resultTabPane;
 
     public JavaInterface databaseManager;
+    private SQLExecutor sqlExecutor;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,6 +32,7 @@ public class MainWindowController extends ControllerBase {
         setupEditorArea();
         setupContextMenus();
         databaseManager = new JavaInterface();
+        sqlExecutor = new SQLExecutor(databaseManager, consoleTextFlow);
     }
 
     private void setupEditorArea() {
@@ -64,41 +64,8 @@ public class MainWindowController extends ControllerBase {
 
     public void handleRun() {
         System.out.println("[RUN] Run button clicked");
-        String code = SQLFormatter.trimCode(editorArea.getText());
-        System.out.println("[RUN] Code: " + code);
-
-        String[] splitCode = code.split(";");
-
-        long startTime = System.nanoTime();
-        boolean hasError = false;
-
-        for(String s : splitCode) {
-            if(s.isEmpty()) {
-                continue;
-            }
-            String formattedQuery = SQLFormatter.formatSQLQuery(s.trim());
-            System.out.println("[RUN] Executing formatted query: " + formattedQuery);
-            databaseManager.executeQuery(formattedQuery);
-
-            File outputFile = new File("output.txt");
-            if(FileHelper.checkErrors(outputFile, consoleTextFlow)) {
-                hasError = true;
-                break;
-            }
-
-            boolean isSelectQuery = formattedQuery.startsWith("SELECT");
-            FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
-        }
-
-        long endTime = System.nanoTime();
-        long executionTime = endTime - startTime;
-
-        if(!hasError) {
-            AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!", consoleTextFlow);
-            AnsiTextParser.parseAnsiText("\n\033[1m\033[4mExecution time\033[0m: ", consoleTextFlow);
-            TextFlowHelper.updateResultTextFlow(consoleTextFlow, String.format("%.2f ms\n", (double) executionTime / 1000000), Color.BLACK, true);
-        }
-
+        String code = editorArea.getText();
+        sqlExecutor.executeQueries(code);
     }
 
     //region Editor actions
