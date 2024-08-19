@@ -43,6 +43,11 @@ public class SQLExecutor {
             FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
 
             executedQueries.add(formattedQuery);
+
+            if(formattedQuery.startsWith("DROP TABLE")) {
+                databaseManager.executeQuery("SHOW TABLES");
+                FileHelper.loadTablesFromFile("output.txt", false);
+            }
         }
 
         long endTime = System.nanoTime();
