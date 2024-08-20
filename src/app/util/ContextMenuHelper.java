@@ -2,6 +2,7 @@ package app.util;
 
 import app.Window;
 import app.mainwindow.MainWindowController;
+import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
@@ -135,10 +136,11 @@ public class ContextMenuHelper {
     public static void setupConsoleContextMenu(TextFlow consoleTextFlow) {
         ContextMenu consoleContextMenu = ContextMenuHelper.createConsoleContextMenu(consoleTextFlow);
 
-        consoleTextFlow.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                consoleContextMenu.show(consoleTextFlow, event.getScreenX(), event.getScreenY());
-            } else {
+        consoleTextFlow.setOnContextMenuRequested(event ->
+                showContextMenu(consoleContextMenu, consoleTextFlow, event));
+
+        consoleTextFlow.setOnMousePressed(event -> {
+            if (event.getButton() != MouseButton.SECONDARY) {
                 consoleContextMenu.hide();
             }
         });
@@ -154,7 +156,7 @@ public class ContextMenuHelper {
 
         tablesListView.setOnContextMenuRequested(event -> {
             if (!tablesListView.getSelectionModel().isEmpty()) {
-                tablesContextMenu.show(tablesListView, event.getScreenX(), event.getScreenY());
+                showContextMenu(tablesContextMenu, tablesListView, event);
             }
         });
 
@@ -175,7 +177,8 @@ public class ContextMenuHelper {
     public static void setupEditorAreaContextMenu(CodeArea editorArea, TextFlow consoleTextFlow) {
         ContextMenu editorAreaContextMenu = ContextMenuHelper.createEditorAreaContextMenu(editorArea, consoleTextFlow);
 
-        editorArea.setOnContextMenuRequested(event -> editorAreaContextMenu.show(editorArea, event.getScreenX(), event.getScreenY()));
+        editorArea.setOnContextMenuRequested(event ->
+                showContextMenu(editorAreaContextMenu, editorArea, event));
 
         editorArea.setOnMousePressed(event -> {
             if (event.getButton() != MouseButton.SECONDARY) {
@@ -208,5 +211,13 @@ public class ContextMenuHelper {
 
     private static void closeAllTabsExceptConsole(TabPane tabPane) {
         tabPane.getTabs().removeIf(t -> tabPane.getTabs().indexOf(t) != 0);
+    }
+
+    private static void showContextMenu(ContextMenu contextMenu, javafx.scene.Node anchor, javafx.scene.input.ContextMenuEvent event) {
+        if (contextMenu.isShowing()) {
+            contextMenu.hide();
+        }
+        Platform.runLater(() -> contextMenu.show(anchor, event.getScreenX(), event.getScreenY()));
+        event.consume();
     }
 }
