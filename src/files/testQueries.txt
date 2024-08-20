@@ -12,7 +12,7 @@ create table trecaTabela (arg, arg2, arg3, arg4, arg5);
 
 show tables;
 
-delete from drugaTabela where arg = "test" and arg <> "test" // shouldnt change the table
+delete from drugaTabela where arg = "test" and arg <> "test" // shouldn't change the table
 delete from drugaTabela where arg = "test" and arg = "test"
 
 drop table drugaTabela;
@@ -34,7 +34,7 @@ where arg = "test" and arg = "test" and arg = "test" // should return only test
 
 SELECT j.arg
 FROM prvaTabela j
-WHERE j.arg = "test11" and j.arg = "nekiValue" // shouldnt return anything
+WHERE j.arg = "test11" and j.arg = "nekiValue" // shouldn't return anything
 
 SELECT j.arg, j.arg2, j.arg3, j.arg4, f.arg                                    
 FROM prvaTabela j
@@ -47,4 +47,6 @@ INNER JOIN drugaTabela f ON j.arg = f.argJoin;
 
 SELECT *
 FROM prvaTabela
-WHERE arg = "test11" AND arg2 <> "test111"; // shouldnt return anything
+WHERE arg = "test11" AND arg2 <> "test111"; // shouldn't return anything
+
+SELECT * FROM drugaTabela d INNER JOIN prvaTabela p ON (p.arg=d.arg) // check * and INNER JOIN
