@@ -218,6 +218,7 @@
 .code-area .cyan { -fx-fill: #0000CD; -fx-font-weight: bold; }
 .code-area .magenta { -fx-fill: magenta; -fx-font-weight: bold; }
 .code-area .green { -fx-fill: #228B22; -fx-font-weight: bold; } /* Using lime for better visibility */
+.semicolon { -fx-fill: #36454F; -fx-font-weight: bold; }
 .code-area .string { -fx-fill: #006400; -fx-font-weight: normal; } /* Dark green color for strings */
 
 .code-area .paragraph-text {

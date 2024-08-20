@@ -31,8 +31,9 @@ public class EditorHelper {
      * A pattern to match SQL keywords for syntax highlighting.
      */
     private static final Pattern KEYWORD_PATTERN = Pattern.compile(
-            "(?<=\\s|^)(" + String.join("|", KEYWORD_COLORS.keySet()) + ")(?=\\s|$)|" +
-                    "(\"[^\"]*\"|'[^']*')",
+            "(?<=\\s|^)(" + String.join("|", KEYWORD_COLORS.keySet()) + ")(?=\\s|$|;)|" +
+                    "(\"[^\"]*\"|'[^']*')|" +
+                    "(;)",
             Pattern.CASE_INSENSITIVE
     );
 
@@ -93,8 +94,11 @@ public class EditorHelper {
                     (matchedText.startsWith("'") && matchedText.endsWith("'"))) {
                 // It's a quoted string
                 spansBuilder.add(Collections.singleton("string"), matchedText.length());
+            } else if (matchedText.equals(";")) {
+                // It's a semicolon
+                spansBuilder.add(Collections.singleton("semicolon"), 1);
             } else {
-                // It's a keyword
+                // It's a keyword or other text
                 String upperCaseKeyword = matchedText.toUpperCase();
                 String styleClass = KEYWORD_COLORS.get(upperCaseKeyword);
                 if (styleClass != null) {
@@ -147,6 +151,8 @@ public class EditorHelper {
         keywordColors.put("TABLES", "magenta");
         keywordColors.put("AND", "green");
         keywordColors.put("OR", "green");
+        keywordColors.put("AS", "green");
+        keywordColors.put(",", "orange");
         return keywordColors;
     }
 

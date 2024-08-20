@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class SQLFormatter {
 
-    private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP", "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR"};
+    private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP", "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR", ";"};
 
     public static String trimCode(String code) {
         return code.replaceAll("\\s+", " ").trim();
