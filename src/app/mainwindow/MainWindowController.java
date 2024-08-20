@@ -163,11 +163,17 @@ public class MainWindowController extends ControllerBase {
     }
 
     public void saveFile(File file) {
+        if (!hasUnsavedChanges) {
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[INFO] No changes to save.", Color.BLACK, true);
+            return;
+        }
+
         try {
             String format = file.getName().endsWith(".sql") ? "sql" : "dbexp";
             JavaInterface.getInstance().exportDatabase(format, file.getAbsolutePath());
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[SAVE] File saved successfully: " + file.getAbsolutePath(), Color.GREEN, true);
             hasUnsavedChanges = false;
+            importedFile = file;
         } catch (Exception e) {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[ERROR] Error saving file: " + e.getMessage(), Color.RED, true);
         }
