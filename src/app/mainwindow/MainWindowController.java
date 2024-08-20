@@ -159,11 +159,7 @@ public class MainWindowController extends ControllerBase {
 
     @FXML
     private void handleSaveAs() {
-        if (hasUnsavedChanges) {
-            Window.showWindow(Window.SAVE_WINDOW);
-        } else {
-            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\nNo changes to save.", Color.BLACK, true);
-        }
+        Window.showWindow(Window.SAVE_WINDOW);
     }
 
     public void saveFile(File file) {
@@ -173,7 +169,7 @@ public class MainWindowController extends ControllerBase {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[SAVE] File saved successfully: " + file.getAbsolutePath(), Color.GREEN, true);
             hasUnsavedChanges = false;
         } catch (Exception e) {
-            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\nError saving file: " + e.getMessage(), Color.RED, true);
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[ERROR] Error saving file: " + e.getMessage(), Color.RED, true);
         }
     }
 
