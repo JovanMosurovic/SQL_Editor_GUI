@@ -2,17 +2,13 @@ package app.savingwindow;
 
 import app.ControllerBase;
 import app.Window;
-import cpp.JavaInterface;
+import app.mainwindow.MainWindowController;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Controller for the Saving Window.
@@ -23,8 +19,6 @@ import java.util.logging.Logger;
  * @see app.Window
  */
 public class SavingWindowController extends ControllerBase {
-
-    private static final Logger logger = Logger.getLogger(SavingWindowController.class.getName());
 
     /**
      * Initializes the Saving Window Controller.
@@ -46,14 +40,7 @@ public class SavingWindowController extends ControllerBase {
      */
     @FXML
     private void handleSaveAsSQL() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save as SQL");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQL Files", "*.sql"));
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            saveFile(file, "sql");
-        }
-        Window.hideWindow(Window.SAVE_WINDOW);
+        saveAs("sql");
     }
 
     /**
@@ -63,29 +50,25 @@ public class SavingWindowController extends ControllerBase {
      */
     @FXML
     private void handleSaveAsCustom() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save as Custom Format");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Custom Files", "*.dbexp"));
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            saveFile(file, "dbexp");
-        }
-        Window.hideWindow(Window.SAVE_WINDOW);
+        saveAs("dbexp");
     }
 
     /**
      * Saves the file in the specified format.
      * This private method handles the actual file writing operation, saving the content in either SQL or a custom format.
      *
-     * @param file   The file to be saved.
      * @param format The format in which the file should be saved (either "sql" or "dbexp").
      */
-    private void saveFile(File file, String format) {
-        try (FileWriter ignored = new FileWriter(file)) {
-            JavaInterface.getInstance().exportDatabase(format, file.getAbsolutePath());
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "An error occurred while saving the file.", e);
+    private void saveAs(String format) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as " + format.toUpperCase());
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(format.toUpperCase() + " Files", "*." + format));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            MainWindowController mainController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+            mainController.saveFile(file);
         }
+        Window.hideWindow(Window.SAVE_WINDOW);
     }
 
     /**

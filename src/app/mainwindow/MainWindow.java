@@ -57,7 +57,12 @@ public class MainWindow extends Window {
 
             this.stage.setOnCloseRequest(event -> {
                 event.consume();
-                Window.getWindowAt(Window.CLOSE_WINDOW).getStage().show();
+                MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(MAIN_WINDOW).getController();
+                if (mainWindowController.hasUnsavedChanges()) {
+                    Window.getWindowAt(Window.CLOSE_WINDOW).getStage().show();
+                } else {
+                    Window.closeAllWindows();
+                }
             });
         } catch (IOException e) {
             throw new RuntimeException();

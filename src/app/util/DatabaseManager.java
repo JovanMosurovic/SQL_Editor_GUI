@@ -56,4 +56,8 @@ public class DatabaseManager {
             return false;
         }
     }
+
+    public static File getLastSelectedFile() {
+        return lastSelectedFile;
+    }
 }

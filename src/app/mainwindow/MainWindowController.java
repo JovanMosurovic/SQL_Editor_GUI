@@ -6,6 +6,7 @@ import app.util.*;
 import cpp.JavaInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,7 +28,9 @@ public class MainWindowController extends ControllerBase {
 
     public JavaInterface databaseManager;
     private SQLExecutor sqlExecutor;
+    private File importedFile = null;
     private boolean isQueryFromEditor = true;
+    private boolean hasUnsavedChanges = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +38,7 @@ public class MainWindowController extends ControllerBase {
         setupEditorArea();
         setupContextMenus();
         databaseManager = new JavaInterface();
-        sqlExecutor = new SQLExecutor(databaseManager, consoleTextFlow);
+        sqlExecutor = new SQLExecutor(databaseManager, consoleTextFlow, this);
     }
 
     private void setupEditorArea() {
@@ -66,6 +69,8 @@ public class MainWindowController extends ControllerBase {
 
         if (result) {
             updateTablesList();
+            importedFile = DatabaseManager.getLastSelectedFile();
+            hasUnsavedChanges = false;
         }
 
         return result;
@@ -75,11 +80,21 @@ public class MainWindowController extends ControllerBase {
         System.out.println("[RUN] Run button clicked");
         String selectedText = editorArea.getSelectedText();
         String code = selectedText.isEmpty() ? editorArea.getText() : selectedText;
-        sqlExecutor.executeQueries(code, true);
+        executeQuery(code);
     }
 
-    public void executeQuery(String query) {
-        sqlExecutor.executeQueries(query, isQueryFromEditor);
+    public void executeQuery(String queries) {
+        boolean hasModifyingQuery = false;
+        for (String query : queries.split(";")) {
+            if (!query.trim().isEmpty() && sqlExecutor.isModifyingQuery(query.trim())) {
+                hasModifyingQuery = true;
+                break;
+            }
+        }
+        if (hasModifyingQuery) {
+            setHasUnsavedChanges(true);
+        }
+        sqlExecutor.executeQueries(queries, isQueryFromEditor);
         isQueryFromEditor = true; // Reset flag after execution
     }
 
@@ -132,8 +147,34 @@ public class MainWindowController extends ControllerBase {
     //endregion
 
     @FXML
+    private void handleSave() {
+        if (importedFile != null) {
+            // Save to the imported file
+            saveFile(importedFile);
+        } else {
+            // If no file has been imported, behave like Save As
+            handleSaveAs();
+        }
+    }
+
+    @FXML
     private void handleSaveAs() {
-        Window.showWindow(Window.SAVE_WINDOW);
+        if (hasUnsavedChanges) {
+            Window.showWindow(Window.SAVE_WINDOW);
+        } else {
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\nNo changes to save.", Color.BLACK, true);
+        }
+    }
+
+    public void saveFile(File file) {
+        try {
+            String format = file.getName().endsWith(".sql") ? "sql" : "dbexp";
+            JavaInterface.getInstance().exportDatabase(format, file.getAbsolutePath());
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[SAVE] File saved successfully: " + file.getAbsolutePath(), Color.GREEN, true);
+            hasUnsavedChanges = false;
+        } catch (Exception e) {
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\nError saving file: " + e.getMessage(), Color.RED, true);
+        }
     }
 
     @FXML
@@ -149,6 +190,14 @@ public class MainWindowController extends ControllerBase {
     @FXML
     private void handleExit() {
         Window.closeAllWindows();
+    }
+
+    public boolean hasUnsavedChanges() {
+        return hasUnsavedChanges;
+    }
+
+    public void setHasUnsavedChanges(boolean value) {
+        hasUnsavedChanges = value;
     }
 
 }

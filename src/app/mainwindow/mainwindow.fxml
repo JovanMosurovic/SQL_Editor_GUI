@@ -27,10 +27,17 @@
     <!-- Menu Bar -->
     <MenuBar styleClass="menu-bar">
         <Menu styleClass="menu" text="File">
-            <MenuItem accelerator="CTRL+S" onAction="#handleSaveAs" styleClass="menu-item" text="Save As">
+            <MenuItem accelerator="CTRL+S" onAction="#handleSave" styleClass="menu-item" text="Save">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/save_icon.png"/>
+                    </ImageView>
+                </graphic>
+            </MenuItem>
+            <MenuItem accelerator="CTRL+SHIFT+S" onAction="#handleSaveAs" styleClass="menu-item" text="Save As">
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/save_as_icon.png"/>
                     </ImageView>
                 </graphic>
             </MenuItem>

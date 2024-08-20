@@ -1,6 +1,5 @@
 package app.util;
 
-import app.Window;
 import app.mainwindow.MainWindowController;
 import cpp.JavaInterface;
 import javafx.scene.paint.Color;
@@ -14,10 +13,12 @@ public class SQLExecutor {
 
     private final JavaInterface databaseManager;
     private final TextFlow consoleTextFlow;
+    private final MainWindowController mainWindowController;
 
-    public SQLExecutor(JavaInterface databaseManager, TextFlow consoleTextFlow) {
+    public SQLExecutor(JavaInterface databaseManager, TextFlow consoleTextFlow, MainWindowController mainWindowController) {
         this.databaseManager = databaseManager;
         this.consoleTextFlow = consoleTextFlow;
+        this.mainWindowController = mainWindowController;
     }
 
     public void executeQueries(String code, boolean isFromEditor) {
@@ -34,6 +35,10 @@ public class SQLExecutor {
 
             String formattedQuery = SQLFormatter.formatSQLQuery(query.trim());
             System.out.println("[RUN] Executing formatted query: " + formattedQuery);
+
+            if(isModifyingQuery(formattedQuery)) {
+                mainWindowController.setHasUnsavedChanges(true);
+            }
 
             databaseManager.executeQuery(formattedQuery);
 
@@ -53,7 +58,7 @@ public class SQLExecutor {
                 FileHelper.loadTablesFromFile("output.txt", false);
             } else if (formattedQuery.startsWith("CREATE TABLE") ||
                     formattedQuery.startsWith("DROP TABLE")) {
-                ((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).updateTablesList();
+                mainWindowController.updateTablesList();
             }
         }
 
@@ -66,7 +71,6 @@ public class SQLExecutor {
         }
 
         // Set focus based on the execution result
-        MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         if (hasError) {
             mainWindowController.resultTabPane.getSelectionModel().select(0); // Select console tab
         } else if (tabsCreated) {
@@ -74,6 +78,15 @@ public class SQLExecutor {
         } else if (executedQueries.stream().anyMatch(query -> query.equals("SHOW TABLES"))) {
             mainWindowController.resultTabPane.getSelectionModel().select(1); // Select first tab after console
         }
+    }
+
+    public boolean isModifyingQuery(String query) {
+        String upperCaseQuery = query.toUpperCase().trim();
+        return upperCaseQuery.startsWith("INSERT") ||
+                upperCaseQuery.startsWith("UPDATE") ||
+                upperCaseQuery.startsWith("DELETE") ||
+                upperCaseQuery.startsWith("CREATE") ||
+                upperCaseQuery.startsWith("DROP");
     }
 
     private void displaySuccessMessage(long executionTime) {
