@@ -89,13 +89,15 @@ public class FileHelper {
         return false;
     }
 
-    public static void loadTablesFromFile(String fileName, boolean isSelectQuery) {
+    public static boolean loadTablesFromFile(String fileName, boolean isSelectQuery) {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         File file = openFile(fileName);
 
         if (file == null || checkErrors(file, mainWindowController.consoleTextFlow)) {
-            return;
+            return false;
         }
+
+        boolean tabsCreated = false;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -121,6 +123,7 @@ public class FileHelper {
                     if (currentTableName != null) {
                         assert headers != null;
                         createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
+                        tabsCreated = true;
                     }
                     currentTableName = line.trim();
                     headers = null;
@@ -129,6 +132,7 @@ public class FileHelper {
                     // End of table
                     assert headers != null;
                     createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
+                    tabsCreated = true;
                     currentTableName = null;
                 } else {
                     // Table data
@@ -145,10 +149,14 @@ public class FileHelper {
             if (currentTableName != null) {
                 assert headers != null;
                 createTableTab(mainWindowController, currentTableName, headers, data, isSelectQuery);
+                tabsCreated = true;
             }
         } catch (IOException e) {
             TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "\n[ERROR] Error reading file: " + e.getMessage(), Color.RED, true);
+            return false;
         }
+
+        return tabsCreated;
     }
 
     public static List<String> readTableNames(String fileName) {

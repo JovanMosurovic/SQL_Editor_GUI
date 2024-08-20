@@ -27,6 +27,7 @@ public class SQLExecutor {
         long startTime = System.nanoTime();
         boolean hasError = false;
         List<String> executedQueries = new ArrayList<>();
+        boolean tabsCreated = false;
 
         for (String query : splitCode) {
             if (query.isEmpty()) continue;
@@ -43,7 +44,7 @@ public class SQLExecutor {
             }
 
             boolean isSelectQuery = formattedQuery.startsWith("SELECT");
-            FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
+            tabsCreated |= FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
 
             executedQueries.add(formattedQuery);
 
@@ -62,6 +63,16 @@ public class SQLExecutor {
         if (!hasError && isFromEditor) {
             displaySuccessMessage(executionTime);
             checkForEmptyTables(executedQueries);
+        }
+
+        // Set focus based on the execution result
+        MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+        if (hasError) {
+            mainWindowController.resultTabPane.getSelectionModel().select(0); // Select console tab
+        } else if (tabsCreated) {
+            mainWindowController.resultTabPane.getSelectionModel().select(mainWindowController.resultTabPane.getTabs().size() - 1); // Select last created tab
+        } else if (executedQueries.stream().anyMatch(query -> query.equals("SHOW TABLES"))) {
+            mainWindowController.resultTabPane.getSelectionModel().select(1); // Select first tab after console
         }
     }
 
