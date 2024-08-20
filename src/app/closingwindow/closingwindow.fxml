@@ -21,12 +21,12 @@
                 <Font name="Calibri Bold" size="18.0"/>
             </font>
         </Button>
-        <Button minHeight="30.0" minWidth="110.0" onAction="#handleDontSave" styleClass="button" text="Don't Save">
+        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleDontSave" styleClass="button" text="Don't Save">
             <font>
                 <Font name="Calibri" size="18.0"/>
             </font>
         </Button>
-        <Button minHeight="30.0" minWidth="110.0" onAction="#handleCancel" styleClass="button" text="Cancel">
+        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleCancel" styleClass="button" text="Cancel">
             <font>
                 <Font name="Calibri" size="18.0"/>
             </font>

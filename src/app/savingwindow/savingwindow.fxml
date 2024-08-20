@@ -18,12 +18,12 @@
                 <Font name="Calibri" size="18.0" />
             </font>
         </Button>
-        <Button minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsSQL" text="SQL">
+        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsSQL" text="SQL">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
         </Button>
-        <Button minHeight="30.0" minWidth="110.0" onAction="#handleCancel" text="Cancel">
+        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleCancel" text="Cancel">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
