@@ -51,7 +51,7 @@
     -fx-border-width: 0 0 1px 0;
 }
 
-/* Label Styles */
+/* Label and Text Styles */
 .header-label {
     -fx-font-family: 'Calibri';
     -fx-font-size: 20px;
@@ -114,6 +114,17 @@
     -fx-text-fill: #333333;
     -fx-padding: 10px;
     -fx-alignment: center;
+}
+
+.dialog-header-text {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 20px !important;
+    -fx-font-weight: bold;
+}
+
+.dialog-subtext {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 16px !important;
 }
 
 /* Box Styles */

@@ -14,8 +14,11 @@
         <Image url="@../resources/icons/warning_icon.png"/>
     </ImageView>
     <Label layoutX="100.0" layoutY="25.0" minHeight="20.0" minWidth="320.0"
+           styleClass="dialog-header-text"
            text="Do you want to force quit the application?" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="25.0"/>
-    <Label layoutX="100.0" layoutY="50.0" minHeight="20.0" minWidth="320.0" text="You will lose any unsaved changes."
+    <Label layoutX="100.0" layoutY="50.0" minHeight="20.0" minWidth="320.0"
+           styleClass="dialog-subtext"
+           text="You will lose any unsaved changes."
            AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="50.0"/>
     <HBox alignment="CENTER_RIGHT" layoutY="100.0" spacing="10.0" AnchorPane.bottomAnchor="20.0"
           AnchorPane.rightAnchor="20.0">

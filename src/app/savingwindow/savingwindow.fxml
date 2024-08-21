@@ -7,7 +7,10 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.savingwindow.SavingWindowController">
-    <Label layoutX="15.0" layoutY="40.0" text="Choose the format to save the file:" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0">
+    <Label layoutX="15.0" layoutY="40.0"
+           styleClass="dialog-header-text"
+           text="Choose the format to save the file:"
+           AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0">
         <font>
             <Font name="Calibri" size="20.0" />
         </font>

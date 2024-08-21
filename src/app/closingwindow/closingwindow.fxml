@@ -9,7 +9,9 @@
 <AnchorPane minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="app.closingwindow.ClosingWindowController">
     <Label layoutX="10.0" layoutY="40.0" minHeight="20.0" minWidth="320.0"
-           text="Do you want to save changes before closing?" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0">
+              styleClass="dialog-header-text"
+           text="Do you want to save changes before closing?"
+           AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0">
         <font>
             <Font name="Calibri" size="20.0"/>
         </font>
