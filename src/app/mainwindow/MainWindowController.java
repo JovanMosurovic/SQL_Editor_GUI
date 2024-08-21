@@ -68,6 +68,7 @@ public class MainWindowController extends ControllerBase {
         );
 
         if (result) {
+            clearTablesList();
             updateTablesList();
             importedFile = DatabaseManager.getLastSelectedFile();
             hasUnsavedChanges = false;
@@ -108,16 +109,17 @@ public class MainWindowController extends ControllerBase {
         File outputFile = new File("output.txt");
         if (!FileHelper.checkErrors(outputFile, consoleTextFlow)) {
             List<String> tableNames = FileHelper.readTableNames("output.txt");
-            for (String tableName : tableNames) {
-                if (!tablesListView.getItems().contains(tableName)) {
-                    tablesListView.getItems().add(tableName);
-                }
-            }
+            tablesListView.getItems().clear();
+            tablesListView.getItems().addAll(tableNames);
         }
     }
 
     public void removeTableFromList(String tableName) {
         tablesListView.getItems().remove(tableName);
+    }
+
+    public void clearTablesList() {
+        tablesListView.getItems().clear();
     }
 
     //region Editor actions
