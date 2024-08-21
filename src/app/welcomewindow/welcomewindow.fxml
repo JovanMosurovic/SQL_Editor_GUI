@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="550.0"
             styleClass="anchor-pane, welcome-pane" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.welcomewindow.WelcomeWindowController">
-    <VBox alignment="CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="60.0">
+    <VBox alignment="CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="80.0">
         <!-- Database Icon -->
         <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../resources/icons/sql_icon.png"/>
@@ -40,7 +40,7 @@
     </VBox>
 
     <!-- Version and Author -->
-    <HBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+    <HBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <HBox alignment="CENTER" spacing="5.0">
             <Label text="Version 1.0" styleClass="label"/>
         </HBox>
@@ -53,5 +53,14 @@
     </HBox>
 
     <!-- Status Message -->
-    <Label fx:id="statusMessage" alignment="CENTER" styleClass="status-message" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"/>
+    <Label fx:id="statusMessage" alignment="CENTER" styleClass="status-message" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"/>
+
+    <!-- Project Information -->
+    <HBox alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="5.0" >
+<!--        <ImageView fitHeight="16.0" fitWidth="16.0">-->
+<!--            <Image url="@../resources/icons/copyright_icon.png"/>-->
+<!--        </ImageView>-->
+        <Label alignment="CENTER" styleClass="project-info" text="School of Electrical Engineering, University of Belgrade"/>
+    </HBox>
+
 </AnchorPane>
