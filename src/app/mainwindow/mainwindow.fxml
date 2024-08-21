@@ -27,6 +27,14 @@
     <!-- Menu Bar -->
     <MenuBar styleClass="menu-bar">
         <Menu styleClass="menu" text="File">
+            <MenuItem accelerator="CTRL+I" onAction="#handleImportDatabase" styleClass="menu-item"
+                      text="Import Database">
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/import_icon.png"/>
+                    </ImageView>
+                </graphic>
+            </MenuItem>
             <MenuItem accelerator="CTRL+S" onAction="#handleSave" styleClass="menu-item" text="Save">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -38,14 +46,6 @@
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/save_as_icon.png"/>
-                    </ImageView>
-                </graphic>
-            </MenuItem>
-            <MenuItem accelerator="CTRL+I" onAction="#handleImportDatabase" styleClass="menu-item"
-                      text="Import Database">
-                <graphic>
-                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../resources/icons/import_icon.png"/>
                     </ImageView>
                 </graphic>
             </MenuItem>
