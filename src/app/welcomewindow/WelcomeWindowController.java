@@ -35,7 +35,7 @@ public class WelcomeWindowController extends ControllerBase {
 
     /**
      * Handles the action when the user clicks the "Open Existing Database" button.
-     * It imports the database and switches to the main window if successful.
+     * <p>It imports the database and switches to the main window if successful.</p>
      */
     @FXML
     private void handleImportDatabase() {
@@ -55,7 +55,7 @@ public class WelcomeWindowController extends ControllerBase {
 
     /**
      * Handles the action when the user clicks the "Create New Database" button.
-     * It switches to the main window to create a new database.
+     * <p>It switches to the main window to create a new database.</p>
      */
     @FXML
     private void handleCreateNewDatabase() {

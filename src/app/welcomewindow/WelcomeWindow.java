@@ -12,9 +12,17 @@ import java.util.Objects;
 
 /**
  * The welcome window of the application that is displayed when the application is launched.
- * It provides options to open an existing database, create a new database, or exit the application.
+ * <p>It provides options to open an existing database, create a new database, or exit the application.</p>
  */
 public class WelcomeWindow extends Window {
+
+    /**
+     * Initializes the Welcome Window and sets its properties, such as title, icon, and modality.
+     * This method loads the FXML layout, applies the stylesheet, and configures the window's
+     * appearance and behavior. The window is centered on the screen and is set to be non-resizable.
+     *
+     * @param stage The primary stage on which this window is displayed.
+     */
     @Override
     public void init(Stage stage) {
         try {
