@@ -108,73 +108,110 @@ void Database::clearTable(const string &tableName) {
     table.clearRows();
 }
 
-shared_ptr<Table> Database::selectFromTable(const string &tableName, const string &tableAlias, const vector<string> &columnNames, const vector<shared_ptr<IFilter>>& filters) {
+void Database::selectFromTable(const string &tableName, const string &tableAlias,
+                               const vector<string> &columnNames,
+                               const vector<shared_ptr<IFilter>>& filters,
+                               const string &joinTableName,
+                               const string &joinColumn,
+                               const string &joinColumn2) {
     Table &table = getTable(tableName);
+    bool isJoin = !joinTableName.empty();
 
-    for(const auto &columnName : columnNames) {
-        if(!table.hasColumn(columnName)) {
+    vector<Column> selectedColumns;
+    vector<string> actualColumnNames = columnNames;
+
+    if (columnNames.size() == 1 && columnNames[0] == "*") {
+        actualColumnNames.clear();
+        for (const auto &column : table.getColumns()) {
+            actualColumnNames.push_back(column.getName());
+        }
+        if (isJoin) {
+            Table &joinTable = getTable(joinTableName);
+            for (const auto &column : joinTable.getColumns()) {
+                actualColumnNames.push_back(column.getName());
+            }
+        }
+    }
+
+    for (const auto &columnName : actualColumnNames) {
+        if (table.hasColumn(columnName)) {
+            selectedColumns.push_back(table.getColumns()[table.getColumnIndex(columnName)]);
+        } else if (isJoin) {
+            Table &joinTable = getTable(joinTableName);
+            if (joinTable.hasColumn(columnName)) {
+                selectedColumns.push_back(joinTable.getColumns()[joinTable.getColumnIndex(columnName)]);
+            } else {
+                throw ColumnDoesNotExistException(columnName);
+            }
+        } else {
             throw ColumnDoesNotExistException(columnName);
         }
     }
-    vector<Column> selectedColumns;
-    for(const auto &columnName : columnNames) {
-        int columnIndex = table.getColumnIndex(columnName);
-        selectedColumns.push_back(table.getColumns()[columnIndex]);
-    }
-    auto selectedTable = make_shared<Table>(tableAlias, selectedColumns);
 
-    for (const auto &row : table.getRows()) {
-        bool shouldAddRow = true;
-        for (const auto &filter : filters) {
-            if (filter && !filter->applyFilter(row)) {
-                shouldAddRow = false;
-                break;
+    Table resultTable("Result", selectedColumns);
+
+    for (const auto &row1 : table.getRows()) {
+        if (isJoin) {
+            Table &joinTable = getTable(joinTableName);
+            for (const auto &row2 : joinTable.getRows()) {
+                if (row1.getColumnValue(joinColumn) == row2.getColumnValue(joinColumn2)) {
+                    vector<string> combinedRowData;
+                    bool shouldAddRow = true;
+
+                    for (const auto &columnName : actualColumnNames) {
+                        if (table.hasColumn(columnName)) {
+                            combinedRowData.push_back(row1.getColumnValue(columnName));
+                        } else {
+                            combinedRowData.push_back(row2.getColumnValue(columnName));
+                        }
+                    }
+
+                    for (const auto &filter : filters) {
+                        if (filter && !filter->applyFilter(Row(actualColumnNames, combinedRowData))) {
+                            shouldAddRow = false;
+                            break;
+                        }
+                    }
+
+                    if (shouldAddRow) {
+                        resultTable.addRow(combinedRowData);
+                    }
+                }
+            }
+        } else {
+            bool shouldAddRow = true;
+            for (const auto &filter : filters) {
+                if (filter && !filter->applyFilter(row1)) {
+                    shouldAddRow = false;
+                    break;
+                }
+            }
+            if (shouldAddRow) {
+                vector<string> selectedRow;
+                selectedRow.reserve(actualColumnNames.size());
+                for (const auto &columnName : actualColumnNames) {
+                    selectedRow.push_back(row1.getColumnValue(columnName));
+                }
+                resultTable.addRow(selectedRow);
             }
         }
-        if (shouldAddRow) {
-            vector<string> selectedRow;
-            selectedRow.reserve(columnNames.size());
-            for (const auto &columnName : columnNames) {
-                selectedRow.push_back(row.getData()[table.getColumnIndex(columnName)]);
-            }
-            selectedTable->addRow(selectedRow);
-        }
     }
 
-    if (selectedTable->getRows().empty()) {
+    if (resultTable.getRows().empty()) {
         cout << "\xC4> Query did not return any results." << endl;
     } else {
-        selectedTable->printTable();
-    }
+        resultTable.printTable();
 
-    return selectedTable;
-}
-
-shared_ptr<Table> Database::innerJoinTables(const string &table1Name, const string &table2Name, const string &column1,
-                                            const string &column2) {
-    Table &table1 = getTable(table1Name);
-    Table &table2 = getTable(table2Name);
-
-    if (!table1.hasColumn(column1) || !table2.hasColumn(column2)) {
-        throw ColumnDoesNotExistException("Column does not exist in one of the tables.");
-    }
-
-    vector<Column> newColumns = table1.getColumns();
-    newColumns.insert(newColumns.end(), table2.getColumns().begin(), table2.getColumns().end());
-
-    Table resultTable("Result", newColumns);
-
-    for (const auto &row1 : table1.getRows()) {
-        for (const auto &row2 : table2.getRows()) {
-            if (row1.getColumnValue(column1) == row2.getColumnValue(column2)) {
-                vector<string> rowData = row1.getData();
-                rowData.insert(rowData.end(), row2.getData().begin(), row2.getData().end());
-                resultTable.addRow(rowData);
-            }
+        // Write result to file
+        ofstream outFile("output.txt");
+        if (outFile.is_open()) {
+            resultTable.printTableInFile(outFile, actualColumnNames);
+            outFile.close();
+            cout << "Query result has been written to output.txt" << endl;
+        } else {
+            cout << "Unable to open output file." << endl;
         }
     }
-
-    return make_shared<Table>(resultTable);
 }
 
 void Database::importDatabase(const Format& format, const string& filePath) {

@@ -103,29 +103,11 @@ void SelectStatement::execute(Database &db) {
         return;
     }
 
-    vector<string> selectedColumns;
-    if (find(column_names.begin(), column_names.end(), "*") != column_names.end()) {
-        for (const auto &column: db.getTable(table_name).getColumns()) {
-            selectedColumns.push_back(column.getName());
-        }
-    } else {
-        selectedColumns = column_names;
-    }
-
-    shared_ptr<Table> resultTable;
-
     if (!join_table_name.empty()) {
-        shared_ptr<Table> joinedTable = db.innerJoinTables(table_name, join_table_name, join_column, join_column2);
-        db.addTable(*joinedTable);
-        resultTable = db.selectFromTable(joinedTable->getName(), joinedTable->getName(), selectedColumns, filters);
-        db.dropTable(joinedTable->getName());
+        db.selectFromTable(table_name, table_alias, column_names, filters, join_table_name, join_column, join_column2);
     } else {
-        resultTable = db.selectFromTable(table_name, table_name, selectedColumns, filters);
+        db.selectFromTable(table_name, table_alias, column_names, filters);
     }
-
-    ofstream outFile("output.txt", ios::out);
-    resultTable->printTableInFile(outFile, selectedColumns);
-    outFile.close();
 }
 
 void SelectStatement::errors() {
