@@ -6,7 +6,7 @@ import org.fxmisc.richtext.CodeArea;
 
 /**
  * Utility class for managing font settings in this JavaFX application.
- * This class is used to store and retrieve the current font family and size for the editor and console components.
+ * <p>This class is used to store and retrieve the current font family and size for the editor and console components.</p>
  */
 public class FontConfig {
 

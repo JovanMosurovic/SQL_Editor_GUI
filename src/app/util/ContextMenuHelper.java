@@ -3,15 +3,17 @@ package app.util;
 import app.Window;
 import app.mainwindow.MainWindowController;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
 
 /**
  * Utility class for creating and managing context menus in this JavaFX application.
- * Provides methods to create context menus for different components such as a console area,
- * a list view of tables, and a code editor area.
+ * <p>Provides methods to create context menus for different components such as a console area,
+ * a list view of tables, and a code editor area.</p>
  */
 public class ContextMenuHelper {
 
@@ -112,6 +114,14 @@ public class ContextMenuHelper {
         return contextMenu;
     }
 
+    /**
+     * Creates a context menu for a tab in a tab pane with
+     * options to close the tab or to close all tabs except the console.
+     *
+     * @param tabPane the {@link TabPane} component containing the tabs
+     * @param tab     the {@link Tab} component for which the context menu is created
+     * @return a {@link ContextMenu} with "Close Tab" and "Close All Tabs" menu items
+     */
     public static ContextMenu createTabContextMenu(TabPane tabPane, Tab tab) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem closeTab = new MenuItem("Close Tab");
@@ -187,6 +197,11 @@ public class ContextMenuHelper {
         });
     }
 
+    /**
+     * Sets up context menus for all tabs in a tab pane, providing options to close the tab or all tabs except the console.
+     *
+     * @param resultTabPane the {@link TabPane} component containing the tabs
+     */
     public static void setupTabContextMenus(TabPane resultTabPane) {
         for (Tab tab : resultTabPane.getTabs()) {
             ContextMenu tabContextMenu = createTabContextMenu(resultTabPane, tab);
@@ -203,17 +218,35 @@ public class ContextMenuHelper {
         }
     }
 
+    /**
+     * Closes the given tab if it is not the console tab.
+     *
+     * @param tabPane the {@link TabPane} component containing the tabs
+     * @param tab     the {@link Tab} component to close
+     */
     public static void closeTabIfNotConsole(TabPane tabPane, Tab tab) {
         if (tabPane.getTabs().indexOf(tab) != 0) {
             tabPane.getTabs().remove(tab);
         }
     }
 
+    /**
+     * Closes all tabs in the tab pane except the console tab.
+     *
+     * @param tabPane the {@link TabPane} component containing the tabs
+     */
     private static void closeAllTabsExceptConsole(TabPane tabPane) {
         tabPane.getTabs().removeIf(t -> tabPane.getTabs().indexOf(t) != 0);
     }
 
-    private static void showContextMenu(ContextMenu contextMenu, javafx.scene.Node anchor, javafx.scene.input.ContextMenuEvent event) {
+    /**
+     * Displays the given context menu at the specified position.
+     *
+     * @param contextMenu the {@link ContextMenu} to show
+     * @param anchor      the anchor {@link Node} for the context menu
+     * @param event       the {@link ContextMenuEvent} that triggered the context menu
+     */
+    private static void showContextMenu(ContextMenu contextMenu, Node anchor, ContextMenuEvent event) {
         if (contextMenu.isShowing()) {
             contextMenu.hide();
         }

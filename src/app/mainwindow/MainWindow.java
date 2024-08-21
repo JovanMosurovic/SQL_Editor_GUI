@@ -16,10 +16,8 @@ import java.util.Objects;
 
 /**
  * Represents the Main Window of the application.
- * This window is the primary window of the application and is used to interact with the user.
- * It provides a text area for entering SQL queries, a table view for displaying query results,
- * and buttons for executing queries and managing the application.
- * The window is styled and behaves consistently with the application's overall theme.
+ * <p>This window is the primary interface of the application, where users can
+ * interact with the SQL editor, execute queries, and view the results.</p>
  *
  * @see app.Window
  */

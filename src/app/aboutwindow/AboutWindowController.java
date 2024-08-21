@@ -11,9 +11,9 @@ import java.util.ResourceBundle;
 
 /**
  * Controller for the About Window in the application.
- * This class handles the user interactions within the About Window,
+ * <p>This class handles the user interactions within the About Window,
  * such as opening links to the project repository, author's GitHub page,
- * and the instructions document.
+ * and the instructions document.</p>
  *
  * @see app.ControllerBase
  * @see app.Window

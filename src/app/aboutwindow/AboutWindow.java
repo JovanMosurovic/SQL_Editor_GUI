@@ -13,9 +13,9 @@ import java.util.Objects;
 
 /**
  * Represents the About Window of the application.
- * This window displays information about the application, such as its purpose,
+ * <p>This window displays information about the application, such as its purpose,
  * author, and other relevant details. It is initialized with a specific layout
- * and is styled according to the application's theme.
+ * and is styled according to the application's theme.</p>
  *
  * @see app.Window
  */

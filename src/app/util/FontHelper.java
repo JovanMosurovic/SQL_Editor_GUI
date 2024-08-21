@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 /**
  * Utility class for managing font settings in this JavaFX application.
- * Provides methods to change the font size and family of JavaFX nodes.
+ * <p>Provides methods to change the font size and family of JavaFX nodes.</p>
  */
 public class FontHelper {
 

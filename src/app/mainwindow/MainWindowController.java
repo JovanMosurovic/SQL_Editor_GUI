@@ -17,21 +17,78 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the Main Window in the application.
+ * <p>This class handles the user interactions within the Main Window,
+ * such as executing SQL queries, importing databases, saving changes,
+ * and displaying the results in the console and result tabs.</p>
+ *
+ * @see app.ControllerBase
+ * @see app.Window
+ */
 public class MainWindowController extends ControllerBase {
 
+    /**
+     * The button for running the SQL queries.
+     */
     public Button runButton;
+
+    /**
+     * The list view for displaying the tables in the database.
+     */
     public ListView<String> tablesListView;
+
+    /**
+     * The code editor area for writing SQL queries.
+     */
     public CodeArea editorArea;
+
+    /**
+     * The scroll pane where the console output is displayed.
+     */
     public ScrollPane resultScrollPane;
+
+    /**
+     * The text flow for displaying the console output.
+     */
     public TextFlow consoleTextFlow;
+
+    /**
+     * The tab pane for displaying the result sets of the executed queries.
+     */
     public TabPane resultTabPane;
 
+    /**
+     * The {@link JavaInterface} instance for executing SQL queries in the database.
+     */
     public JavaInterface databaseManager;
+
+    /**
+     * The {@link SQLExecutor} instance for executing SQL queries and handling the results.
+     */
     private SQLExecutor sqlExecutor;
+
+    /**
+     * The file that was imported into the database.
+     */
     private File importedFile = null;
+
+    /**
+     * Flag indicating whether the query was executed from the editor.
+     */
     private boolean isQueryFromEditor = true;
+
+    /**
+     * Flag indicating whether there are unsaved changes in the database.
+     */
     private boolean hasUnsavedChanges = false;
 
+    /**
+     * Initializes the controller and associates it with the Main Window.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.MAIN_WINDOW).setController(this);
@@ -41,11 +98,17 @@ public class MainWindowController extends ControllerBase {
         sqlExecutor = new SQLExecutor(databaseManager, consoleTextFlow, this);
     }
 
+    /**
+     * Sets up the editor area with appropriate font and functionality.
+     */
     private void setupEditorArea() {
         EditorHelper.setupEditorFont(editorArea);
         EditorHelper.setupEditorArea(editorArea);
     }
 
+    /**
+     * Sets up context menus for the editor area, tables list, console, and result tabs.
+     */
     private void setupContextMenus() {
         ContextMenuHelper.setupConsoleContextMenu(consoleTextFlow);
         ContextMenuHelper.setupTablesContextMenu(tablesListView);
@@ -53,10 +116,23 @@ public class MainWindowController extends ControllerBase {
         ContextMenuHelper.setupTabContextMenus(resultTabPane);
     }
 
+    /**
+     * Handles the action of importing a database file into the application.
+     * This method is invoked when the user clicks the "Import Database" option in the File menu.
+     *
+     * @return true if the database was imported successfully, false otherwise
+     */
     public boolean handleImportDatabase() {
         return handleImportDatabase(Window.getWindowAt(Window.MAIN_WINDOW).getStage(), false);
     }
 
+    /**
+     * Handles the action of importing a database file into the application.
+     *
+     * @param ownerStage          the owner {@link Stage} for the file chooser dialog
+     * @param isFromWelcomeWindow {@code true} if the import is from the welcome window, {@code false} otherwise
+     * @return {@code true} if the database was imported successfully, {@code false} otherwise
+     */
     public boolean handleImportDatabase(Stage ownerStage, boolean isFromWelcomeWindow) {
         boolean result = DatabaseManager.showImportDatabaseDialog(
                 ownerStage,
@@ -77,6 +153,10 @@ public class MainWindowController extends ControllerBase {
         return result;
     }
 
+    /**
+     * Handles the action of running the SQL queries from the editor area.
+     * This method is invoked when the user clicks the "Run" button or presses the SHIFT + F10 shortcut.
+     */
     public void handleRun() {
         System.out.println("[RUN] Run button clicked");
         String selectedText = editorArea.getSelectedText();
@@ -84,6 +164,11 @@ public class MainWindowController extends ControllerBase {
         executeQuery(code);
     }
 
+    /**
+     * Executes the given SQL queries in the database and displays the results in the application.
+     *
+     * @param queries the SQL queries to execute
+     */
     public void executeQuery(String queries) {
         boolean hasModifyingQuery = false;
         for (String query : queries.split(";")) {
@@ -99,11 +184,19 @@ public class MainWindowController extends ControllerBase {
         isQueryFromEditor = true; // Reset flag after execution
     }
 
+    /**
+     * Helper function for showing/dropping tables from the tables list in the Main Window.
+     *
+     * @param query the SQL query to execute
+     */
     public void executeQueryFromContextMenu(String query) {
         isQueryFromEditor = false;
         executeQuery(query);
     }
 
+    /**
+     * Updates the list of tables displayed in the Main Window.
+     */
     public void updateTablesList() {
         databaseManager.executeQuery("SHOW TABLES");
         File outputFile = new File("output.txt");
@@ -114,41 +207,73 @@ public class MainWindowController extends ControllerBase {
         }
     }
 
+    /**
+     * Removes the specified table from the list of tables displayed in the Main Window.
+     * This method is invoked when the user drops a table from the tables list.
+     *
+     * @param tableName the name of the table to remove
+     */
     public void removeTableFromList(String tableName) {
         tablesListView.getItems().remove(tableName);
     }
 
+    /**
+     * Clears the list of tables displayed in the Main Window.
+     * This method is invoked when the user imports a new database file.
+     */
     public void clearTablesList() {
         tablesListView.getItems().clear();
     }
 
     //region Editor actions
 
+    /**
+     * Handles the action of undoing the last edit in the editor area.
+     * <p> Note: Does not undo any action that is not a text action in the editor. </p>
+     * <p> Text actions include typing, deleting, copying, cutting, pasting, and selecting text. </p>
+     */
     @FXML
     private void handleUndo() {
         EditorHelper.handleEditAction(editorArea, CodeArea::undo);
     }
 
+    /**
+     * Handles the action of redoing the last undone edit in the editor area.
+     * <p>Note: Does not redo any action that is not a text action in the editor. </p>
+     * <p>Text actions include typing, deleting, copying, cutting, pasting, and selecting text. </p>
+     */
     @FXML
     private void handleRedo() {
         EditorHelper.handleEditAction(editorArea, CodeArea::redo);
     }
 
+    /**
+     * Handles the action of cutting the selected text in the editor area.
+     */
     @FXML
     private void handleCut() {
         EditorHelper.handleEditAction(editorArea, CodeArea::cut);
     }
 
+    /**
+     * Handles the action of copying the selected text in the editor area.
+     */
     @FXML
     private void handleCopy() {
         EditorHelper.handleEditAction(editorArea, CodeArea::copy);
     }
 
+    /**
+     * Handles the action of pasting the copied/cut text in the editor area.
+     */
     @FXML
     private void handlePaste() {
         EditorHelper.handleEditAction(editorArea, CodeArea::paste);
     }
 
+    /**
+     * Handles the action of selecting all text in the editor area.
+     */
     @FXML
     private void handleSelectAll() {
         EditorHelper.handleEditAction(editorArea, CodeArea::selectAll);
@@ -156,6 +281,10 @@ public class MainWindowController extends ControllerBase {
 
     //endregion
 
+    /**
+     * Handles the action of saving the database to the imported file.
+     * <p>This method is invoked when the user clicks the "Save" option in the File menu. </p>
+     */
     @FXML
     private void handleSave() {
         if (importedFile != null) {
@@ -167,11 +296,20 @@ public class MainWindowController extends ControllerBase {
         }
     }
 
+    /**
+     * Handles the action of saving the database to a new file.
+     * <p>This method is invoked when the user clicks the "Save As" option in the File menu or when new database is created. </p>
+     */
     @FXML
     private void handleSaveAs() {
         Window.showWindow(Window.SAVE_WINDOW);
     }
 
+    /**
+     * Saves the database to the specified file.
+     *
+     * @param file the {@link File} to save the database to
+     */
     public void saveFile(File file) {
         if (!hasUnsavedChanges) {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[INFO] No changes to save.", Color.BLACK, true);
@@ -189,25 +327,46 @@ public class MainWindowController extends ControllerBase {
         }
     }
 
+    /**
+     * Handles the action of closing the Main Window.
+     * <p>This method is invoked when the user clicks the "Close" option in the File menu. </p>
+     */
     @FXML
     private void handleSettings() {
         Window.showWindow(Window.SETTINGS_WINDOW);
     }
 
+    /**
+     * Handles the action of closing the Main Window.
+     * <p>This method is invoked when the user clicks the "Close" option in the File menu. </p>
+     */
     @FXML
     private void handleAbout() {
         Window.showWindow(Window.ABOUT_WINDOW);
     }
 
+    /**
+     * Handles the action of closing the application.
+     * <p>This method is invoked when the user clicks the "Exit" option in the File menu. </p>
+     */
     @FXML
     private void handleExit() {
         Window.closeAllWindows();
+        // todo You will lose any unsaved changes
     }
 
+    /**
+     * Getter for the flag indicating whether there are unsaved changes in the database.
+     */
     public boolean hasUnsavedChanges() {
         return hasUnsavedChanges;
     }
 
+    /**
+     * Setter for the flag indicating whether there are unsaved changes in the database.
+     *
+     * @param value the value to set
+     */
     public void setHasUnsavedChanges(boolean value) {
         hasUnsavedChanges = value;
     }

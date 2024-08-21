@@ -7,9 +7,17 @@ import javafx.scene.text.TextFlow;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for parsing ANSI text from C++ native code and applying that styling to Console {@link TextFlow}.
+ */
 public class AnsiTextParser {
+
+    // ANSI escape sequence pattern
     private static final Pattern ANSI_PATTERN = Pattern.compile("\u001B\\[(\\d+(?:;\\d+)*)m");
 
+    /**
+     * ANSI escape codes for text styles and colors.
+     */
     // Text styles
     private static final String RESET = "0";
     private static final String BOLD = "1";
@@ -38,6 +46,13 @@ public class AnsiTextParser {
     private static final String BG_WHITE = "47";
     private static final String BG_GRAY = "100";
 
+    /**
+     * Parses the ANSI text and applies the styling to the given {@link TextFlow} component.
+     * Used for displaying ANSI colored text in the Console.
+     *
+     * @param ansiText the ANSI text to parse
+     * @param textFlow the {@link TextFlow} component to apply the styling
+     */
     public static void parseAnsiText(String ansiText, TextFlow textFlow) {
         Matcher matcher = ANSI_PATTERN.matcher(ansiText);
         int lastEnd = 0;
@@ -137,6 +152,16 @@ public class AnsiTextParser {
         }
     }
 
+    /**
+     * Creates a {@link Text} node with the specified content, color, background color, and text styles.
+     *
+     * @param content the text content
+     * @param color the text color
+     * @param bgColor the background color
+     * @param bold {@code true} if the text is bold, {@code false} otherwise
+     * @param underline {@code true} if the text is underlined, {@code false} otherwise
+     * @return the styled {@link Text} node
+     */
     private static Text createStyledText(String content, Color color, Color bgColor, boolean bold, boolean underline) {
         Text text = new Text(content);
         text.setFill(color);
@@ -156,6 +181,12 @@ public class AnsiTextParser {
         return text;
     }
 
+    /**
+     * Converts the given {@link Color} to its RGB hexadecimal code.
+     *
+     * @param color the {@link Color} to convert
+     * @return the RGB hexadecimal code of the color
+     */
     private static String toRGBCode(Color color) {
         return String.format("#%02X%02X%02X",
                 (int) (color.getRed() * 255),

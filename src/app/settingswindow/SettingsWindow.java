@@ -13,7 +13,7 @@ import java.util.Objects;
 
 /**
  * Represents the Settings Window of the application.
- * This window allows users to configure the application settings, such as themes and fonts.
+ * <p>This window allows users to configure the application settings, such as themes and fonts.</p>
  * It provides an interface to customize the appearance and behavior of the application,
  * ensuring that users can tailor the application to their preferences.
  *
@@ -23,8 +23,8 @@ public class SettingsWindow extends Window {
 
     /**
      * Initializes the Settings Window and sets its properties, such as title, icon, and modality.
-     * This method loads the FXML layout, applies the stylesheet, and configures the window's
-     * appearance and behavior. The window is centered on the screen and is set to be non-resizable.
+     * <p>This method loads the FXML layout, applies the stylesheet, and configures the window's
+     * appearance and behavior. The window is centered on the screen and is set to be non-resizable.</p>
      *
      * @param stage The primary {@link Stage} on which this window is displayed.
      */

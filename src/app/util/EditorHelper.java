@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 /**
  * Utility class for setting up and managing the behavior of a code editor area.
- * It includes methods for configuring font settings, handling edit actions, and syntax highlighting.
+ * <p>It includes methods for configuring font settings, handling edit actions, and syntax highlighting.</p>
  */
 public class EditorHelper {
 

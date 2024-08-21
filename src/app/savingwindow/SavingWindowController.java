@@ -12,9 +12,10 @@ import java.util.ResourceBundle;
 
 /**
  * Controller for the Saving Window.
- * This controller handles the logic behind saving the user's work in different formats,
- * such as SQL or a custom format. It also manages the interactions between the user and
- * the Saving Window UI, including file selection and save operation.
+ * <p>This controller handles the logic behind saving the user's work in different formats,
+ * such as SQL or a custom format. </p>
+ * <p> It also manages the interactions between the user and
+ * the Saving Window UI, including file selection and save operation.</p>
  *
  * @see app.Window
  */
@@ -22,8 +23,8 @@ public class SavingWindowController extends ControllerBase {
 
     /**
      * Initializes the Saving Window Controller.
-     * This method sets up the controller by associating it with the corresponding window,
-     * ensuring that it manages the correct UI elements and handles events properly.
+     * <p>This method sets up the controller by associating it with the corresponding window,
+     * ensuring that it manages the correct UI elements and handles events properly.</p>
      *
      * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources The resources used to localize the root object, or null if the root object was not localized.
@@ -35,7 +36,7 @@ public class SavingWindowController extends ControllerBase {
 
     /**
      * Handles the action of saving the file as an SQL file.
-     * This method opens a FileChooser dialog for the user to select the location and name of the SQL file.
+     * <p>This method opens a FileChooser dialog for the user to select the location and name of the SQL file.</p>
      * It then proceeds to save the content in the chosen location.
      */
     @FXML
@@ -45,7 +46,7 @@ public class SavingWindowController extends ControllerBase {
 
     /**
      * Handles the action of saving the file as a custom format.
-     * This method opens a FileChooser dialog for the user to select the location and name of the custom file.
+     * <p>This method opens a FileChooser dialog for the user to select the location and name of the custom file.</p>
      * It then proceeds to save the content in the chosen location.
      */
     @FXML
@@ -55,7 +56,7 @@ public class SavingWindowController extends ControllerBase {
 
     /**
      * Saves the file in the specified format.
-     * This private method handles the actual file writing operation, saving the content in either SQL or a custom format.
+     * <p>This private method handles the actual file writing operation, saving the content in either SQL or a custom format.</p>
      *
      * @param format The format in which the file should be saved (either "sql" or "dbexp").
      */
@@ -73,7 +74,7 @@ public class SavingWindowController extends ControllerBase {
 
     /**
      * Handles the action of canceling the save operation.
-     * This method closes the Saving Window and returns the user to the main application window.
+     * <p>This method closes the Saving Window and returns the user to the main application window.</p>
      */
     @FXML
     private void handleCancel() {

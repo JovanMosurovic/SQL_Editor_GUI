@@ -9,18 +9,47 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class for executing SQL queries in the database and handling the results.
+ */
 public class SQLExecutor {
 
+    /**
+     * The {@link JavaInterface} instance for executing SQL queries in the database.
+     */
     private final JavaInterface databaseManager;
+
+    /**
+     * The {@link TextFlow} component for displaying messages in the console.
+     */
     private final TextFlow consoleTextFlow;
+
+    /**
+     * The {@link MainWindowController} instance for updating the tables list.
+     */
     private final MainWindowController mainWindowController;
 
+    /**
+     * Creates a new instance of {@link SQLExecutor} with the specified database manager, console text flow,
+     * and main window controller.
+     *
+     * @param databaseManager        the {@link JavaInterface} instance for executing SQL queries
+     * @param consoleTextFlow        the {@link TextFlow} component for displaying messages
+     * @param mainWindowController   the {@link MainWindowController} instance for updating the tables list
+     */
     public SQLExecutor(JavaInterface databaseManager, TextFlow consoleTextFlow, MainWindowController mainWindowController) {
         this.databaseManager = databaseManager;
         this.consoleTextFlow = consoleTextFlow;
         this.mainWindowController = mainWindowController;
     }
 
+    /**
+     * Executes the SQL queries from the given code in the database and displays the results in the application.
+     * Results include the execution time, success message, and error message if any.
+     *
+     * @param code         the SQL code to execute
+     * @param isFromEditor true if the code is executed from the editor, false if executed from the other sources
+     */
     public void executeQueries(String code, boolean isFromEditor) {
         System.out.println("[RUN] Executing queries");
         String[] splitCode = SQLFormatter.trimCode(code).split(";");
@@ -79,6 +108,12 @@ public class SQLExecutor {
         }
     }
 
+    /**
+     * Checks if the given SQL query is a modifying query (INSERT, UPDATE, DELETE, CREATE, DROP).
+     *
+     * @param query the SQL query to check
+     * @return {@code true} if the query is a modifying query, {@code false} otherwise
+     */
     public boolean isModifyingQuery(String query) {
         String upperCaseQuery = query.toUpperCase().trim();
         return upperCaseQuery.startsWith("INSERT") ||
@@ -88,6 +123,10 @@ public class SQLExecutor {
                 upperCaseQuery.startsWith("DROP");
     }
 
+    /**
+     * Displays a success message in the console with the execution time of the query.
+     * @param executionTime the execution time of the query in nanoseconds
+     */
     private void displaySuccessMessage(long executionTime) {
         AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!", consoleTextFlow);
         AnsiTextParser.parseAnsiText("\n\033[1m\033[4mExecution time\033[0m: ", consoleTextFlow);
@@ -95,6 +134,12 @@ public class SQLExecutor {
                 String.format("%.2f ms\n", (double) executionTime / 1000000), Color.BLACK, true);
     }
 
+    /**
+     * Checks if the executed queries contain the "SHOW TABLES" query and if the output file is empty.
+     * Displays a message in the console if no tables are found in the database.
+     *
+     * @param executedQueries the {@link List} of executed queries
+     */
     private void checkForEmptyTables(List<String> executedQueries) {
         boolean showTablesExecuted = executedQueries.stream()
                 .anyMatch(query -> query.equals("SHOW TABLES"));
@@ -105,6 +150,12 @@ public class SQLExecutor {
         }
     }
 
+    /**
+     * Extracts the table name from the given SQL query.
+     * @param query the SQL query to extract the table name from
+     *              <p>(e.g., "DROP TABLE `table_name`" -> "table_name")</p>
+     * @return the table name extracted from the query
+     */
     private String extractTableName(String query) {
         String[] parts = query.split("\\s+");
         if (parts.length >= 3) {

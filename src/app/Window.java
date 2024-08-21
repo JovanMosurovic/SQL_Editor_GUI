@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 
 /**
  * The base class for all windows in the application.
- * It provides a common interface for initializing windows and showing/hiding them.
+ * <p>It provides a common interface for initializing windows and showing/hiding them.</p>
  */
 public abstract class Window {
 

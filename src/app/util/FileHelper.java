@@ -23,11 +23,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * Utility class for handling file operations in the application.
+ * <p>This class provides methods for opening files, checking for errors, and loading tables from files.
+ * <p>It also contains helper methods for reading table names and creating table tabs in the main window.</p>
+ */
 public class FileHelper {
 
-    // logger
+    /**
+     * Logger for debugging and error messages.
+     */
     private static final Logger LOGGER = Logger.getLogger(FileHelper.class.getName());
 
+    /**
+     * Opens the file at the specified path and returns it.
+     * If the file does not exist or is a directory, an error message is displayed in the console.
+     *
+     * @param filePath The path to the file to be opened.
+     * @return The {@link File} object representing the opened file, or null if the file does not exist or is a directory.
+     */
     public static File openFile(String filePath) {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         File file = new File(trimFilePath(filePath));
@@ -44,6 +58,14 @@ public class FileHelper {
         return file;
     }
 
+    /**
+     * Checks the file for errors and displays them in the console.
+     * If the file starts with '!', the content is read and displayed as an error message.
+     *
+     * @param file           The file to be checked.
+     * @param consoleTextFlow The console {@link TextFlow} where the error messages are displayed.
+     * @return {@code true} if the file contains errors, {@code false} otherwise.
+     */
     public static boolean checkErrors(File file, TextFlow consoleTextFlow) {
         if (file == null) {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[ERROR] File is null", Color.RED, true);
@@ -74,6 +96,13 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Checks if the output file contains tables.
+     * If the file contains more than one line, and it is not '!', it is considered to contain tables.
+     *
+     * @param outputFilePath The path to the output file.
+     * @return {@code true} if the file contains tables, {@code false} otherwise.
+     */
     public static boolean hasTablesInOutput(String outputFilePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(outputFilePath))) {
             int lineCount = 0;
@@ -89,6 +118,16 @@ public class FileHelper {
         return false;
     }
 
+    /**
+     * Loads tables from the specified file and creates tabs for each table in the main window.
+     * If the file is a SELECT query, the first line is skipped.
+     * If the file contains multiple tables, each table is separated by a line starting with a tab character.
+     * The tables are created as {@link TableView} objects and added to the result tab pane.
+     *
+     * @param fileName      The path to the file containing the tables.
+     * @param isSelectQuery {@code true} if the file was created by a SELECT query, {@code false} otherwise.
+     * @return {@code true} if tabs were created, {@code false} otherwise.
+     */
     public static boolean loadTablesFromFile(String fileName, boolean isSelectQuery) {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         File file = openFile(fileName);
@@ -159,6 +198,13 @@ public class FileHelper {
         return tabsCreated;
     }
 
+    /**
+     * Reads the table names from the specified file and returns them as a list.
+     * The table names are lines starting with a tab character.
+     *
+     * @param fileName The path to the file containing the table names.
+     * @return A {@link List} of table names read from the file.
+     */
     public static List<String> readTableNames(String fileName) {
         List<String> tableNames = new ArrayList<>();
         File file = openFile(fileName);
@@ -179,6 +225,16 @@ public class FileHelper {
         return tableNames;
     }
 
+    /**
+     * Creates a new table tab in the main window with the specified table name, headers and data.
+     * The table is created as a {@link TableView} object and added to the result {@link TabPane}.
+     *
+     * @param mainWindowController The {@link MainWindowController} instance of the main window.
+     * @param tableName            The name of the table.
+     * @param headers              The headers of the table.
+     * @param data                 The data of the table.
+     * @param isSelectQuery        {@code true} if the table was created by a SELECT query, {@code false} otherwise.
+     */
     private static void createTableTab(MainWindowController mainWindowController, String tableName, List<String> headers, List<List<String>> data, boolean isSelectQuery) {
         TableView<ObservableList<String>> tableView = new TableView<>();
 
@@ -232,6 +288,12 @@ public class FileHelper {
         mainWindowController.resultTabPane.getTabs().add(tab);
     }
 
+    /**
+     * Trims the specified file path and removes quotes from it.
+     *
+     * @param filePath The file path to be trimmed.
+     * @return The trimmed file path without quotes.
+     */
     private static String trimFilePath(String filePath) {
         return filePath.trim().replaceAll("\"", "").replaceAll("'", "");
     }

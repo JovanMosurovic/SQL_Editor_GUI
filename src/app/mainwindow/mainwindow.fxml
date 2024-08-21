@@ -49,7 +49,7 @@
                     </ImageView>
                 </graphic>
             </MenuItem>
-            <MenuItem accelerator="ALT+F4" onAction="#handleExit" styleClass="menu-item" text="Exit">
+            <MenuItem accelerator="ALT+F4" onAction="#handleExit" styleClass="menu-item" text="Force Quit">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/exit_icon.png"/>

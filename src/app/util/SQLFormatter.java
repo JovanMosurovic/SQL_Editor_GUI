@@ -3,6 +3,10 @@ package app.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for formatting SQL queries.
+ * <p>Provides methods to trim and format SQL code for better readability and parsing.</p>
+ */
 public class SQLFormatter {
 
     private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP", "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR", ";"};

@@ -11,7 +11,7 @@ import java.io.File;
 
 /**
  * Utility class for managing database operations in this JavaFX application.
- * Provides methods to import and export database files.
+ * <p>Provides methods to import and export database files.</p>
  */
 public class DatabaseManager {
 
@@ -57,6 +57,10 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Gets the last selected file in the file chooser dialog.
+     * @return the last selected {@link File} object
+     */
     public static File getLastSelectedFile() {
         return lastSelectedFile;
     }

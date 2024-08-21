@@ -12,10 +12,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Represents the Closing Window of the application.
- * This window is shown when the user attempts to close the application or a specific window.
- * It provides options to save changes, discard changes, or cancel the close operation.
- * The window is styled and behaves consistently with the application's overall theme.
+ * Represents the About Window of the application.
+ * <p>This window displays information about the application, such as its purpose,
+ * author, and other relevant details.</p>
  *
  * @see app.Window
  */

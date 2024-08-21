@@ -8,7 +8,7 @@ import javafx.scene.text.TextFlow;
 
 /**
  * Utility class for managing and updating a {@link TextFlow} component.
- * It provides methods to update the text content, clear the text, and scroll to the bottom.
+ * <p>It provides methods to update the text content, clear the text, and scroll to the bottom.</p>
  */
 public class TextFlowHelper {
 
@@ -51,7 +51,7 @@ public class TextFlowHelper {
             if (parent instanceof ScrollPane) {
                 ScrollPane scrollPane = (ScrollPane) parent;
                 scrollPane.layout();
-                scrollPane.setVvalue(1.0);
+                scrollPane.setVvalue(0.5);
                 return;
             }
             parent = parent.getParent();

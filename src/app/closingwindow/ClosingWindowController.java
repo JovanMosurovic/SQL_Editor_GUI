@@ -9,8 +9,10 @@ import java.util.ResourceBundle;
 
 /**
  * Controller for the Closing Window in the application.
- * This class manages the user interactions when the user attempts to close a window,
- * providing options to save, not save, or cancel the closing action.
+ * <p>This class handles the user interactions within the Closing Window,
+ * such as saving changes, closing all windows without saving, and canceling the close operation.</p>
+ * <p>The Closing Window is displayed when the user attempts to close the application or open a new file
+ * without saving the changes made to the current file.</p>
  *
  * @see app.ControllerBase
  * @see app.Window
