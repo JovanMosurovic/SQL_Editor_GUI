@@ -201,17 +201,17 @@ void Database::selectFromTable(const string &tableName, const string &tableAlias
         cout << "\xC4> Query did not return any results." << endl;
     } else {
         resultTable.printTable();
-
-        // Write result to file
-        ofstream outFile("output.txt");
-        if (outFile.is_open()) {
-            resultTable.printTableInFile(outFile, actualColumnNames);
-            outFile.close();
-            cout << "Query result has been written to output.txt" << endl;
-        } else {
-            cout << "Unable to open output file." << endl;
-        }
     }
+
+    // Write result to file
+    ofstream outFile("output.txt");
+    if (outFile.is_open()) {
+        resultTable.printTableInFile(outFile, actualColumnNames);
+        outFile.close();
+    } else {
+        cout << "Unable to open output file." << endl;
+    }
+
 }
 
 void Database::importDatabase(const Format& format, const string& filePath) {
