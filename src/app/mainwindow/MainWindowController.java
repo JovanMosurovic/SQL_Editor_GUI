@@ -108,8 +108,16 @@ public class MainWindowController extends ControllerBase {
         File outputFile = new File("output.txt");
         if (!FileHelper.checkErrors(outputFile, consoleTextFlow)) {
             List<String> tableNames = FileHelper.readTableNames("output.txt");
-            tablesListView.getItems().setAll(tableNames);
+            for (String tableName : tableNames) {
+                if (!tablesListView.getItems().contains(tableName)) {
+                    tablesListView.getItems().add(tableName);
+                }
+            }
         }
+    }
+
+    public void removeTableFromList(String tableName) {
+        tablesListView.getItems().remove(tableName);
     }
 
     //region Editor actions

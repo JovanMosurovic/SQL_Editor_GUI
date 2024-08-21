@@ -53,11 +53,10 @@ public class SQLExecutor {
 
             executedQueries.add(formattedQuery);
 
-            if (formattedQuery.startsWith("DROP TABLE") && isFromEditor) {
-                databaseManager.executeQuery("SHOW TABLES");
-                FileHelper.loadTablesFromFile("output.txt", false);
-            } else if (formattedQuery.startsWith("CREATE TABLE") ||
-                    formattedQuery.startsWith("DROP TABLE")) {
+            if (formattedQuery.startsWith("DROP TABLE")) {
+                String tableName = extractTableName(formattedQuery);
+                mainWindowController.removeTableFromList(tableName);
+            } else if (formattedQuery.startsWith("CREATE TABLE")) {
                 mainWindowController.updateTablesList();
             }
         }
@@ -104,5 +103,13 @@ public class SQLExecutor {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow,
                     "No tables found in the database.\n", Color.RED, true);
         }
+    }
+
+    private String extractTableName(String query) {
+        String[] parts = query.split("\\s+");
+        if (parts.length >= 3) {
+            return parts[2].replace("`", "").replace("'", "").replace("\"", "");
+        }
+        return "";
     }
 }
