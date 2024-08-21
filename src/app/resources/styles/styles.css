@@ -175,23 +175,23 @@
 }
 
 .button-blue {
-    -fx-background-color: #3574f0;
+    -fx-background-color: #2E86C1;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-padding: 10px 20px;
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
-    -fx-border-color: #2d5fd0;
+    -fx-border-color: #2874A6;
     -fx-border-width: 1px;
 }
 
 .button-blue:hover {
-    -fx-background-color: #0056b3;
+    -fx-background-color: #2874A6;
 }
 
 .button-blue:pressed {
-    -fx-background-color: #004085;
-    -fx-border-color: #076dd5;
+    -fx-background-color: #1F618D;
+    -fx-border-color: #1A5276;
     -fx-border-width: 1px;
 }
 

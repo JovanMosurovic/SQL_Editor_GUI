@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.savingwindow.SavingWindowController">
+<AnchorPane minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.savingwindow.SavingWindowController">
     <Label layoutX="15.0" layoutY="40.0"
            styleClass="dialog-header-text"
            text="Choose the format to save the file:"
@@ -16,12 +17,12 @@
         </font>
     </Label>
     <HBox alignment="CENTER" layoutX="15.0" layoutY="105.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsCustom" text="Custom">
+        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsSQL" styleClass="button-blue" text="SQL">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
         </Button>
-        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsSQL" text="SQL">
+        <Button alignment="CENTER" minHeight="30.0" minWidth="110.0" onAction="#handleSaveAsCustom" text="Custom">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
