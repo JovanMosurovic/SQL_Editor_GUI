@@ -38,6 +38,11 @@ public abstract class Window {
     public static final int SETTINGS_WINDOW;
 
     /**
+     * The position of the force quit window in the application.
+     */
+    public static final int FORCE_QUIT_WINDOW;
+
+    /**
      * The array of all windows in the application.
      */
     private static final Window[] windows;
@@ -52,13 +57,15 @@ public abstract class Window {
     protected ControllerBase controller;
 
     static {
-        WINDOWS = 6;
+        WINDOWS = 7;
         MAIN_WINDOW = 0;
         CLOSE_WINDOW = 1;
         SAVE_WINDOW = 2;
         WELCOME_WINDOW = 3;
         ABOUT_WINDOW = 4;
         SETTINGS_WINDOW = 5;
+        FORCE_QUIT_WINDOW = 6;
+
         windows = new Window[WINDOWS];
     }
 

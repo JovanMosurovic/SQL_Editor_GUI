@@ -351,8 +351,7 @@ public class MainWindowController extends ControllerBase {
      */
     @FXML
     private void handleExit() {
-        Window.closeAllWindows();
-        // todo You will lose any unsaved changes
+        Window.showWindow(Window.FORCE_QUIT_WINDOW);
     }
 
     /**

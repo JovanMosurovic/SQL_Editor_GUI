@@ -3,6 +3,7 @@ package app;
 import app.aboutwindow.AboutWindow;
 import app.aboutwindow.AboutWindowController;
 import app.closingwindow.ClosingWindow;
+import app.forcequitwindow.ForceQuitWindow;
 import app.mainwindow.MainWindow;
 import app.savingwindow.SavingWindow;
 import app.settingswindow.SettingsWindow;
@@ -27,10 +28,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        Window.setWindowAt(Window.WELCOME_WINDOW, new WelcomeWindow());
         Window.setWindowAt(Window.MAIN_WINDOW, new MainWindow());
         Window.setWindowAt(Window.CLOSE_WINDOW, new ClosingWindow());
+        Window.setWindowAt(Window.FORCE_QUIT_WINDOW, new ForceQuitWindow());
         Window.setWindowAt(Window.SAVE_WINDOW, new SavingWindow());
-        Window.setWindowAt(Window.WELCOME_WINDOW, new WelcomeWindow());
         Window.setWindowAt(Window.ABOUT_WINDOW, new AboutWindow());
         Window.setWindowAt(Window.SETTINGS_WINDOW, new SettingsWindow());
         Window.initAllWindows();
