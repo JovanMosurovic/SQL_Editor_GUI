@@ -1,6 +1,6 @@
 @echo off
 
-rem This script is used to create .o files and create the native.dll library in the project.
+rem This script is used to create .o files and create the native.dll library in the project. 
 
 set TOTAL_COMMANDS=24
 set /A COUNTER=%TOTAL_COMMANDS%
