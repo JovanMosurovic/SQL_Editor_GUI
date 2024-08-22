@@ -45,7 +45,9 @@ public class FontConfig {
     public static final String[] EDITOR_FONT_FAMILIES = {
             DEFAULT_FONT_FAMILY,
             MONOSPACED_FONT,
-            CONSOLAS_FONT
+            CONSOLAS_FONT,
+            FIRA_CODE_FONT,
+            JETBRAINS_MONO_FONT
     };
 
     /**
@@ -53,7 +55,9 @@ public class FontConfig {
      */
     public static final String[] CONSOLE_FONT_FAMILIES = {
             DEFAULT_FONT_FAMILY,
-            MONOSPACED_FONT
+            MONOSPACED_FONT,
+            FIRA_CODE_FONT,
+            JETBRAINS_MONO_FONT
     };
 
     /**

@@ -34,6 +34,16 @@
     src: url('../fonts/Consolas.ttf');
 }
 
+@font-face {
+    -fx-font-family: 'Fira Code';
+    src: url('../fonts/FiraCode-Regular.ttf');
+}
+
+@font-face {
+    -fx-font-family: 'JetBrains Mono';
+    src: url('../fonts/JetBrainsMonoNL-Regular.ttf');
+}
+
 /* Pane Styles */
 .anchor-pane {
     -fx-background-color: #f0f0f0;
@@ -508,29 +518,44 @@
     -fx-font-weight: bold;
 }
 
-.monospaced-font {
-    -fx-font-family: "Monospaced";
-}
-
 .calibri-font {
     -fx-font-family: "Calibri";
+}
+
+.monospaced-font {
+    -fx-font-family: "Monospaced";
 }
 
 .consolas-font {
     -fx-font-family: "Consolas";
 }
 
+.fire-code-font {
+    -fx-font-family: "Fira Code";
+}
 
-#consolas,  #consolas .text {
-    -fx-font-family: 'Consolas';
+.jetbrains-mono-font {
+    -fx-font-family: "JetBrains Mono";
+}
+
+#calibri, #calibri .text {
+    -fx-font-family: 'Calibri';
 }
 
 #monospaced, #monospaced .text {
     -fx-font-family: 'Monospaced';
 }
 
-#calibri, #calibri .text {
-    -fx-font-family: 'Calibri';
+#consolas,  #consolas .text {
+    -fx-font-family: 'Consolas';
+}
+
+#fira-code, #fira-code .text {
+    -fx-font-family: 'Fira Code';
+}
+
+#jetbrains-mono, #jetbrains-mono .text {
+    -fx-font-family: 'JetBrains Mono';
 }
 
 .font10, .font10 .text {
