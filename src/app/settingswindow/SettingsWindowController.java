@@ -142,7 +142,7 @@ public class SettingsWindowController extends ControllerBase {
      * @param fontFamily   The font family to apply.
      */
     private void updatePreviewAreaFontFamily(TextArea previewArea, String fontFamily) {
-        previewArea.getStyleClass().removeAll("calibri-font", "monospaced-font", "consolas-font");
+        previewArea.getStyleClass().removeAll("calibri-font", "monospaced-font", "consolas-font", "firacode-font", "jetbrainsmono-font");
         previewArea.getStyleClass().add(fontFamily.toLowerCase() + "-font");
     }
 

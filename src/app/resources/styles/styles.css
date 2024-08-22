@@ -25,8 +25,20 @@
 }
 
 @font-face {
+    -fx-font-family: Calibri;
+    src: url('../fonts/calibri-bold.ttf');
+    -fx-font-weight: bold;
+}
+
+@font-face {
     -fx-font-family: Monospaced;
     src: url('../fonts/Monospace.ttf');
+}
+
+@font-face {
+    -fx-font-family: Monospaced;
+    src: url('../fonts/Monospace-Bold.ttf');
+    -fx-font-weight: bold;
 }
 
 @font-face {
@@ -35,13 +47,31 @@
 }
 
 @font-face {
-    -fx-font-family: 'Fira Code';
+    -fx-font-family: Consolas;
+    src: url('../fonts/Consolas-Bold.ttf');
+    -fx-font-weight: bold;
+}
+
+@font-face {
+    -fx-font-family: FiraCode;
     src: url('../fonts/FiraCode-Regular.ttf');
 }
 
 @font-face {
-    -fx-font-family: 'JetBrains Mono';
+    -fx-font-family: FiraCode;
+    src: url('../fonts/FiraCode-Bold.ttf');
+    -fx-font-weight: bold;
+}
+
+@font-face {
+    -fx-font-family: JetBrainsMono;
     src: url('../fonts/JetBrainsMonoNL-Regular.ttf');
+}
+
+@font-face {
+    -fx-font-family: JetBrainsMono;
+    src: url('../fonts/JetBrainsMonoNL-Bold.ttf');
+    -fx-font-weight: bold;
 }
 
 /* Pane Styles */
@@ -530,12 +560,12 @@
     -fx-font-family: "Consolas";
 }
 
-.fire-code-font {
-    -fx-font-family: "Fira Code";
+.firacode-font {
+    -fx-font-family: "FiraCode";
 }
 
-.jetbrains-mono-font {
-    -fx-font-family: "JetBrains Mono";
+.jetbrainsmono-font {
+    -fx-font-family: "JetBrainsMono";
 }
 
 #calibri, #calibri .text {
@@ -550,12 +580,12 @@
     -fx-font-family: 'Consolas';
 }
 
-#fira-code, #fira-code .text {
-    -fx-font-family: 'Fira Code';
+#firacode, #firacode .text {
+    -fx-font-family: 'FiraCode';
 }
 
-#jetbrains-mono, #jetbrains-mono .text {
-    -fx-font-family: 'JetBrains Mono';
+#jetbrainsmono, #jetbrainsmono .text {
+    -fx-font-family: 'JetBrainsMono';
 }
 
 .font10, .font10 .text {

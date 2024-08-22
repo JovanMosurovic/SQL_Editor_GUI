@@ -25,19 +25,11 @@ public class FontConfig {
     /**
      * The Fira Code font family for the code editor area.
      */
-    public static final String FIRA_CODE_FONT = "Fira Code";
+    public static final String FIRA_CODE_FONT = "FiraCode";
     /**
      * The path to the Fira Code font file. Not used currently.
      */
-    public static final String JETBRAINS_MONO_FONT = "JetBrains Mono";
-    /**
-     * The path to the Fira Code font file. Not used currently.
-     */
-    public static final String FIRA_CODE_FONT_PATH = "/app/resources/fonts/FiraCode-Regular.ttf";
-    /**
-     * The path to the JetBrains Mono font file. Not used currently.
-     */
-    public static final String JETBRAINS_MONO_FONT_PATH = "/app/resources/fonts/JetBrainsMonoNL-Regular.ttf";
+    public static final String JETBRAINS_MONO_FONT = "JetBrainsMono";
 
     /**
      * The list of font families available for the code editor area.
@@ -46,8 +38,8 @@ public class FontConfig {
             DEFAULT_FONT_FAMILY,
             MONOSPACED_FONT,
             CONSOLAS_FONT,
-            FIRA_CODE_FONT,
-            JETBRAINS_MONO_FONT
+//            FIRA_CODE_FONT,
+//            JETBRAINS_MONO_FONT
     };
 
     /**
@@ -56,8 +48,8 @@ public class FontConfig {
     public static final String[] CONSOLE_FONT_FAMILIES = {
             DEFAULT_FONT_FAMILY,
             MONOSPACED_FONT,
-            FIRA_CODE_FONT,
-            JETBRAINS_MONO_FONT
+//            FIRA_CODE_FONT,
+//            JETBRAINS_MONO_FONT
     };
 
     /**
