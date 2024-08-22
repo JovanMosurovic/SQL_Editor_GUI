@@ -23,6 +23,18 @@ public class FontConfig {
      */
     public static final String CONSOLAS_FONT = "Consolas";
     /**
+     * The Fira Code font family for the code editor area.
+     */
+    public static final String FIRA_CODE_FONT = "Fira Code";
+    /**
+     * The path to the Fira Code font file. Not used currently.
+     */
+    public static final String JETBRAINS_MONO_FONT = "JetBrains Mono";
+    /**
+     * The path to the Fira Code font file. Not used currently.
+     */
+    public static final String FIRA_CODE_FONT_PATH = "/app/resources/fonts/FiraCode-Regular.ttf";
+    /**
      * The path to the JetBrains Mono font file. Not used currently.
      */
     public static final String JETBRAINS_MONO_FONT_PATH = "/app/resources/fonts/JetBrainsMonoNL-Regular.ttf";

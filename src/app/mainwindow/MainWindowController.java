@@ -366,6 +366,9 @@ public class MainWindowController extends ControllerBase {
     }
 
 
+    /**
+     * Getter for the name of the current database in the editor.
+     */
     public void setCurrentDatabaseName(String name) {
         this.currentDatabaseName = name;
         MainWindow mainWindow = (MainWindow) Window.getWindowAt(Window.MAIN_WINDOW);
