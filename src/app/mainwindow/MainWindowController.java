@@ -311,7 +311,9 @@ public class MainWindowController extends ControllerBase {
      * @param file the {@link File} to save the database to
      */
     public void saveFile(File file) {
-        if (!hasUnsavedChanges) {
+        boolean isSaveAs = !file.equals(importedFile);
+
+        if (!hasUnsavedChanges && !isSaveAs) {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\n[INFO] No changes to save.", Color.BLACK, true);
             return;
         }
