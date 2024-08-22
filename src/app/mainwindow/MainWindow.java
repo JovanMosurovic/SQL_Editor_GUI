@@ -66,4 +66,12 @@ public class MainWindow extends Window {
             throw new RuntimeException();
         }
     }
+
+    public void updateTite(String databaseName) {
+        if(databaseName != null && !databaseName.isEmpty()) {
+            stage.setTitle("SQL Editor - " + databaseName);
+        } else {
+            stage.setTitle("SQL Editor");
+        }
+    }
 }

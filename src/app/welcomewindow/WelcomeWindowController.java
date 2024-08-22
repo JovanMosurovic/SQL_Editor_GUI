@@ -63,6 +63,9 @@ public class WelcomeWindowController extends ControllerBase {
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
         mainWindowController.databaseManager.createNewDatabase();
         AnsiTextParser.parseAnsiText("Database \"untitled\" has been \033[1;32m\033[1msuccessfully\033[0m created!\n", mainWindowController.consoleTextFlow);
+
+        mainWindowController.setCurrentDatabaseName("untitled");
+
         Window.showWindow(Window.MAIN_WINDOW);
     }
 }

@@ -74,6 +74,11 @@ public class MainWindowController extends ControllerBase {
     private File importedFile = null;
 
     /**
+     * The name of the current database in the editor.
+     */
+    private String currentDatabaseName = null;
+
+    /**
      * Flag indicating whether the query was executed from the editor.
      */
     private boolean isQueryFromEditor = true;
@@ -148,6 +153,10 @@ public class MainWindowController extends ControllerBase {
             updateTablesList();
             importedFile = DatabaseManager.getLastSelectedFile();
             hasUnsavedChanges = false;
+
+            currentDatabaseName = importedFile.getName();
+            MainWindow mainWindow = (MainWindow) Window.getWindowAt(Window.MAIN_WINDOW);
+            mainWindow.updateTite(currentDatabaseName);
         }
 
         return result;
@@ -354,6 +363,13 @@ public class MainWindowController extends ControllerBase {
     @FXML
     private void handleExit() {
         Window.showWindow(Window.FORCE_QUIT_WINDOW);
+    }
+
+
+    public void setCurrentDatabaseName(String name) {
+        this.currentDatabaseName = name;
+        MainWindow mainWindow = (MainWindow) Window.getWindowAt(Window.MAIN_WINDOW);
+        mainWindow.updateTite(this.currentDatabaseName);
     }
 
     /**
