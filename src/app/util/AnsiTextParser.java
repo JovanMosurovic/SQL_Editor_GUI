@@ -12,18 +12,21 @@ import java.util.regex.Pattern;
  */
 public class AnsiTextParser {
 
-    // ANSI escape sequence pattern
+    /**
+     * The ANSI escape sequence pattern.
+     */
     private static final Pattern ANSI_PATTERN = Pattern.compile("\u001B\\[(\\d+(?:;\\d+)*)m");
 
     /**
-     * ANSI escape codes for text styles and colors.
+     * Text styles
      */
-    // Text styles
     private static final String RESET = "0";
     private static final String BOLD = "1";
     private static final String UNDERLINE = "4";
 
-    // Standard colors
+    /**
+     * Standard colors
+     */
     private static final String RED = "31";
     private static final String GREEN = "32";
     private static final String YELLOW = "33";
@@ -35,7 +38,9 @@ public class AnsiTextParser {
     private static final String LIGHT_BLUE = "94";
     private static final String LIGHT_GREEN = "92";
 
-    // Background colors
+    /**
+     * Background colors
+     */
     private static final String BG_BLACK = "40";
     private static final String BG_RED = "41";
     private static final String BG_GREEN = "42";
@@ -48,7 +53,7 @@ public class AnsiTextParser {
 
     /**
      * Parses the ANSI text and applies the styling to the given {@link TextFlow} component.
-     * Used for displaying ANSI colored text in the Console.
+     * Used for displaying ANSI colored text in the Console {@link TextFlow}.
      *
      * @param ansiText the ANSI text to parse
      * @param textFlow the {@link TextFlow} component to apply the styling

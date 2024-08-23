@@ -9,12 +9,27 @@ import java.util.regex.Pattern;
  */
 public class SQLFormatter {
 
+    /**
+     * The list of SQL keywords for formatting.
+     */
     private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP", "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR", ";"};
 
+    /**
+     * Trims the given SQL code by removing leading and trailing whitespace and normalizing internal whitespace.
+     *
+     * @param code the SQL code to trim
+     * @return the trimmed SQL code
+     */
     public static String trimCode(String code) {
         return code.replaceAll("\\s+", " ").trim();
     }
 
+    /**
+     * Formats the given SQL query by normalizing whitespace and capitalizing keywords.
+     *
+     * @param query the SQL query to format
+     * @return the formatted SQL query
+     */
     public static String formatSQLQuery(String query) {
         StringBuilder formattedQuery = new StringBuilder();
 

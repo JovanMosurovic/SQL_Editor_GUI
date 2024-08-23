@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 /**
- * Utility class for managing database operations in this JavaFX application.
+ * Utility class for managing database operations in this application.
  * <p>Provides methods to import and export database files.</p>
  */
 public class DatabaseManager {

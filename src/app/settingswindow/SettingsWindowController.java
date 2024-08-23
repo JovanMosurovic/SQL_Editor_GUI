@@ -24,6 +24,8 @@ import java.util.ResourceBundle;
  * <p>This class handles the user interactions within the Settings Window,
  * such as changing appearance settings, font settings, and applying the changes.</p>
  *
+ * Note: Appearance settings are not yet implemented in this version of the application.
+ *
  * @see app.ControllerBase
  * @see app.Window
  */

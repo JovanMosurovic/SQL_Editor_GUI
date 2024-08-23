@@ -11,7 +11,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Represents the Force Quit Window of the application.
+ * <p>This window is displayed when the user clicks the "Force Quit" button in the Menu</p>
+ * The window prompts the user to confirm the action and provides options to cancel the operation.
+ *
+ * @see app.Window
+ */
 public class ForceQuitWindow extends Window {
+
+    /**
+     * Initializes the Force Quit Window and sets its properties, such as title, icon, and modality.
+     * <p>This method loads the FXML layout, applies the stylesheet, and configures the window's
+     * appearance and behavior.
+     * <p>The window is centered on the screen and is set to be non-resizable.</p>
+     *
+     * @param stage The primary stage on which this window is displayed.
+     */
     @Override
     public void init(Stage stage) {
         try {

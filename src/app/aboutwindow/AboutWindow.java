@@ -13,9 +13,11 @@ import java.util.Objects;
 
 /**
  * Represents the About Window of the application.
- * <p>This window displays information about the application, such as its purpose,
- * author, and other relevant details. It is initialized with a specific layout
- * and is styled according to the application's theme.</p>
+ * <p>This window displays information about the application,
+ * such as why it was created, the author, version, and other relevant details.</p>
+ * <p>The About Window is displayed when the user clicks the "About" button in the Menu.</p>
+ * <p>The window provides links to the project's GitHub repository, the author's GitHub page
+ * and button to close the window.</p>
  *
  * @see app.Window
  */
@@ -23,8 +25,9 @@ public class AboutWindow extends Window {
 
     /**
      * Initializes the About Window and sets its properties, such as title, icon, and modality.
-     * This method loads the FXML layout, applies the stylesheet, and configures the window's
-     * appearance and behavior. The window is centered on the screen and is set to be non-resizable.
+     * <p>This method loads the FXML layout, applies the stylesheet, and configures the window's
+     * appearance and behavior. </p>
+     * The window is centered on the screen and is set to be non-resizable.
      *
      * @param stage The primary stage on which this window is displayed.
      */

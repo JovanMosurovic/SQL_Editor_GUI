@@ -13,9 +13,8 @@ import java.util.Objects;
 
 /**
  * Represents the Saving Window of the application.
- * <p>This window allows users to save their work in different formats, such as SQL or a custom format.</p>
- * <p>It provides an interface to choose the file type and location, ensuring that users can easily
- * save their progress before closing the application or moving on to other tasks.</p>
+ * <p>This window is displayed when the user attempts to save the SQL script.</p>
+ * The window provides options to save the script to a sql or dbexp (custom) file format.
  *
  * @see app.Window
  */
@@ -24,7 +23,8 @@ public class SavingWindow extends Window {
     /**
      * Initializes the Saving Window and sets its properties, such as title, icon, and modality.
      * <p> This method loads the FXML layout, applies the stylesheet, and configures the window's
-     * appearance and behavior. The window is centered on the screen and is set to be non-resizable. </p>
+     * appearance and behavior.</p>
+     * <p>The window is centered on the screen and is set to be non-resizable.</p>
      *
      * @param stage The primary stage on which this window is displayed.
      */

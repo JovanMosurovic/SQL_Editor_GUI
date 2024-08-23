@@ -12,8 +12,8 @@ import org.fxmisc.richtext.CodeArea;
 
 /**
  * Utility class for creating and managing context menus in this JavaFX application.
- * <p>Provides methods to create context menus for different components such as a console area,
- * a list view of tables, and a code editor area.</p>
+ * <p>Provides methods to create context menus for different components such as a console area ({@link TextFlow}),
+ * a list view of tables ({@link ListView}), and a code editor area ({@link CodeArea}.)</p>
  */
 public class ContextMenuHelper {
 
