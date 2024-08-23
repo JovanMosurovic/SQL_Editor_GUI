@@ -170,7 +170,10 @@ public class MainWindowController extends ControllerBase {
         System.out.println("[RUN] Run button clicked");
         String selectedText = editorArea.getSelectedText();
         String code = selectedText.isEmpty() ? editorArea.getText() : selectedText;
-        executeQuery(code);
+        if (!code.isEmpty())
+            executeQuery(code);
+        else
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\nNo SQL query to execute.", Color.BLACK, true);
     }
 
     /**
