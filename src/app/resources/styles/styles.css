@@ -26,8 +26,9 @@
 
 @font-face {
     -fx-font-family: Calibri;
-    src: url('../fonts/calibri-bold.ttf');
     -fx-font-weight: bold;
+    src: url('../fonts/calibri-bold.ttf');
+
 }
 
 @font-face {
@@ -37,8 +38,8 @@
 
 @font-face {
     -fx-font-family: Monospaced;
-    src: url('../fonts/Monospace-Bold.ttf');
     -fx-font-weight: bold;
+    src: url('../fonts/Monospace-Bold.ttf');
 }
 
 @font-face {
@@ -48,8 +49,8 @@
 
 @font-face {
     -fx-font-family: Consolas;
-    src: url('../fonts/Consolas-Bold.ttf');
     -fx-font-weight: bold;
+    src: url('../fonts/Consolas-Bold.ttf');
 }
 
 @font-face {
@@ -59,8 +60,8 @@
 
 @font-face {
     -fx-font-family: FiraCode;
-    src: url('../fonts/FiraCode-Bold.ttf');
     -fx-font-weight: bold;
+    src: url('../fonts/FiraCode-Bold.ttf');
 }
 
 @font-face {
@@ -70,8 +71,8 @@
 
 @font-face {
     -fx-font-family: JetBrainsMono;
-    src: url('../fonts/JetBrainsMonoNL-Bold.ttf');
     -fx-font-weight: bold;
+    src: url('../fonts/JetBrainsMonoNL-Bold.ttf');
 }
 
 /* Pane Styles */
