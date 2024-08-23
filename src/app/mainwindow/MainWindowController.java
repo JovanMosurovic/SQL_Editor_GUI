@@ -371,6 +371,8 @@ public class MainWindowController extends ControllerBase {
 
     /**
      * Getter for the name of the current database in the editor.
+     *
+     * @param name the name of the current database
      */
     public void setCurrentDatabaseName(String name) {
         this.currentDatabaseName = name;
@@ -380,6 +382,8 @@ public class MainWindowController extends ControllerBase {
 
     /**
      * Getter for the flag indicating whether there are unsaved changes in the database.
+     *
+     * @return {@code true} if there are unsaved changes, {@code false} otherwise
      */
     public boolean hasUnsavedChanges() {
         return hasUnsavedChanges;
