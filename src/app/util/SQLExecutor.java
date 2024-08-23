@@ -2,12 +2,17 @@ package app.util;
 
 import app.mainwindow.MainWindowController;
 import cpp.JavaInterface;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Utility class for executing SQL queries in the database and handling the results.
@@ -128,10 +133,32 @@ public class SQLExecutor {
      * @param executionTime the execution time of the query in nanoseconds
      */
     private void displaySuccessMessage(long executionTime) {
-        AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!", consoleTextFlow);
-        AnsiTextParser.parseAnsiText("\n\033[1m\033[4mExecution time\033[0m: ", consoleTextFlow);
-        TextFlowHelper.updateResultTextFlow(consoleTextFlow,
-                String.format("%.2f ms\n", (double) executionTime / 1000000), Color.BLACK, true);
+        Text spacer = new Text("\n");
+        spacer.setStyle("-fx-font-size: 2px;");
+        consoleTextFlow.getChildren().add(spacer);
+
+        AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
+
+        ImageView timeIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/time_icon.png"))));
+        timeIcon.setFitWidth(16);
+        timeIcon.setFitHeight(16);
+
+        HBox executionTimeBox = new HBox();
+        executionTimeBox.getChildren().add(timeIcon);
+
+        Text spaceBeforeExecutionTime = new Text(" ");
+
+        Text executionTimeText = new Text("Execution time");
+        executionTimeText.setStyle("-fx-font-weight: bold; -fx-underline: true;");
+
+        Text colonText = new Text(":");
+        colonText.setStyle("-fx-font-weight: bold;");
+
+        Text executionTimeValue = new Text(String.format(" %.2f ms", (double) executionTime / 1000000));
+
+        executionTimeBox.getChildren().addAll(spaceBeforeExecutionTime, executionTimeText, colonText, executionTimeValue);
+
+        consoleTextFlow.getChildren().add(executionTimeBox);
     }
 
     /**
@@ -146,7 +173,7 @@ public class SQLExecutor {
 
         if (showTablesExecuted && !FileHelper.hasTablesInOutput("output.txt")) {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow,
-                    "No tables found in the database.\n", Color.RED, true);
+                    "\nNo tables found in the database.\n", Color.RED, true);
         }
     }
 
