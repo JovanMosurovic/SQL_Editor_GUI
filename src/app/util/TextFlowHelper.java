@@ -1,5 +1,6 @@
 package app.util;
 
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
@@ -50,8 +51,11 @@ public class TextFlowHelper {
         while (parent != null) {
             if (parent instanceof ScrollPane) {
                 ScrollPane scrollPane = (ScrollPane) parent;
-                scrollPane.layout();
-                scrollPane.setVvalue(0.5);
+                // Use Platform.runLater to ensure the scroll happens after the layout is updated
+                Platform.runLater(() -> {
+                    scrollPane.layout();
+                    scrollPane.setVvalue(1.0);
+                });
                 return;
             }
             parent = parent.getParent();
