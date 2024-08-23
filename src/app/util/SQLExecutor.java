@@ -4,7 +4,6 @@ import app.mainwindow.MainWindowController;
 import cpp.JavaInterface;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -134,17 +133,16 @@ public class SQLExecutor {
      */
     private void displaySuccessMessage(long executionTime) {
         Text spacer = new Text("\n");
-        spacer.setStyle("-fx-font-size: 2px;");
+        spacer.setStyle("-fx-font-size: 10px;");
         consoleTextFlow.getChildren().add(spacer);
 
         AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
 
+        TextFlow executionTimeLine = new TextFlow();
+
         ImageView timeIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/time_icon.png"))));
         timeIcon.setFitWidth(16);
         timeIcon.setFitHeight(16);
-
-        HBox executionTimeBox = new HBox();
-        executionTimeBox.getChildren().add(timeIcon);
 
         Text spaceBeforeExecutionTime = new Text(" ");
 
@@ -156,9 +154,11 @@ public class SQLExecutor {
 
         Text executionTimeValue = new Text(String.format(" %.2f ms", (double) executionTime / 1000000));
 
-        executionTimeBox.getChildren().addAll(spaceBeforeExecutionTime, executionTimeText, colonText, executionTimeValue);
+        executionTimeLine.getChildren().addAll(timeIcon, spaceBeforeExecutionTime, executionTimeText, colonText, executionTimeValue);
 
-        consoleTextFlow.getChildren().add(executionTimeBox);
+        timeIcon.setTranslateY(3); // for aligning the icon with the text
+
+        consoleTextFlow.getChildren().add(executionTimeLine);
     }
 
     /**
@@ -173,7 +173,7 @@ public class SQLExecutor {
 
         if (showTablesExecuted && !FileHelper.hasTablesInOutput("output.txt")) {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow,
-                    "\nNo tables found in the database.\n", Color.RED, true);
+                    "\nNo tables found in the database.", Color.RED, true);
         }
     }
 
