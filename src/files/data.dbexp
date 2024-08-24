@@ -1,0 +1,20 @@
+Database: 
+
+Table: prvaTabela (Rows: 3)
+arg |  arg2 |  arg3 |  arg4
+
+test | test1 | test2 | test3
+
+test11 | test111 | test211 | test311
+
+test555 | test1555 | test2555 | test3555
+
+Table: drugaTabela (Rows: 3)
+arg |  nekiValue |  test
+
+test | value1 | value2
+
+test11 | value3 | value4
+
+test11 | value5 | value6
+
