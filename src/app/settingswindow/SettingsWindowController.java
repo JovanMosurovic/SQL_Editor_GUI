@@ -37,7 +37,7 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private VBox fontOptionsVBox;
     @FXML
-    private VBox fontOverviewVBox;
+    private VBox appearanceOverviewVBox, fontOverviewVBox;
     @FXML
     private ImageView fontArrow;
     @FXML
@@ -47,7 +47,7 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private HBox editorHBox, consoleHBox;
     @FXML
-    private ComboBox<String> editorFontFamilyComboBox, consoleFontFamilyComboBox;
+    private ComboBox<String> themeComboBox, editorFontFamilyComboBox, consoleFontFamilyComboBox;
     @FXML
     private Spinner<Double> editorFontSizeSpinner, consoleFontSizeSpinner;
     @FXML
@@ -82,8 +82,57 @@ public class SettingsWindowController extends ControllerBase {
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+        setupThemeOptions();
         initAreas();
         setupFontOptions();
+    }
+
+    /**
+     * Sets up the theme options for the user to customize the appearance.
+     * Note: This feature is not yet implemented in this version of the application.
+     */
+    private void setupThemeOptions() {
+
+        themeComboBox.getItems().addAll("Light", "Dark");
+        themeComboBox.setValue("Light"); // Postavite trenutnu temu
+
+        themeComboBox.setCellFactory(listView -> new ListCell<String>() {
+            private final ImageView imageView = new ImageView();
+            {
+                imageView.setFitHeight(16);
+                imageView.setFitWidth(16);
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item);
+                    if ("Light".equals(item)) {
+                        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/light_theme_icon.png"))));
+                    } else {
+                        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/dark_theme_icon.png"))));
+                    }
+                    setGraphic(imageView);
+                }
+            }
+        });
+
+        themeComboBox.setButtonCell(themeComboBox.getCellFactory().call(null));
+
+        themeComboBox.setOnAction(event -> {
+            String selectedTheme = themeComboBox.getValue();
+            if ("Dark".equals(selectedTheme)) {
+                // TODO: Change to dark theme
+                System.out.println("Dark theme is applied");
+            } else {
+                // TODO: Change to light theme
+                System.out.println("Light theme is applied");
+            }
+        });
     }
 
     /**
@@ -252,6 +301,10 @@ public class SettingsWindowController extends ControllerBase {
     private void toggleFontOptions() {
         fontOptionsVisible = !fontOptionsVisible;
         updateFontOptionsVisibility();
+        if(fontOptionsVisible) {
+            hideAllOptionPanes();
+            fontOverviewVBox.setVisible(true);
+        }
     }
 
     /**
@@ -265,6 +318,7 @@ public class SettingsWindowController extends ControllerBase {
             selectFontOptions();
         } else {
             clearSelection();
+            hideAllOptionPanes();
         }
     }
 
@@ -285,6 +339,8 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void selectAppearance() {
         setSelectedOption(appearanceHBox);
+        hideAllOptionPanes();
+        appearanceOverviewVBox.setVisible(true);
     }
 
     /**
@@ -293,16 +349,8 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void selectFontOptions() {
         setSelectedOption(fontHBox);
-        showFontOverview();
-    }
-
-    /**
-     * Shows the font overview.
-     */
-    private void showFontOverview() {
+        hideAllOptionPanes();
         fontOverviewVBox.setVisible(true);
-        editorFontOptionsVBox.setVisible(false);
-        consoleFontOptionsVBox.setVisible(false);
     }
 
     /**
@@ -311,8 +359,8 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void selectEditor() {
         setSelectedOption(editorHBox);
-        showFontOptions(editorFontOptionsVBox, consoleFontOptionsVBox);
-        fontOverviewVBox.setVisible(false);
+        hideAllOptionPanes();
+        editorFontOptionsVBox.setVisible(true);
     }
 
     /**
@@ -321,8 +369,8 @@ public class SettingsWindowController extends ControllerBase {
     @FXML
     private void selectConsole() {
         setSelectedOption(consoleHBox);
-        showFontOptions(consoleFontOptionsVBox, editorFontOptionsVBox);
-        fontOverviewVBox.setVisible(false);
+        hideAllOptionPanes();
+        consoleFontOptionsVBox.setVisible(true);
     }
 
     /**
@@ -336,17 +384,6 @@ public class SettingsWindowController extends ControllerBase {
     }
 
     /**
-     * Shows the font options based on the specified VBox and hides the other VBox.
-     *
-     * @param showBox The VBox to show.
-     * @param hideBox The VBox to hide.
-     */
-    private void showFontOptions(VBox showBox, VBox hideBox) {
-        showBox.setVisible(true);
-        hideBox.setVisible(false);
-    }
-
-    /**
      * Clears the selection style from all HBox elements.
      */
     private void clearSelection() {
@@ -354,5 +391,15 @@ public class SettingsWindowController extends ControllerBase {
         consoleHBox.getStyleClass().remove("selected");
         editorHBox.getStyleClass().remove("selected");
         fontHBox.getStyleClass().remove("selected");
+    }
+
+    /**
+     * Hides all option panes.
+     */
+    private void hideAllOptionPanes() {
+        appearanceOverviewVBox.setVisible(false);
+        fontOverviewVBox.setVisible(false);
+        editorFontOptionsVBox.setVisible(false);
+        consoleFontOptionsVBox.setVisible(false);
     }
 }

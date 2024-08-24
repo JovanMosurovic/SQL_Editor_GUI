@@ -266,6 +266,84 @@
     -fx-background-color: #218838 !important;
 }
 
+/* Combo Box Styles */
+.combo-box {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-pref-height: 30px;
+    -fx-min-width: 120px;
+}
+
+.combo-box:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.combo-box .list-cell {
+    -fx-padding: 4 0 4 7;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-base-color;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 0);
+}
+
+.combo-box-popup .list-cell {
+    -fx-padding: 4 0 4 7;
+    -fx-background-color: white;
+}
+
+.combo-box-popup .list-cell:filled:hover {
+    -fx-background-color: #0096c9;
+    -fx-text-fill: white;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 8 0 0;
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color: #666666;
+    -fx-background-insets: 0;
+    -fx-padding: 3 5 3 5;
+    -fx-shape: "M0,0 L6,5 L12,0 Z";
+}
+
+.combo-box:hover .arrow-button .arrow {
+    -fx-background-color: #333333;
+}
+
+/* Styles for other options (keeping hover effect) */
+.appearance-settings-HBox, .font-settings-HBox, .font-option-HBox {
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-color: transparent;
+}
+
+.appearance-settings-HBox:hover, .font-settings-HBox:hover, .font-option-HBox:hover,
+.appearance-settings-HBox:selected, .font-settings-HBox:selected, .font-option-HBox:selected {
+    -fx-font-weight: bold;
+    -fx-border-color: #d4e2ff;
+    -fx-background-color: #d4e2ff;
+}
+
+.selected {
+    -fx-border-color: #d4e2ff;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-color: #d4e2ff;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
 /* Text Area and Text Flow Styles */
 .text-area, .left-pane {
     -fx-text-fill: #333333;
