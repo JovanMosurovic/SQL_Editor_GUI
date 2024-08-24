@@ -2,8 +2,7 @@ package app.util;
 
 import app.mainwindow.MainWindowController;
 import cpp.JavaInterface;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -11,7 +10,6 @@ import javafx.scene.text.TextFlow;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Utility class for executing SQL queries in the database and handling the results.
@@ -139,12 +137,15 @@ public class SQLExecutor {
         AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
 
         TextFlow executionTimeLine = new TextFlow();
+        executionTimeLine.setLineSpacing(0);
 
-        ImageView timeIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/time_icon.png"))));
-        timeIcon.setFitWidth(16);
-        timeIcon.setFitHeight(16);
+        double iconSize = FontConfig.getConsoleFontSize() - 2;
+        String timeIconSVG = "M12,24C5.383,24,0,18.617,0,12S5.383,0,12,0s12,5.383,12,12-5.383,12-12,12Zm0-22C6.486,2,2,6.486,2,12s4.486,10,10,10,10-4.486,10-10S17.514,2,12,2Zm5,10c0-.553-.447-1-1-1h-3V6c0-.553-.448-1-1-1s-1,.447-1,1v6c0,.553,.448,1,1,1h4c.553,0,1-.447,1-1Z";
+        Node timeIcon = SVGHelper.loadSVG(timeIconSVG, iconSize);
 
-        Text spaceBeforeExecutionTime = new Text(" ");
+//        ImageView timeIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/time_icon.png"))));
+//        timeIcon.setFitWidth(16);
+//        timeIcon.setFitHeight(16);
 
         Text executionTimeText = new Text("Execution time");
         executionTimeText.setStyle("-fx-font-weight: bold; -fx-underline: true;");
@@ -154,7 +155,7 @@ public class SQLExecutor {
 
         Text executionTimeValue = new Text(String.format(" %.2f ms", (double) executionTime / 1000000));
 
-        executionTimeLine.getChildren().addAll(timeIcon, spaceBeforeExecutionTime, executionTimeText, colonText, executionTimeValue);
+        executionTimeLine.getChildren().addAll(timeIcon, new Text(" "), executionTimeText, colonText, executionTimeValue);
 
         timeIcon.setTranslateY(3); // for aligning the icon with the text
 

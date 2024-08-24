@@ -8,11 +8,14 @@ import app.util.FontConfig;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -283,6 +286,21 @@ public class SettingsWindowController extends ControllerBase {
         FontHelper.setFontSize((int) tempConsoleFontSize, mainWindowController.consoleTextFlow);
         FontConfig.updateFontSizeConfig(tempConsoleFontSize, mainWindowController.consoleTextFlow);
         FontConfig.updateFontFamilyConfig(tempConsoleFontFamily, mainWindowController.consoleTextFlow);
+
+        // Resize all existing icons in consoleTextFlow
+        for (Node node : mainWindowController.consoleTextFlow.getChildren()) {
+            if (node instanceof TextFlow) {
+                TextFlow textFlow = (TextFlow) node;
+                for (Node child : textFlow.getChildren()) {
+                    if (child instanceof SVGPath) {
+                        SVGPath svgPath = (SVGPath) child;
+                        double scale = tempConsoleFontSize / Math.max(svgPath.getBoundsInLocal().getWidth(), svgPath.getBoundsInLocal().getHeight());
+                        svgPath.setScaleX(scale);
+                        svgPath.setScaleY(scale);
+                    }
+                }
+            }
+        }
     }
 
     /**
