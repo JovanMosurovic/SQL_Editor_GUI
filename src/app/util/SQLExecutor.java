@@ -139,13 +139,12 @@ public class SQLExecutor {
         TextFlow executionTimeLine = new TextFlow();
         executionTimeLine.setLineSpacing(0);
 
-        double iconSize = FontConfig.getConsoleFontSize() - 2;
-        String timeIconSVG = "M12,24C5.383,24,0,18.617,0,12S5.383,0,12,0s12,5.383,12,12-5.383,12-12,12Zm0-22C6.486,2,2,6.486,2,12s4.486,10,10,10,10-4.486,10-10S17.514,2,12,2Zm5,10c0-.553-.447-1-1-1h-3V6c0-.553-.448-1-1-1s-1,.447-1,1v6c0,.553,.448,1,1,1h4c.553,0,1-.447,1-1Z";
+        double iconSize = 16;
+        String timeIconSVG = "M8,16C3.589,16,0,12.411,0,8S3.589,0,8,0s8,3.589,8,8-3.589,8-8,8Zm0-14.667" +
+                "C4.324,1.333,1.333,4.324,1.333,8s2.991,6.667,6.667,6.667S14.667,11.676,14.667,8S11.676,1.333,8,1.333Z" +
+                "M11.333,8c0-.368-.298-.667-.667-.667H9.333V4c0-.368-.298-.667-.667-.667S8,3.632,8,4v4" +
+                "c0,.368,.298,.667,.667,.667h2.667c.368,0,.667-.298,.667-.667Z";
         Node timeIcon = SVGHelper.loadSVG(timeIconSVG, iconSize);
-
-//        ImageView timeIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resources/icons/time_icon.png"))));
-//        timeIcon.setFitWidth(16);
-//        timeIcon.setFitHeight(16);
 
         Text executionTimeText = new Text("Execution time");
         executionTimeText.setStyle("-fx-font-weight: bold; -fx-underline: true;");

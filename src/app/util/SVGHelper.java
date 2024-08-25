@@ -8,7 +8,7 @@ public class SVGHelper {
         SVGPath path = new SVGPath();
         path.setContent(svgContent);
 
-        // Skaliranje SVG-a
+        // Scaling SVG
         double scale = size / Math.max(path.getBoundsInLocal().getWidth(), path.getBoundsInLocal().getHeight());
         path.setScaleX(scale);
         path.setScaleY(scale);
