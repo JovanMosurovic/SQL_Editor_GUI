@@ -74,6 +74,10 @@ public class SQLExecutor {
             String formattedQuery = SQLFormatter.formatSQLQuery(query.trim());
             System.out.println("[RUN] Executing formatted query: " + formattedQuery);
 
+            Pair<String, List<OrderByClause>> processedOrderBy = processOrderByClause(formattedQuery);
+            formattedQuery = processedOrderBy.getKey();
+            List<OrderByClause> orderByClauses = processedOrderBy.getValue();
+
             List<String> distinctColumns = new ArrayList<>();
             if (formattedQuery.toLowerCase().startsWith("select distinct")) {
                 Pair<String, List<String>> processedQuery = processDistinctQuery(formattedQuery);
@@ -94,8 +98,13 @@ public class SQLExecutor {
             }
 
             boolean isSelectQuery = formattedQuery.toLowerCase().startsWith("select");
-            if(isSelectQuery && !distinctColumns.isEmpty()) {
-                applyDistinct(outputFile, distinctColumns);
+            if(isSelectQuery) {
+                if(!distinctColumns.isEmpty()) {
+                    applyDistinct(outputFile, distinctColumns);
+                }
+                if(!orderByClauses.isEmpty()) {
+                    applyOrderBy(outputFile, orderByClauses);
+                }
             }
 
             tabsCreated |= FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
@@ -276,7 +285,97 @@ public class SQLExecutor {
                 }
             }
         } catch (IOException e) {
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow,
+                    "\n[ERROR] Error applying DISTINCT: " + e.getMessage(), Color.RED, true);
             System.err.println("Error applying DISTINCT: " + e.getMessage());
+        }
+    }
+
+    private Pair<String, List<OrderByClause>> processOrderByClause(String query) {
+        Pattern pattern = Pattern.compile("(.*)\\s+ORDER\\s+BY\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+
+        if (matcher.find()) {
+            String mainQuery = matcher.group(1);
+            String orderByClauseString = matcher.group(2);
+            List<OrderByClause> orderByClauses = parseOrderByClauses(orderByClauseString);
+            return new Pair<>(mainQuery, orderByClauses);
+        } else {
+            // This case should not happen if the query contains ORDER BY
+            return new Pair<>(query, new ArrayList<>());
+        }
+    }
+
+    private List<OrderByClause> parseOrderByClauses(String orderByClauseString) {
+        List<OrderByClause> clauses = new ArrayList<>();
+        String[] parts = orderByClauseString.split(",");
+        for (String part : parts) {
+            String[] columnAndDirection = part.trim().split("\\s+");
+            String column = columnAndDirection[0];
+            boolean isAscending = columnAndDirection.length == 1 || columnAndDirection[1].equalsIgnoreCase("ASC");
+            clauses.add(new OrderByClause(column, isAscending));
+        }
+        return clauses;
+    }
+
+    private void applyOrderBy(File outputFile, List<OrderByClause> orderByClauses) {
+        try {
+            List<String> lines = Files.readAllLines(outputFile.toPath());
+            if (lines.size() < 3) return;
+
+            String headerLine = lines.get(1); // The actual header is on the second line
+            List<String> headerList = Arrays.asList(headerLine.split("~"));
+
+            List<String> dataLines = lines.subList(2, lines.size());
+
+            dataLines.sort((line1, line2) -> {
+                String[] values1 = line1.split("~");
+                String[] values2 = line2.split("~");
+                for (OrderByClause clause : orderByClauses) {
+                    int columnIndex = headerList.indexOf(clause.getColumn());
+                    if (columnIndex != -1 && columnIndex < values1.length && columnIndex < values2.length) {
+                        int comparison = values1[columnIndex].compareTo(values2[columnIndex]);
+                        if (comparison != 0) {
+                            return clause.isAscending() ? comparison : -comparison;
+                        }
+                    }
+                }
+                return 0;
+            });
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
+                writer.println(lines.get(0)); // Write the first line (Result)
+                writer.println(headerLine);   // Write the header line
+                for (String line : dataLines) {
+                    writer.println(line);
+                }
+            }
+        } catch (IOException e) {
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow,
+                    "\n[ERROR] Error applying ORDER BY: " + e.getMessage(), Color.RED, true);
+        }
+    }
+
+    private static class OrderByClause {
+        private final String column;
+        private final boolean isAscending;
+
+        public OrderByClause(String column, boolean isAscending) {
+            this.column = column;
+            this.isAscending = isAscending;
+        }
+
+        public String getColumn() {
+            return column;
+        }
+
+        public boolean isAscending() {
+            return isAscending;
+        }
+
+        @Override
+        public String toString() {
+            return "OrderByClause {column='" + column + "', isAscending=" + isAscending + '}';
         }
     }
 }

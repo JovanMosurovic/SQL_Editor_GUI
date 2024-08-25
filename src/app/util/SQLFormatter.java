@@ -14,7 +14,7 @@ public class SQLFormatter {
      */
     private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES",
             "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP",
-            "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR", "DISTINCT", ";"};
+            "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR", ";"};
 
     /**
      * Trims the given SQL code by removing leading and trailing whitespace and normalizing internal whitespace.
