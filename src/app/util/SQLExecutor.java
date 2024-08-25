@@ -312,7 +312,11 @@ public class SQLExecutor {
         for (String part : parts) {
             String[] columnAndDirection = part.trim().split("\\s+");
             String column = columnAndDirection[0];
-            boolean isAscending = columnAndDirection.length == 1 || columnAndDirection[1].equalsIgnoreCase("ASC");
+            boolean isAscending = true; // Default to ascending
+            if (columnAndDirection.length > 1) {
+                String direction = columnAndDirection[columnAndDirection.length - 1].toUpperCase();
+                isAscending = !direction.equals("DESC");
+            }
             clauses.add(new OrderByClause(column, isAscending));
         }
         return clauses;
