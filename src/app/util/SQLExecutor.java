@@ -6,10 +6,17 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Pair;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Utility class for executing SQL queries in the database and handling the results.
@@ -67,6 +74,13 @@ public class SQLExecutor {
             String formattedQuery = SQLFormatter.formatSQLQuery(query.trim());
             System.out.println("[RUN] Executing formatted query: " + formattedQuery);
 
+            List<String> distinctColumns = new ArrayList<>();
+            if (formattedQuery.toLowerCase().startsWith("select distinct")) {
+                Pair<String, List<String>> processedQuery = processDistinctQuery(formattedQuery);
+                formattedQuery = processedQuery.getKey();
+                distinctColumns = processedQuery.getValue();
+            }
+
             if(isModifyingQuery(formattedQuery)) {
                 mainWindowController.setHasUnsavedChanges(true);
             }
@@ -79,7 +93,11 @@ public class SQLExecutor {
                 break;
             }
 
-            boolean isSelectQuery = formattedQuery.startsWith("SELECT");
+            boolean isSelectQuery = formattedQuery.toLowerCase().startsWith("select");
+            if(isSelectQuery && !distinctColumns.isEmpty()) {
+                applyDistinct(outputFile, distinctColumns);
+            }
+
             tabsCreated |= FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
 
             executedQueries.add(formattedQuery);
@@ -189,5 +207,76 @@ public class SQLExecutor {
             return parts[2].replace("`", "").replace("'", "").replace("\"", "");
         }
         return "";
+    }
+
+    private Pair<String, List<String>> processDistinctQuery(String query) {
+        Pattern pattern = Pattern.compile("SELECT\\s+DISTINCT\\s*(?:\\((.*?)\\))?\\s*(.*)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+
+        if (matcher.find()) {
+            String distinctColumnsStr = matcher.group(1);
+            String restOfQuery = matcher.group(2);
+            List<String> distinctColumns;
+
+            if (distinctColumnsStr != null) {
+                if (distinctColumnsStr.trim().equals("*")) {
+                    distinctColumns = Collections.singletonList("*");
+                } else {
+                    distinctColumns = Arrays.stream(distinctColumnsStr.split(","))
+                            .map(String::trim)
+                            .collect(Collectors.toList());
+                }
+            } else {
+                // If DISTINCT is not in parentheses, assume it's for all columns
+                distinctColumns = Collections.singletonList("*");
+            }
+
+            String processedQuery = "SELECT " + (distinctColumnsStr != null ? distinctColumnsStr : "") + " " + restOfQuery;
+            return new Pair<>(processedQuery, distinctColumns);
+        } else {
+            // This case should not happen if the query starts with "SELECT DISTINCT"
+            return new Pair<>(query, Collections.emptyList());
+        }
+    }
+
+    private void applyDistinct(File outputFile, List<String> distinctColumns) {
+        try {
+            List<String> lines = Files.readAllLines(outputFile.toPath());
+            if (lines.size() < 2) return; // No data or only headers
+
+            String headers = lines.get(0);
+            List<String> headerList = Arrays.asList(headers.split("~"));
+
+            Set<String> uniqueRows = new LinkedHashSet<>();
+            boolean isAllColumns = distinctColumns.contains("*") || distinctColumns.size() == headerList.size();
+
+            for (int i = 1; i < lines.size(); i++) {
+                String[] values = lines.get(i).split("~");
+                StringBuilder distinctValues = new StringBuilder();
+
+                if (isAllColumns) {
+                    distinctValues.append(lines.get(i));
+                } else {
+                    for (String column : distinctColumns) {
+                        int index = headerList.indexOf(column);
+                        if (index != -1 && index < values.length) {
+                            distinctValues.append(values[index]).append("~");
+                        }
+                    }
+                    distinctValues.setLength(distinctValues.length() - 1); // Remove last ~
+                }
+
+                uniqueRows.add(distinctValues.toString());
+            }
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
+                writer.println(headers);
+                for (String uniqueRow : uniqueRows) {
+                    writer.println(uniqueRow);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error applying DISTINCT: " + e.getMessage());
+        }
     }
 }

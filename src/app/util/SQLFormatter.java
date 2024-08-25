@@ -12,7 +12,9 @@ public class SQLFormatter {
     /**
      * The list of SQL keywords for formatting.
      */
-    private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP", "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR", ";"};
+    private static final String[] KEYWORDS = {"SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES",
+            "DELETE", "UPDATE", "SET", "CREATE", "TABLE", "DROP",
+            "SHOW", "TABLES", "INNER", "JOIN", "ON", "AS", "AND", "OR", "DISTINCT", ";"};
 
     /**
      * Trims the given SQL code by removing leading and trailing whitespace and normalizing internal whitespace.
