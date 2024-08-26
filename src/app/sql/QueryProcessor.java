@@ -46,11 +46,17 @@ public class QueryProcessor {
 
             for (int i = 0; i < columns.size(); i++) {
                 String column = columns.get(i).trim();
-                if (column.toUpperCase().startsWith("SUM(") || column.toUpperCase().startsWith("AVG(")) {
-                    String functionName = column.substring(0, 3).toUpperCase();
-                    String argument = column.substring(4, column.length() - 1).trim();
+                if (column.toUpperCase().startsWith("SUM(") ||
+                        column.toUpperCase().startsWith("AVG(") ||
+                        column.toUpperCase().startsWith("MAX(") ||
+                        column.toUpperCase().startsWith("MIN(") ||
+                        column.toUpperCase().startsWith("COUNT(")) {
+                    String functionName = column.substring(0, column.indexOf('(')).toUpperCase();
+                    String argument = column.substring(column.indexOf('(') + 1, column.length() - 1).trim();
                     aggregateFunctions.add(new AggregateFunction(functionName, argument, i));
-                    newColumns.add(argument);
+                    if (!argument.equals("*") || !functionName.equals("COUNT")) {
+                        newColumns.add(argument);
+                    }
                 } else {
                     newColumns.add(column);
                     aggregateFunctions.add(new AggregateFunction("NONE", column, i));
@@ -59,7 +65,7 @@ public class QueryProcessor {
 
             if (aggregateFunctions.stream().anyMatch(af -> !af.getFunction().equals("NONE"))) {
                 modifiers.setAggregateFunctions(aggregateFunctions);
-                String newSelectPart = String.join(", ", newColumns);
+                String newSelectPart = newColumns.isEmpty() ? "*" : String.join(", ", newColumns);
                 return query.replace(selectPart, newSelectPart);
             }
         }

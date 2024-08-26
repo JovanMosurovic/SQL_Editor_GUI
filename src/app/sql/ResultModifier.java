@@ -43,25 +43,38 @@ public class ResultModifier {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, Double> sums = new HashMap<>();
         Map<String, Integer> counts = new HashMap<>();
+        Map<String, Double> mins = new HashMap<>();
+        Map<String, Double> maxs = new HashMap<>();
         Map<String, String> firstValues = new HashMap<>();
+
+        int totalCount = dataLines.size();
 
         for (String line : dataLines) {
             String[] values = line.split("~");
             for (AggregateFunction func : aggregateFunctions) {
-                int colIndex = headers.indexOf(func.getArgument());
-                if (colIndex != -1 && colIndex < values.length) {
-                    if (func.getFunction().equals("NONE")) {
-                        if (!firstValues.containsKey(func.getArgument())) {
-                            firstValues.put(func.getArgument(), values[colIndex]);
-                        }
-                    } else {
-                        try {
-                            double value = Double.parseDouble(values[colIndex]);
-                            sums.merge(func.getArgument(), value, Double::sum);
-                            counts.merge(func.getArgument(), 1, Integer::sum);
-                        } catch (NumberFormatException e) {
-                            TextFlowHelper.updateResultTextFlow(((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).consoleTextFlow,
-                                    "\nWarning: Non-numeric value '" + values[colIndex] + "' found in column '" + func.getArgument() + "'. Skipping this value.", TextFlowHelper.warningYellow, true);
+                if (func.getFunction().equals("COUNT") && func.getArgument().equals("*")) {
+                    continue; // Handle COUNT(*) separately
+                } else {
+                    int colIndex = headers.indexOf(func.getArgument());
+                    if (colIndex != -1 && colIndex < values.length) {
+                        if (func.getFunction().equals("NONE")) {
+                            if (!firstValues.containsKey(func.getArgument())) {
+                                firstValues.put(func.getArgument(), values[colIndex]);
+                            }
+                        } else {
+                            try {
+                                double value = Double.parseDouble(values[colIndex]);
+                                sums.merge(func.getArgument(), value, Double::sum);
+                                counts.merge(func.getArgument(), 1, Integer::sum);
+                                mins.merge(func.getArgument(), value, Double::min);
+                                maxs.merge(func.getArgument(), value, Double::max);
+                            } catch (NumberFormatException e) {
+                                if (func.getFunction().equals("COUNT")) {
+                                    counts.merge(func.getArgument(), 1, Integer::sum);
+                                } else {
+                                    System.out.println("Warning: Non-numeric value '" + values[colIndex] + "' found in column '" + func.getArgument() + "'. Skipping this value for " + func.getFunction() + ".");
+                                }
+                            }
                         }
                     }
                 }
@@ -77,13 +90,29 @@ public class ResultModifier {
                 resultLine.append(firstValues.getOrDefault(func.getArgument(), "")).append("~");
                 newHeaderLine.append(func.getArgument()).append("~");
             } else {
-                double value;
-                if (func.getFunction().equals("AVG")) {
-                    value = sums.getOrDefault(func.getArgument(), 0.0) / counts.getOrDefault(func.getArgument(), 1);
-                } else { // SUM
-                    value = sums.getOrDefault(func.getArgument(), 0.0);
+                String value = "";
+                switch (func.getFunction()) {
+                    case "SUM":
+                        value = String.format("%.2f", sums.getOrDefault(func.getArgument(), 0.0));
+                        break;
+                    case "AVG":
+                        value = String.format("%.2f", sums.getOrDefault(func.getArgument(), 0.0) / counts.getOrDefault(func.getArgument(), 1));
+                        break;
+                    case "MIN":
+                        value = String.format("%.2f", mins.getOrDefault(func.getArgument(), Double.NaN));
+                        break;
+                    case "MAX":
+                        value = String.format("%.2f", maxs.getOrDefault(func.getArgument(), Double.NaN));
+                        break;
+                    case "COUNT":
+                        if (func.getArgument().equals("*")) {
+                            value = String.valueOf(totalCount);
+                        } else {
+                            value = String.valueOf(counts.getOrDefault(func.getArgument(), 0));
+                        }
+                        break;
                 }
-                resultLine.append(String.format("%.2f", value)).append("~");
+                resultLine.append(value).append("~");
                 newHeaderLine.append(func.getFunction()).append("(").append(func.getArgument()).append(")").append("~");
             }
         }
