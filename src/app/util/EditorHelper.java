@@ -31,7 +31,8 @@ public class EditorHelper {
      * A pattern to match SQL keywords for syntax highlighting.
      */
     private static final Pattern KEYWORD_PATTERN = Pattern.compile(
-            "(?<=\\s|^)(" + String.join("|", KEYWORD_COLORS.keySet()) + ")(?=\\s|$|;)|" +
+            "(?<=\\s|^)(" + String.join("|", KEYWORD_COLORS.keySet()) + ")(?=\\s|$|;|\\()|" +
+                    "(AVG|SUM|COUNT|MAX|MIN)\\s*\\([^)]*\\)|" +
                     "(\"[^\"]*\"|'[^']*')|" +
                     "(;)",
             Pattern.CASE_INSENSITIVE
