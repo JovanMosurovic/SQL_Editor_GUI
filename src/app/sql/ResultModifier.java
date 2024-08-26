@@ -20,16 +20,83 @@ public class ResultModifier {
      * @return the list of data lines with the query modifiers applied
      */
     public static List<String> applyModifiers(List<String> dataLines, String headerLine, QueryModifiers modifiers) {
-        if (!modifiers.getDistinctColumns().isEmpty()) {
-            dataLines = applyDistinct(dataLines, headerLine, modifiers.getDistinctColumns());
+        if (!modifiers.getAggregateFunctions().isEmpty()) {
+            return applyAggregateFunctions(dataLines, headerLine, modifiers.getAggregateFunctions());
+        } else {
+            if (!modifiers.getDistinctColumns().isEmpty()) {
+                dataLines = applyDistinct(dataLines, headerLine, modifiers.getDistinctColumns());
+            }
+            if (!modifiers.getOrderByClauses().isEmpty()) {
+                dataLines = applyOrderBy(dataLines, headerLine, modifiers.getOrderByClauses());
+            }
+            if (modifiers.getLimitOffsetClause() != null) {
+                dataLines = applyLimitOffset(dataLines, modifiers.getLimitOffsetClause());
+            }
+            List<String> result = new ArrayList<>();
+            result.add(headerLine);
+            result.addAll(dataLines);
+            return result;
         }
-        if (!modifiers.getOrderByClauses().isEmpty()) {
-            dataLines = applyOrderBy(dataLines, headerLine, modifiers.getOrderByClauses());
+    }
+
+    private static List<String> applyAggregateFunctions(List<String> dataLines, String headerLine, List<AggregateFunction> aggregateFunctions) {
+        List<String> headers = Arrays.asList(headerLine.split("~"));
+        Map<String, Double> sums = new HashMap<>();
+        Map<String, Integer> counts = new HashMap<>();
+        Map<String, String> firstValues = new HashMap<>();
+
+        for (String line : dataLines) {
+            String[] values = line.split("~");
+            for (AggregateFunction func : aggregateFunctions) {
+                int colIndex = headers.indexOf(func.getArgument());
+                if (colIndex != -1 && colIndex < values.length) {
+                    if (func.getFunction().equals("NONE")) {
+                        if (!firstValues.containsKey(func.getArgument())) {
+                            firstValues.put(func.getArgument(), values[colIndex]);
+                        }
+                    } else {
+                        try {
+                            double value = Double.parseDouble(values[colIndex]);
+                            sums.merge(func.getArgument(), value, Double::sum);
+                            counts.merge(func.getArgument(), 1, Integer::sum);
+                        } catch (NumberFormatException e) {
+                            TextFlowHelper.updateResultTextFlow(((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).consoleTextFlow,
+                                    "\nWarning: Non-numeric value '" + values[colIndex] + "' found in column '" + func.getArgument() + "'. Skipping this value.", TextFlowHelper.warningYellow, true);
+                        }
+                    }
+                }
+            }
         }
-        if (modifiers.getLimitOffsetClause() != null) {
-            dataLines = applyLimitOffset(dataLines, modifiers.getLimitOffsetClause());
+
+        List<String> result = new ArrayList<>();
+        StringBuilder resultLine = new StringBuilder();
+        StringBuilder newHeaderLine = new StringBuilder();
+
+        for (AggregateFunction func : aggregateFunctions) {
+            if (func.getFunction().equals("NONE")) {
+                resultLine.append(firstValues.getOrDefault(func.getArgument(), "")).append("~");
+                newHeaderLine.append(func.getArgument()).append("~");
+            } else {
+                double value;
+                if (func.getFunction().equals("AVG")) {
+                    value = sums.getOrDefault(func.getArgument(), 0.0) / counts.getOrDefault(func.getArgument(), 1);
+                } else { // SUM
+                    value = sums.getOrDefault(func.getArgument(), 0.0);
+                }
+                resultLine.append(String.format("%.2f", value)).append("~");
+                newHeaderLine.append(func.getFunction()).append("(").append(func.getArgument()).append(")").append("~");
+            }
         }
-        return dataLines;
+
+        if (resultLine.length() > 0) {
+            resultLine.setLength(resultLine.length() - 1); // Remove last ~
+            newHeaderLine.setLength(newHeaderLine.length() - 1); // Remove last ~
+        }
+
+        result.add(newHeaderLine.toString());
+        result.add(resultLine.toString());
+
+        return result;
     }
 
     /**

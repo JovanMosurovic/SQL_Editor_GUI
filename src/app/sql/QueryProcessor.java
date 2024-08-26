@@ -25,9 +25,45 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     public static String processQuery(String query, QueryModifiers modifiers) {
-        query = processDistinctQuery(query, modifiers);
-        query = processOrderByClause(query, modifiers);
-        query = processLimitOffsetClause(query, modifiers);
+        query = processAggregateFunctions(query, modifiers);
+        if (modifiers.getAggregateFunctions().isEmpty()) {
+            query = processDistinctQuery(query, modifiers);
+            query = processOrderByClause(query, modifiers);
+            query = processLimitOffsetClause(query, modifiers);
+        }
+        return query;
+    }
+
+    private static String processAggregateFunctions(String query, QueryModifiers modifiers) {
+        Pattern pattern = Pattern.compile("SELECT\\s+(.*?)\\s+FROM", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+
+        if (matcher.find()) {
+            String selectPart = matcher.group(1);
+            List<String> columns = Arrays.asList(selectPart.split(","));
+            List<AggregateFunction> aggregateFunctions = new ArrayList<>();
+            List<String> newColumns = new ArrayList<>();
+
+            for (int i = 0; i < columns.size(); i++) {
+                String column = columns.get(i).trim();
+                if (column.toUpperCase().startsWith("SUM(") || column.toUpperCase().startsWith("AVG(")) {
+                    String functionName = column.substring(0, 3).toUpperCase();
+                    String argument = column.substring(4, column.length() - 1).trim();
+                    aggregateFunctions.add(new AggregateFunction(functionName, argument, i));
+                    newColumns.add(argument);
+                } else {
+                    newColumns.add(column);
+                    aggregateFunctions.add(new AggregateFunction("NONE", column, i));
+                }
+            }
+
+            if (aggregateFunctions.stream().anyMatch(af -> !af.getFunction().equals("NONE"))) {
+                modifiers.setAggregateFunctions(aggregateFunctions);
+                String newSelectPart = String.join(", ", newColumns);
+                return query.replace(selectPart, newSelectPart);
+            }
+        }
+
         return query;
     }
 

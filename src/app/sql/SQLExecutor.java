@@ -221,12 +221,11 @@ public class SQLExecutor {
             String headerLine = lines.get(1);
             List<String> dataLines = new ArrayList<>(lines.subList(2, lines.size()));
 
-            dataLines = ResultModifier.applyModifiers(dataLines, headerLine, modifiers);
+            List<String> modifiedLines = ResultModifier.applyModifiers(dataLines, headerLine, modifiers);
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
                 writer.println(resultLine);
-                writer.println(headerLine);
-                for (String line : dataLines) {
+                for (String line : modifiedLines) {
                     writer.println(line);
                 }
             }

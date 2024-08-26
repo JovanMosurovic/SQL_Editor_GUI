@@ -21,6 +21,10 @@ public class QueryModifiers {
      * The list of distinct columns.
      */
     private List<String> distinctColumns;
+    /**
+     * The list of aggregate functions.
+     */
+    private List<AggregateFunction> aggregateFunctions;
 
     /**
      * Creates a new instance of {@link QueryModifiers} with the default values.
@@ -29,6 +33,7 @@ public class QueryModifiers {
         this.orderByClauses = new ArrayList<>();
         this.limitOffsetClause = null;
         this.distinctColumns = new ArrayList<>();
+        this.aggregateFunctions = new ArrayList<>();
     }
 
     //region GETTERS AND SETTERS
@@ -85,6 +90,25 @@ public class QueryModifiers {
     public void setDistinctColumns(List<String> distinctColumns) {
         this.distinctColumns = distinctColumns;
     }
+
+    /**
+     * Returns the list of aggregate functions.
+     *
+     * @return the list of aggregate functions
+     */
+    public List<AggregateFunction> getAggregateFunctions() {
+        return aggregateFunctions;
+    }
+
+    /**
+     * Sets the list of aggregate functions.
+     *
+     * @param aggregateFunctions the list of aggregate functions
+     */
+    public void setAggregateFunctions(List<AggregateFunction> aggregateFunctions) {
+        this.aggregateFunctions = aggregateFunctions;
+    }
+
     //endregion
 
 }
