@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.util.Pair;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,6 +21,8 @@ import java.util.stream.Collectors;
  * Utility class for executing SQL queries in the database and handling the results.
  */
 public class SQLExecutor {
+
+    private static final Color warningYellow = Color.web("#DAA520");
 
     /**
      * The {@link JavaInterface} instance for executing SQL queries in the database.
@@ -74,19 +75,13 @@ public class SQLExecutor {
             String formattedQuery = SQLFormatter.formatSQLQuery(query.trim());
             System.out.println("[RUN] Executing formatted query: " + formattedQuery);
 
-            Pair<String, List<OrderByClause>> processedOrderBy = processOrderByClause(formattedQuery);
-            formattedQuery = processedOrderBy.getKey();
-            List<OrderByClause> orderByClauses = processedOrderBy.getValue();
+            QueryModifiers modifiers = new QueryModifiers();
 
-            Pair<String, LimitOffsetClause> processedLimitOffset = processLimitOffsetClause(formattedQuery);
-            formattedQuery = processedLimitOffset.getKey();
-            LimitOffsetClause limitOffsetClause = processedLimitOffset.getValue();
+            formattedQuery = processLimitOffsetClause(formattedQuery, modifiers);
+            formattedQuery = processOrderByClause(formattedQuery, modifiers);
 
-            List<String> distinctColumns = new ArrayList<>();
             if (formattedQuery.toLowerCase().startsWith("select distinct")) {
-                Pair<String, List<String>> processedQuery = processDistinctQuery(formattedQuery);
-                formattedQuery = processedQuery.getKey();
-                distinctColumns = processedQuery.getValue();
+                formattedQuery = processDistinctQuery(formattedQuery, modifiers);
             }
 
             if(isModifyingQuery(formattedQuery)) {
@@ -103,15 +98,7 @@ public class SQLExecutor {
 
             boolean isSelectQuery = formattedQuery.toLowerCase().startsWith("select");
             if(isSelectQuery) {
-                if(!distinctColumns.isEmpty()) {
-                    applyDistinct(outputFile, distinctColumns);
-                }
-                if(!orderByClauses.isEmpty()) {
-                    applyOrderBy(outputFile, orderByClauses);
-                }
-                if(limitOffsetClause != null) {
-                    applyLimitOffset(outputFile, limitOffsetClause);
-                }
+               applyQueryModifiers(outputFile, modifiers);
             }
 
             tabsCreated |= FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
@@ -225,91 +212,44 @@ public class SQLExecutor {
         return "";
     }
 
-    private Pair<String, List<String>> processDistinctQuery(String query) {
+    private String processDistinctQuery(String query, QueryModifiers modifiers) {
         Pattern pattern = Pattern.compile("SELECT\\s+DISTINCT\\s*(?:\\((.*?)\\))?\\s*(.*)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
             String distinctColumnsStr = matcher.group(1);
             String restOfQuery = matcher.group(2);
-            List<String> distinctColumns;
 
             if (distinctColumnsStr != null) {
                 if (distinctColumnsStr.trim().equals("*")) {
-                    distinctColumns = Collections.singletonList("*");
+                    modifiers.distinctColumns = Collections.singletonList("*");
                 } else {
-                    distinctColumns = Arrays.stream(distinctColumnsStr.split(","))
+                    modifiers.distinctColumns = Arrays.stream(distinctColumnsStr.split(","))
                             .map(String::trim)
                             .collect(Collectors.toList());
                 }
             } else {
-                // If DISTINCT is not in parentheses, assume it's for all columns
-                distinctColumns = Collections.singletonList("*");
+                modifiers.distinctColumns = Collections.singletonList("*");
             }
 
-            String processedQuery = "SELECT " + (distinctColumnsStr != null ? distinctColumnsStr : "") + " " + restOfQuery;
-            return new Pair<>(processedQuery, distinctColumns);
+            return "SELECT " + (distinctColumnsStr != null ? distinctColumnsStr : "") + " " + restOfQuery;
         } else {
-            // This case should not happen if the query starts with "SELECT DISTINCT"
-            return new Pair<>(query, Collections.emptyList());
+            return query;
         }
     }
 
-    private void applyDistinct(File outputFile, List<String> distinctColumns) {
-        try {
-            List<String> lines = Files.readAllLines(outputFile.toPath());
-            if (lines.size() < 2) return; // No data or only headers
-
-            String headers = lines.get(0);
-            List<String> headerList = Arrays.asList(headers.split("~"));
-
-            Set<String> uniqueRows = new LinkedHashSet<>();
-            boolean isAllColumns = distinctColumns.contains("*") || distinctColumns.size() == headerList.size();
-
-            for (int i = 1; i < lines.size(); i++) {
-                String[] values = lines.get(i).split("~");
-                StringBuilder distinctValues = new StringBuilder();
-
-                if (isAllColumns) {
-                    distinctValues.append(lines.get(i));
-                } else {
-                    for (String column : distinctColumns) {
-                        int index = headerList.indexOf(column);
-                        if (index != -1 && index < values.length) {
-                            distinctValues.append(values[index]).append("~");
-                        }
-                    }
-                    distinctValues.setLength(distinctValues.length() - 1); // Remove last ~
-                }
-
-                uniqueRows.add(distinctValues.toString());
-            }
-
-            try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
-                writer.println(headers);
-                for (String uniqueRow : uniqueRows) {
-                    writer.println(uniqueRow);
-                }
-            }
-        } catch (IOException e) {
-            TextFlowHelper.updateResultTextFlow(consoleTextFlow,
-                    "\n[ERROR] Error applying DISTINCT: " + e.getMessage(), Color.RED, true);
-            System.err.println("Error applying DISTINCT: " + e.getMessage());
-        }
-    }
-
-    private Pair<String, List<OrderByClause>> processOrderByClause(String query) {
-        Pattern pattern = Pattern.compile("(.*)\\s+ORDER\\s+BY\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+    private String processOrderByClause(String query, QueryModifiers modifiers) {
+        Pattern pattern = Pattern.compile("(.*\\S)\\s+ORDER\\s+BY\\s+(.+?)(\\s+LIMIT\\s+\\d+(?:\\s+OFFSET\\s+\\d+)?)?$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
             String mainQuery = matcher.group(1);
             String orderByClauseString = matcher.group(2);
-            List<OrderByClause> orderByClauses = parseOrderByClauses(orderByClauseString);
-            return new Pair<>(mainQuery, orderByClauses);
+            String limitPart = matcher.group(3);
+            modifiers.orderByClauses = parseOrderByClauses(orderByClauseString);
+            return mainQuery + (limitPart != null ? limitPart : "");
         } else {
-            // This case should not happen if the query contains ORDER BY
-            return new Pair<>(query, new ArrayList<>());
+            return query;
         }
     }
 
@@ -319,7 +259,7 @@ public class SQLExecutor {
         for (String part : parts) {
             String[] columnAndDirection = part.trim().split("\\s+");
             String column = columnAndDirection[0];
-            boolean isAscending = true; // Default to ascending
+            boolean isAscending = true;
             if (columnAndDirection.length > 1) {
                 String direction = columnAndDirection[columnAndDirection.length - 1].toUpperCase();
                 isAscending = !direction.equals("DESC");
@@ -329,83 +269,127 @@ public class SQLExecutor {
         return clauses;
     }
 
-    private void applyOrderBy(File outputFile, List<OrderByClause> orderByClauses) {
-        try {
-            List<String> lines = Files.readAllLines(outputFile.toPath());
-            if (lines.size() < 3) return;
-
-            String headerLine = lines.get(1); // The actual header is on the second line
-            List<String> headerList = Arrays.asList(headerLine.split("~"));
-
-            List<String> dataLines = lines.subList(2, lines.size());
-
-            dataLines.sort((line1, line2) -> {
-                String[] values1 = line1.split("~");
-                String[] values2 = line2.split("~");
-                for (OrderByClause clause : orderByClauses) {
-                    int columnIndex = headerList.indexOf(clause.getColumn());
-                    if (columnIndex != -1 && columnIndex < values1.length && columnIndex < values2.length) {
-                        int comparison = values1[columnIndex].compareTo(values2[columnIndex]);
-                        if (comparison != 0) {
-                            return clause.isAscending() ? comparison : -comparison;
-                        }
-                    }
-                }
-                return 0;
-            });
-
-            try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
-                writer.println(lines.get(0)); // Write the first line (Result)
-                writer.println(headerLine);   // Write the header line
-                for (String line : dataLines) {
-                    writer.println(line);
-                }
-            }
-        } catch (IOException e) {
-            TextFlowHelper.updateResultTextFlow(consoleTextFlow,
-                    "\n[ERROR] Error applying ORDER BY: " + e.getMessage(), Color.RED, true);
-        }
-    }
-
-    private Pair<String, LimitOffsetClause> processLimitOffsetClause(String query) {
-        Pattern pattern = Pattern.compile("(.*)\\s+LIMIT\\s+(\\d+)(?:\\s+OFFSET\\s+(\\d+))?$", Pattern.CASE_INSENSITIVE);
+    private String processLimitOffsetClause(String query, QueryModifiers modifiers) {
+        Pattern pattern = Pattern.compile("(.*\\S)\\s+LIMIT\\s+([-]?\\d+)(?:\\s+OFFSET\\s+([-]?\\d+))?$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
             String mainQuery = matcher.group(1);
             int limit = Integer.parseInt(matcher.group(2));
             int offset = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
-            return new Pair<>(mainQuery, new LimitOffsetClause(limit, offset));
+
+            if (limit < 0) {
+                TextFlowHelper.updateResultTextFlow(consoleTextFlow,
+                        "\n\nWARNING: Negative LIMIT value. Treating as unlimited.", warningYellow, true);
+                limit = Integer.MAX_VALUE;
+            }
+            if (offset < 0) {
+                TextFlowHelper.updateResultTextFlow(consoleTextFlow,
+                        "\n\nWARNING: Negative OFFSET value. Setting OFFSET to 0.", warningYellow, true);
+                offset = 0;
+            }
+
+            modifiers.limitOffsetClause = new LimitOffsetClause(limit, offset);
+            return mainQuery;
         } else {
-            return new Pair<>(query, null);
+            return query;
         }
     }
 
-    private void applyLimitOffset(File outputFile, LimitOffsetClause limitOffsetClause) {
+    private List<String> applyDistinct(List<String> dataLines, String headerLine, List<String> distinctColumns) {
+        List<String> headerList = Arrays.asList(headerLine.split("~"));
+        Set<String> uniqueRows = new LinkedHashSet<>();
+        boolean isAllColumns = distinctColumns.contains("*") || distinctColumns.size() == headerList.size();
+
+        for (String line : dataLines) {
+            String[] values = line.split("~");
+            StringBuilder distinctValues = new StringBuilder();
+
+            if (isAllColumns) {
+                distinctValues.append(line);
+            } else {
+                for (String column : distinctColumns) {
+                    int index = headerList.indexOf(column);
+                    if (index != -1 && index < values.length) {
+                        distinctValues.append(values[index]).append("~");
+                    }
+                }
+                distinctValues.setLength(distinctValues.length() - 1); // Remove last ~
+            }
+
+            uniqueRows.add(distinctValues.toString());
+        }
+
+        return new ArrayList<>(uniqueRows);
+    }
+
+    private List<String> applyOrderBy(List<String> dataLines, String headerLine, List<OrderByClause> orderByClauses) {
+        List<String> headerList = Arrays.asList(headerLine.split("~"));
+
+        dataLines.sort((line1, line2) -> {
+            String[] values1 = line1.split("~");
+            String[] values2 = line2.split("~");
+            for (OrderByClause clause : orderByClauses) {
+                int columnIndex = headerList.indexOf(clause.getColumn());
+                if (columnIndex != -1 && columnIndex < values1.length && columnIndex < values2.length) {
+                    int comparison = values1[columnIndex].compareTo(values2[columnIndex]);
+                    if (comparison != 0) {
+                        return clause.isAscending() ? comparison : -comparison;
+                    }
+                }
+            }
+            return 0;
+        });
+
+        return dataLines;
+    }
+
+    private List<String> applyLimitOffset(List<String> dataLines, LimitOffsetClause limitOffsetClause) {
+        int offset = limitOffsetClause.getOffset();
+        int limit = limitOffsetClause.getLimit();
+
+        if (offset >= dataLines.size()) {
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow,
+                    "\n\nWARNING: OFFSET is greater than or equal to the number of rows. Returning empty result.", warningYellow, true);
+            return new ArrayList<>();
+        }
+
+        int endIndex = Math.min(offset + limit, dataLines.size());
+
+        return new ArrayList<>(dataLines.subList(offset, endIndex));
+    }
+
+    private void applyQueryModifiers(File outputFile, QueryModifiers modifiers) {
         try {
             List<String> lines = Files.readAllLines(outputFile.toPath());
             if (lines.size() < 3) return; // No data or only headers
 
             String resultLine = lines.get(0);
             String headerLine = lines.get(1);
-            List<String> dataLines = lines.subList(2, lines.size());
+            List<String> dataLines = new ArrayList<>(lines.subList(2, lines.size()));
 
-            int offset = limitOffsetClause.getOffset();
-            int limit = limitOffsetClause.getLimit();
-            int endIndex = Math.min(offset + limit, dataLines.size());
+            if (!modifiers.distinctColumns.isEmpty()) {
+                dataLines = applyDistinct(dataLines, headerLine, modifiers.distinctColumns);
+            }
 
-            List<String> limitedLines = dataLines.subList(offset, endIndex);
+            if (!modifiers.orderByClauses.isEmpty()) {
+                dataLines = applyOrderBy(dataLines, headerLine, modifiers.orderByClauses);
+            }
+
+            if (modifiers.limitOffsetClause != null) {
+                dataLines = applyLimitOffset(dataLines, modifiers.limitOffsetClause);
+            }
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
                 writer.println(resultLine);
                 writer.println(headerLine);
-                for (String line : limitedLines) {
+                for (String line : dataLines) {
                     writer.println(line);
                 }
             }
         } catch (IOException e) {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow,
-                    "\n[ERROR] Error applying LIMIT/OFFSET: " + e.getMessage(), Color.RED, true);
+                    "\n[ERROR] Error applying query modifiers: " + e.getMessage(), Color.RED, true);
         }
     }
 
@@ -447,6 +431,23 @@ public class SQLExecutor {
 
         public int getOffset() {
             return offset;
+        }
+
+        @Override
+        public String toString() {
+            return "LimitOffsetClause{limit=" + limit + ", offset=" + offset + '}';
+        }
+    }
+
+    private static class QueryModifiers {
+        List<OrderByClause> orderByClauses;
+        LimitOffsetClause limitOffsetClause;
+        List<String> distinctColumns;
+
+        public QueryModifiers() {
+            this.orderByClauses = new ArrayList<>();
+            this.limitOffsetClause = null;
+            this.distinctColumns = new ArrayList<>();
         }
     }
 }
