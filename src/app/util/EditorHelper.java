@@ -156,8 +156,15 @@ public class EditorHelper {
         keywordColors.put(",", "orange");
         keywordColors.put("ORDER", "darkorchid");
         keywordColors.put("BY", "darkorchid");
+        keywordColors.put("ASC", "darkorchid");
+        keywordColors.put("DESC", "darkorchid");
         keywordColors.put("LIMIT", "darkslateblue");
         keywordColors.put("OFFSET", "darkslateblue");
+        keywordColors.put("AVG", "skyblue");
+        keywordColors.put("SUM", "skyblue");
+        keywordColors.put("COUNT", "skyblue");
+        keywordColors.put("MAX", "skyblue");
+        keywordColors.put("MIN", "skyblue");
         return keywordColors;
     }
 

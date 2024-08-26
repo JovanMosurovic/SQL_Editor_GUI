@@ -72,7 +72,9 @@ public class ResultModifier {
                                 if (func.getFunction().equals("COUNT")) {
                                     counts.merge(func.getArgument(), 1, Integer::sum);
                                 } else {
-                                    System.out.println("Warning: Non-numeric value '" + values[colIndex] + "' found in column '" + func.getArgument() + "'. Skipping this value for " + func.getFunction() + ".");
+                                    MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+                                    TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
+                                            "\n\nWARNING: Non-numeric value '" + values[colIndex] + "' found in column '" + func.getArgument() + "'. Skipping this value for " + func.getFunction() + ".", TextFlowHelper.warningYellow, true);
                                 }
                             }
                         }
