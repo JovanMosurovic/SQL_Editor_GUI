@@ -53,7 +53,7 @@ public class ResultModifier {
             String[] values = line.split("~");
             for (AggregateFunction func : aggregateFunctions) {
                 if (func.getFunction().equals("COUNT") && func.getArgument().equals("*")) {
-                    continue; // Handle COUNT(*) separately
+                    continue; // handle COUNT(*) separately
                 } else {
                     int colIndex = headers.indexOf(func.getArgument());
                     if (colIndex != -1 && colIndex < values.length) {

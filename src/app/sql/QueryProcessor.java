@@ -1,16 +1,11 @@
 package app.sql;
 
-import app.Window;
-import app.mainwindow.MainWindowController;
-import app.util.TextFlowHelper;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Utility class for processing SQL queries.
@@ -26,11 +21,9 @@ public class QueryProcessor {
      */
     public static String processQuery(String query, QueryModifiers modifiers) {
         query = processAggregateFunctions(query, modifiers);
-        if (modifiers.getAggregateFunctions().isEmpty()) {
-            query = processDistinctQuery(query, modifiers);
-            query = processOrderByClause(query, modifiers);
-            query = processLimitOffsetClause(query, modifiers);
-        }
+        query = processDistinctQuery(query, modifiers);
+        query = processOrderByClause(query, modifiers);
+        query = processLimitOffsetClause(query, modifiers);
         return query;
     }
 
@@ -89,21 +82,14 @@ public class QueryProcessor {
             String restOfQuery = matcher.group(2);
 
             if (distinctColumnsStr != null) {
-                if (distinctColumnsStr.trim().equals("*")) {
-                    modifiers.setDistinctColumns(Collections.singletonList("*"));
-                } else {
-                    modifiers.setDistinctColumns(Arrays.stream(distinctColumnsStr.split(","))
-                            .map(String::trim)
-                            .collect(Collectors.toList()));
-                }
+                modifiers.setDistinctColumns(Arrays.asList(distinctColumnsStr.split(",\\s*")));
             } else {
                 modifiers.setDistinctColumns(Collections.singletonList("*"));
             }
 
-            return "SELECT " + (distinctColumnsStr != null ? distinctColumnsStr : "") + " " + restOfQuery;
-        } else {
-            return query;
+            return "SELECT " + restOfQuery;
         }
+        return query;
     }
 
     /**
@@ -114,18 +100,16 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     private static String processOrderByClause(String query, QueryModifiers modifiers) {
-        Pattern pattern = Pattern.compile("(.*\\S)\\s+ORDER\\s+BY\\s+(.+?)(\\s+LIMIT\\s+\\d+(?:\\s+OFFSET\\s+\\d+)?)?$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(.*?)\\s+ORDER\\s+BY\\s+(.+)$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
             String mainQuery = matcher.group(1);
-            String orderByClauseString = matcher.group(2);
-            String limitPart = matcher.group(3);
-            modifiers.setOrderByClauses(parseOrderByClauses(orderByClauseString));
-            return mainQuery + (limitPart != null ? limitPart : "");
-        } else {
-            return query;
+            String orderByClause = matcher.group(2);
+            modifiers.setOrderByClauses(parseOrderByClauses(orderByClause));
+            return mainQuery;
         }
+        return query;
     }
 
     /**
@@ -158,31 +142,16 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     private static String processLimitOffsetClause(String query, QueryModifiers modifiers) {
-        Pattern pattern = Pattern.compile("(.*\\S)\\s+LIMIT\\s+([-]?\\d+)(?:\\s+OFFSET\\s+([-]?\\d+))?$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(.*?)\\s+LIMIT\\s+(\\d+)(?:\\s+OFFSET\\s+(\\d+))?$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
-
-        MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
 
         if (matcher.find()) {
             String mainQuery = matcher.group(1);
             int limit = Integer.parseInt(matcher.group(2));
             int offset = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
-
-            if (limit < 0) {
-                TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                        "\n\nWARNING: Negative LIMIT value. Treating as unlimited.", TextFlowHelper.warningYellow, true);
-                limit = Integer.MAX_VALUE;
-            }
-            if (offset < 0) {
-                TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                        "\n\nWARNING: Negative OFFSET value. Setting OFFSET to 0.", TextFlowHelper.warningYellow, true);
-                offset = 0;
-            }
-
             modifiers.setLimitOffsetClause(new LimitOffsetClause(limit, offset));
             return mainQuery;
-        } else {
-            return query;
         }
+        return query;
     }
 }
