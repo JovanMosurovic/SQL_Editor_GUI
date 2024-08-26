@@ -78,6 +78,10 @@ public class SQLExecutor {
             formattedQuery = processedOrderBy.getKey();
             List<OrderByClause> orderByClauses = processedOrderBy.getValue();
 
+            Pair<String, LimitOffsetClause> processedLimitOffset = processLimitOffsetClause(formattedQuery);
+            formattedQuery = processedLimitOffset.getKey();
+            LimitOffsetClause limitOffsetClause = processedLimitOffset.getValue();
+
             List<String> distinctColumns = new ArrayList<>();
             if (formattedQuery.toLowerCase().startsWith("select distinct")) {
                 Pair<String, List<String>> processedQuery = processDistinctQuery(formattedQuery);
@@ -104,6 +108,9 @@ public class SQLExecutor {
                 }
                 if(!orderByClauses.isEmpty()) {
                     applyOrderBy(outputFile, orderByClauses);
+                }
+                if(limitOffsetClause != null) {
+                    applyLimitOffset(outputFile, limitOffsetClause);
                 }
             }
 
@@ -360,6 +367,48 @@ public class SQLExecutor {
         }
     }
 
+    private Pair<String, LimitOffsetClause> processLimitOffsetClause(String query) {
+        Pattern pattern = Pattern.compile("(.*)\\s+LIMIT\\s+(\\d+)(?:\\s+OFFSET\\s+(\\d+))?$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+
+        if (matcher.find()) {
+            String mainQuery = matcher.group(1);
+            int limit = Integer.parseInt(matcher.group(2));
+            int offset = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
+            return new Pair<>(mainQuery, new LimitOffsetClause(limit, offset));
+        } else {
+            return new Pair<>(query, null);
+        }
+    }
+
+    private void applyLimitOffset(File outputFile, LimitOffsetClause limitOffsetClause) {
+        try {
+            List<String> lines = Files.readAllLines(outputFile.toPath());
+            if (lines.size() < 3) return; // No data or only headers
+
+            String resultLine = lines.get(0);
+            String headerLine = lines.get(1);
+            List<String> dataLines = lines.subList(2, lines.size());
+
+            int offset = limitOffsetClause.getOffset();
+            int limit = limitOffsetClause.getLimit();
+            int endIndex = Math.min(offset + limit, dataLines.size());
+
+            List<String> limitedLines = dataLines.subList(offset, endIndex);
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
+                writer.println(resultLine);
+                writer.println(headerLine);
+                for (String line : limitedLines) {
+                    writer.println(line);
+                }
+            }
+        } catch (IOException e) {
+            TextFlowHelper.updateResultTextFlow(consoleTextFlow,
+                    "\n[ERROR] Error applying LIMIT/OFFSET: " + e.getMessage(), Color.RED, true);
+        }
+    }
+
     private static class OrderByClause {
         private final String column;
         private final boolean isAscending;
@@ -380,6 +429,24 @@ public class SQLExecutor {
         @Override
         public String toString() {
             return "OrderByClause {column='" + column + "', isAscending=" + isAscending + '}';
+        }
+    }
+
+    private static class LimitOffsetClause {
+        private final int limit;
+        private final int offset;
+
+        public LimitOffsetClause(int limit, int offset) {
+            this.limit = limit;
+            this.offset = offset;
+        }
+
+        public int getLimit() {
+            return limit;
+        }
+
+        public int getOffset() {
+            return offset;
         }
     }
 }
