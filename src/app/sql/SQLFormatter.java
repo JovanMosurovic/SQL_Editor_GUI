@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Utility class for formatting SQL queries.
+ */
 public class SQLFormatter {
 
     private static final String[] KEYWORDS = {
@@ -17,10 +20,24 @@ public class SQLFormatter {
             "ORDER", "BY", "LIMIT", "OFFSET", "DISTINCT", ";"
     };
 
+    /**
+     * Trims the given SQL code by removing extra spaces and newlines.
+     *
+     * @param code the SQL code to trim
+     * @return the trimmed SQL code
+     */
     public static String trimCode(String code) {
         return code.replaceAll("\\s+", " ").trim();
     }
 
+    /**
+     * Formats the given SQL query by removing extra spaces and newlines.
+     * Checks for syntax errors and writes an error message to the output file if an error is found.
+     * Note: currently only supports ORDER BY, and LIMIT clauses.
+     *
+     * @param query the SQL query to format
+     * @return the formatted SQL query
+     */
     public static String formatSQLQuery(String query) {
         StringBuilder formattedQuery = new StringBuilder();
         query = query.replaceAll("\\h+", " ").trim();
@@ -74,6 +91,9 @@ public class SQLFormatter {
         return formattedQuery.toString();
     }
 
+    /**
+     * Writes a syntax error message to the output file.
+     */
     private static void writeSyntaxError() {
         try (PrintWriter out = new PrintWriter(new FileWriter("output.txt"))) {
             out.println("!");

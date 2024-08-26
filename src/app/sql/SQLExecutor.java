@@ -206,6 +206,12 @@ public class SQLExecutor {
         return "";
     }
 
+    /**
+     * Applies the query modifiers (DISTINCT, ORDER BY, LIMIT, OFFSET) to the result data in the output file.
+     *
+     * @param outputFile the output file containing the result data
+     * @param modifiers  the {@link QueryModifiers} object containing the query modifiers
+     */
     private void applyQueryModifiers(File outputFile, QueryModifiers modifiers) {
         try {
             List<String> lines = Files.readAllLines(outputFile.toPath());
