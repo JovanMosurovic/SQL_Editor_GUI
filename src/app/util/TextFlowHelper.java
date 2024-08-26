@@ -14,6 +14,11 @@ import javafx.scene.text.TextFlow;
 public class TextFlowHelper {
 
     /**
+     * The color for warning messages in the text flow.
+     */
+    public static final Color warningYellow = Color.web("#DAA520");
+
+    /**
      * Updates the content of the given {@link TextFlow} component with the specified message and color.
      * The message is appended to the existing text content if the append flag is set to true.
      *

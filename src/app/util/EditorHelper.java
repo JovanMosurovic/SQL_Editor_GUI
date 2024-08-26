@@ -133,6 +133,7 @@ public class EditorHelper {
     public static HashMap<String, String> initKeywordColors() {
         HashMap<String, String> keywordColors = new HashMap<>();
         keywordColors.put("SELECT", "red");
+        keywordColors.put("DISTINCT", "red");
         keywordColors.put("FROM", "red");
         keywordColors.put("WHERE", "red");
         keywordColors.put("INNER", "red");
@@ -153,6 +154,10 @@ public class EditorHelper {
         keywordColors.put("OR", "green");
         keywordColors.put("AS", "green");
         keywordColors.put(",", "orange");
+        keywordColors.put("ORDER", "darkorchid");
+        keywordColors.put("BY", "darkorchid");
+        keywordColors.put("LIMIT", "darkslateblue");
+        keywordColors.put("OFFSET", "darkslateblue");
         return keywordColors;
     }
 
