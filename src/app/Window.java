@@ -43,6 +43,11 @@ public abstract class Window {
     public static final int FORCE_QUIT_WINDOW;
 
     /**
+     * The position of the history window in the application.
+     */
+    public static final int HISTORY_WINDOW;
+
+    /**
      * The array of all windows in the application.
      */
     private static final Window[] windows;
@@ -57,7 +62,7 @@ public abstract class Window {
     protected ControllerBase controller;
 
     static {
-        WINDOWS = 7;
+        WINDOWS = 8;
         MAIN_WINDOW = 0;
         CLOSE_WINDOW = 1;
         SAVE_WINDOW = 2;
@@ -65,6 +70,7 @@ public abstract class Window {
         ABOUT_WINDOW = 4;
         SETTINGS_WINDOW = 5;
         FORCE_QUIT_WINDOW = 6;
+        HISTORY_WINDOW = 7;
 
         windows = new Window[WINDOWS];
     }

@@ -5,10 +5,14 @@ import app.mainwindow.MainWindowController;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
+
+import java.util.Objects;
 
 /**
  * Utility class for creating and managing context menus in this JavaFX application.
@@ -139,6 +143,28 @@ public class ContextMenuHelper {
     }
 
     /**
+     * Creates a context menu for the history table view with an option to copy the selected query to the editor.
+     *
+     * @param historyTableView the TableView component representing the history of queries
+     * @return a {@link ContextMenu} with a "Copy to Editor" menu item
+     */
+    private static ContextMenu createHistoryContextMenu(TableView<HistoryEntry> historyTableView) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem copyToEditorItem = new MenuItem("Copy to Editor");
+        copyToEditorItem.setOnAction(event -> copySelectedQueryToEditor(historyTableView));
+
+        // Add icon
+        ImageView copyIcon = new ImageView(new Image(Objects.requireNonNull(ContextMenuHelper.class.getResourceAsStream("/app/resources/icons/copy_icon.png"))));
+        copyIcon.setFitWidth(16);
+        copyIcon.setFitHeight(16);
+        copyToEditorItem.setGraphic(copyIcon);
+
+        contextMenu.getItems().add(copyToEditorItem);
+        return contextMenu;
+    }
+
+
+    /**
      * Sets up a context menu for the console area, displaying the menu on right-click.
      *
      * @param consoleTextFlow the {@link TextFlow} component representing the console area
@@ -219,6 +245,29 @@ public class ContextMenuHelper {
     }
 
     /**
+     * Sets up a context menu for the history table view, displaying the menu on right-click if an item is selected.
+     *
+     * @param historyTableView the {@link TableView} component containing the history of queries
+     */
+    public static void setupHistoryContextMenu(TableView<HistoryEntry> historyTableView) {
+        ContextMenu historyContextMenu = createHistoryContextMenu(historyTableView);
+
+        historyTableView.setContextMenu(historyContextMenu);
+
+        historyTableView.setOnContextMenuRequested(event -> {
+            if (historyTableView.getSelectionModel().getSelectedItem() != null) {
+                showContextMenu(historyContextMenu, historyTableView, event);
+            }
+        });
+
+        historyTableView.setOnMousePressed(event -> {
+            if (event.getButton() != MouseButton.SECONDARY) {
+                historyContextMenu.hide();
+            }
+        });
+    }
+
+    /**
      * Closes the given tab if it is not the console tab.
      *
      * @param tabPane the {@link TabPane} component containing the tabs
@@ -252,5 +301,18 @@ public class ContextMenuHelper {
         }
         Platform.runLater(() -> contextMenu.show(anchor, event.getScreenX(), event.getScreenY()));
         event.consume();
+    }
+
+    /**
+     * Copies the selected query from the history table view to the editor.
+     *
+     * @param historyTableView the {@link TableView} component representing the history of queries
+     */
+    private static void copySelectedQueryToEditor(TableView<HistoryEntry> historyTableView) {
+        HistoryEntry selectedEntry = historyTableView.getSelectionModel().getSelectedItem();
+        if (selectedEntry != null) {
+            MainWindowController mainController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+            mainController.setEditorText(selectedEntry.getQuery());
+        }
     }
 }

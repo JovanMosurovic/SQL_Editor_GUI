@@ -54,7 +54,8 @@ public class SQLExecutor {
 
     /**
      * Executes the SQL queries from the given code in the database and displays the results in the application.
-     * Results include the execution time, success message, and error message if any.
+     * <p>Results include the execution time, success message, and error message if any.</p>
+     * Adds the executed queries to the history and updates the tables list if necessary.
      *
      * @param code         the SQL code to execute
      * @param isFromEditor true if the code is executed from the editor, false if executed from the other sources
@@ -73,6 +74,7 @@ public class SQLExecutor {
 
             String formattedQuery = SQLFormatter.formatSQLQuery(query.trim());
             System.out.println("[RUN] Executing formatted query: " + formattedQuery);
+            mainWindowController.addToHistory(formattedQuery);
 
             QueryModifiers modifiers = new QueryModifiers();
 

@@ -5,6 +5,8 @@ import app.Window;
 import app.sql.SQLExecutor;
 import app.util.*;
 import cpp.JavaInterface;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
@@ -68,6 +70,11 @@ public class MainWindowController extends ControllerBase {
      * The {@link SQLExecutor} instance for executing SQL queries and handling the results.
      */
     private SQLExecutor sqlExecutor;
+
+    /**
+     * The list of history entries for the executed queries.
+     */
+    private final ObservableList<HistoryEntry> queryHistory = FXCollections.observableArrayList();
 
     /**
      * The file that was imported into the database.
@@ -343,8 +350,8 @@ public class MainWindowController extends ControllerBase {
     }
 
     /**
-     * Handles the action of closing the Main Window.
-     * <p>This method is invoked when the user clicks the "Close" option in the File menu. </p>
+     * Handles the action of showing the settings window.
+     * <p>This method is invoked when the user clicks the "Settings" option in the File menu. </p>
      */
     @FXML
     private void handleSettings() {
@@ -352,8 +359,17 @@ public class MainWindowController extends ControllerBase {
     }
 
     /**
-     * Handles the action of closing the Main Window.
-     * <p>This method is invoked when the user clicks the "Close" option in the File menu. </p>
+     * Handles the action of showing the history window.
+     * <p>This method is invoked when the user clicks the "History" option in the File menu. </p>
+     */
+    @FXML
+    private void handleShowHistory() {
+        Window.showWindow(Window.HISTORY_WINDOW);
+    }
+
+    /**
+     * Handles the action of showing the about window.
+     * <p>This method is invoked when the user clicks the "About" option in the File menu. </p>
      */
     @FXML
     private void handleAbout() {
@@ -362,7 +378,7 @@ public class MainWindowController extends ControllerBase {
 
     /**
      * Handles the action of closing the application.
-     * <p>This method is invoked when the user clicks the "Exit" option in the File menu. </p>
+     * <p>This method is invoked when the user clicks the "Force quit" option in the File menu. </p>
      */
     @FXML
     private void handleExit() {
@@ -397,6 +413,25 @@ public class MainWindowController extends ControllerBase {
      */
     public void setHasUnsavedChanges(boolean value) {
         hasUnsavedChanges = value;
+    }
+
+    /**
+     * Setter for the text in the editor area.
+     * <p>Used for history entries and copying queries from the history window to the editor area. </p>
+     *
+     * @param text the text to set in the editor area
+     */
+    public void setEditorText(String text) {
+        editorArea.replaceText(text);
+    }
+
+    public void addToHistory(String query) {
+        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        queryHistory.add(new HistoryEntry(timestamp, query));
+    }
+
+    public ObservableList<HistoryEntry> getQueryHistory() {
+        return queryHistory;
     }
 
 }

@@ -106,14 +106,22 @@
             </MenuItem>
         </Menu>
         <Menu styleClass="menu" text="View">
-            <MenuItem onAction="#handleSettings" styleClass="menu-item" text="Settings">
+            <MenuItem accelerator="CTRL+J" onAction="#handleSettings" styleClass="menu-item" text="Settings">
                 <graphic>
                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../resources/icons/settings_icon.png" />
                     </ImageView>
                 </graphic>
             </MenuItem>
+            <MenuItem accelerator="CTRL+H" onAction="#handleShowHistory" styleClass="menu-item" text="History">
+                <graphic>
+                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../resources/icons/history_icon.png" />
+                    </ImageView>
+                </graphic>
+            </MenuItem>
         </Menu>
+
 
         <Menu styleClass="menu" text="Help">
             <MenuItem onAction="#handleAbout" styleClass="menu-item" text="About">
