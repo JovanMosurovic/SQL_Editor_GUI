@@ -26,6 +26,8 @@ public class QueryModifiers {
      */
     private List<AggregateFunction> aggregateFunctions;
 
+    private List<String> groupByColumns;
+
     /**
      * Creates a new instance of {@link QueryModifiers} with the default values.
      */
@@ -34,6 +36,7 @@ public class QueryModifiers {
         this.limitOffsetClause = null;
         this.distinctColumns = new ArrayList<>();
         this.aggregateFunctions = new ArrayList<>();
+        this.groupByColumns = new ArrayList<>();
     }
 
     //region GETTERS AND SETTERS
@@ -107,6 +110,14 @@ public class QueryModifiers {
      */
     public void setAggregateFunctions(List<AggregateFunction> aggregateFunctions) {
         this.aggregateFunctions = aggregateFunctions;
+    }
+
+    public List<String> getGroupByColumns() {
+        return groupByColumns;
+    }
+
+    public void setGroupByColumns(List<String> groupByColumns) {
+        this.groupByColumns = groupByColumns;
     }
 
     //endregion

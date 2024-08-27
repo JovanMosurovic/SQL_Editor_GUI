@@ -29,6 +29,8 @@ public class QueryProcessor {
         System.out.println("After aggregate functions: " + query);
         query = processDistinctQuery(query, modifiers);
         System.out.println("After distinct: " + query);
+        query = processGroupByClause(query, modifiers);
+        System.out.println("After group by: " + query);
         query = processOrderByClause(query, modifiers);
         System.out.println("After order by: " + query);
         query = processLimitOffsetClause(query, modifiers);
@@ -183,6 +185,20 @@ public class QueryProcessor {
             modifiers.setLimitOffsetClause(new LimitOffsetClause(limit, offset));
 
             return beforeLimit.trim();
+        }
+        return query;
+    }
+
+    private static String processGroupByClause(String query, QueryModifiers modifiers) {
+        Pattern pattern = Pattern.compile("(.*?)\\s+GROUP\\s+BY\\s+(.+?)(\\s+HAVING\\s+.*|\\s+ORDER\\s+BY\\s+.*|\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+
+        if (matcher.find()) {
+            String beforeGroupBy = matcher.group(1);
+            String groupByClause = matcher.group(2);
+            String afterGroupBy = matcher.group(3);
+            modifiers.setGroupByColumns(Arrays.asList(groupByClause.split("\\s*,\\s*")));
+            return beforeGroupBy + afterGroupBy;
         }
         return query;
     }

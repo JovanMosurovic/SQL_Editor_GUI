@@ -24,11 +24,11 @@ public class ResultModifier {
         List<String> result = new ArrayList<>(dataLines);
         String newHeaderLine = headerLine;
 
-        if (!modifiers.getAggregateFunctions().isEmpty()) {
-            List<String> aggregateResult = applyAggregateFunctions(result, headerLine, modifiers.getAggregateFunctions());
-            newHeaderLine = aggregateResult.get(0);
-            result = new ArrayList<>(aggregateResult.subList(1, aggregateResult.size()));
-        } else {
+        if (!modifiers.getGroupByColumns().isEmpty()) {
+            List<String> groupedResult = applyGroupBy(result, headerLine, modifiers.getGroupByColumns(), modifiers.getAggregateFunctions());
+            newHeaderLine = groupedResult.get(0);
+            result = new ArrayList<>(groupedResult.subList(1, groupedResult.size()));
+        } else if (!modifiers.getAggregateFunctions().isEmpty()) {
             if (!modifiers.getDistinctColumns().isEmpty()) {
                 result = applyDistinct(result, headerLine, modifiers.getDistinctColumns());
             }
@@ -262,5 +262,101 @@ public class ResultModifier {
         int endIndex = Math.min(offset + limit, dataLines.size());
 
         return new ArrayList<>(dataLines.subList(offset, endIndex));
+    }
+
+    private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions) {
+        List<String> headers = Arrays.asList(headerLine.split("~"));
+        Map<String, List<String>> groupedData = new HashMap<>();
+
+        // Grupišemo podatke
+        for (String line : dataLines) {
+            String[] values = line.split("~");
+            StringBuilder groupKey = new StringBuilder();
+            for (String column : groupByColumns) {
+                int index = headers.indexOf(column);
+                if (index != -1 && index < values.length) {
+                    groupKey.append(values[index]).append("~");
+                }
+            }
+            groupedData.computeIfAbsent(groupKey.toString(), k -> new ArrayList<>()).add(line);
+        }
+
+        // Primenjujemo agregatne funkcije na svaku grupu
+        List<String> result = new ArrayList<>();
+        StringBuilder newHeaderLine = new StringBuilder();
+
+        for (String column : groupByColumns) {
+            newHeaderLine.append(column).append("~");
+        }
+
+        for (AggregateFunction func : aggregateFunctions) {
+            if (!func.getFunction().equals("NONE")) {
+                newHeaderLine.append(func.getFunction()).append("(").append(func.getArgument()).append(")").append("~");
+            }
+        }
+
+        result.add(newHeaderLine.toString().substring(0, newHeaderLine.length() - 1));
+
+        for (List<String> group : groupedData.values()) {
+            StringBuilder resultLine = new StringBuilder();
+            String[] firstLineValues = group.get(0).split("~");
+
+            for (String column : groupByColumns) {
+                int index = headers.indexOf(column);
+                if (index != -1 && index < firstLineValues.length) {
+                    resultLine.append(firstLineValues[index]).append("~");
+                }
+            }
+
+            for (AggregateFunction func : aggregateFunctions) {
+                if (!func.getFunction().equals("NONE")) {
+                    String aggregateResult = calculateAggregate(group, headers, func);
+                    resultLine.append(aggregateResult).append("~");
+                }
+            }
+
+            result.add(resultLine.toString().substring(0, resultLine.length() - 1));
+        }
+
+        return result;
+    }
+
+    private static String calculateAggregate(List<String> group, List<String> headers, AggregateFunction func) {
+        int columnIndex = headers.indexOf(func.getArgument());
+        switch (func.getFunction()) {
+            case "COUNT":
+                return String.valueOf(group.size());
+            case "SUM":
+            case "AVG":
+                double sum = 0;
+                int count = 0;
+                for (String line : group) {
+                    String[] values = line.split("~");
+                    if (columnIndex != -1 && columnIndex < values.length) {
+                        try {
+                            sum += Double.parseDouble(values[columnIndex]);
+                            count++;
+                        } catch (NumberFormatException ignored) {
+                        }
+                    }
+                }
+                return func.getFunction().equals("SUM") ? String.format("%.2f", sum) : String.format("%.2f", sum / count);
+            case "MIN":
+            case "MAX":
+                String result = null;
+                for (String line : group) {
+                    String[] values = line.split("~");
+                    if (columnIndex != -1 && columnIndex < values.length) {
+                        String value = values[columnIndex];
+                        if (result == null || (func.getFunction().equals("MIN") && value.compareTo(result) < 0) ||
+                                (func.getFunction().equals("MAX") && value.compareTo(result) > 0)) {
+                            result = value;
+                        }
+                    }
+                }
+                return result != null ? result : "";
+            default:
+                return "";
+        }
     }
 }
