@@ -256,15 +256,13 @@ public class ResultModifier {
 
         // If offset is greater than or equal to the number of rows, return empty result
         if (offset >= dataLines.size()) {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                    "\n\nWARNING: OFFSET is greater than or equal to the number of rows. Returning empty result.", TextFlowHelper.warningYellow, true);
+            TextFlowHelper.addWarningMessage(mainWindowController.consoleTextFlow, "OFFSET is greater than or equal to the number of rows. Returning empty result.");
             return new ArrayList<>();
         }
 
         // If limit is 0, return empty result
         if (limit == 0) {
-            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                    "\n\nWARNING: LIMIT is 0. Returning empty result.", TextFlowHelper.warningYellow, true);
+            TextFlowHelper.addWarningMessage(mainWindowController.consoleTextFlow, "LIMIT is 0. Returning empty result.");
             return new ArrayList<>();
         }
 

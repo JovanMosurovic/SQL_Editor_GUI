@@ -91,11 +91,12 @@ public class HistoryWindowController extends ControllerBase {
                 super.updateItem(success, empty);
                 if (empty || success == null) {
                     imageView.setImage(null);
-                    tooltip.setText("");
+                    setTooltip(null);
                 } else {
                     Image image = getStatusImage(success);
                     imageView.setImage(image);
                     String tooltipText = success ? "Successfully executed" : "Execution failed";
+                    setTooltip(tooltip);
                     tooltip.setText(tooltipText);
                 }
             }

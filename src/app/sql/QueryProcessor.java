@@ -172,13 +172,11 @@ public class QueryProcessor {
             // Negative values are treated as neutral
             MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
             if (limit < 0) {
-                TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                        "\n\nWarning: Limit is negative", TextFlowHelper.warningYellow, true);
+                TextFlowHelper.addWarningMessage(mainWindowController.consoleTextFlow, "Limit is negative");
                 limit = Integer.MAX_VALUE;
             }
             if (offset < 0) {
-                TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                        "\n\nWarning: Offset is negative", TextFlowHelper.warningYellow, true);
+                TextFlowHelper.addWarningMessage(mainWindowController.consoleTextFlow, "Offset is negative");
                 offset = 0;
             }
 

@@ -1,14 +1,9 @@
 package app.sql;
 
 import app.mainwindow.MainWindowController;
-import app.util.AnsiTextParser;
-import app.util.FileHelper;
-import app.util.SVGHelper;
-import app.util.TextFlowHelper;
+import app.util.*;
 import cpp.JavaInterface;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.io.File;
@@ -150,35 +145,10 @@ public class SQLExecutor {
      * @param executionTime the execution time of the query in nanoseconds
      */
     private void displaySuccessMessage(long executionTime) {
-        Text spacer = new Text("\n");
-        spacer.setStyle("-fx-font-size: 10px;");
-        consoleTextFlow.getChildren().add(spacer);
 
-        AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!\n", consoleTextFlow);
+        AnsiTextParser.parseAnsiText("\nQuery has been \033[1;32m\033[1msuccessfully\033[0m executed!", consoleTextFlow);
 
-        TextFlow executionTimeLine = new TextFlow();
-        executionTimeLine.setLineSpacing(0);
-
-        double iconSize = 16;
-        String timeIconSVG = "M8,16C3.589,16,0,12.411,0,8S3.589,0,8,0s8,3.589,8,8-3.589,8-8,8Zm0-14.667" +
-                "C4.324,1.333,1.333,4.324,1.333,8s2.991,6.667,6.667,6.667S14.667,11.676,14.667,8S11.676,1.333,8,1.333Z" +
-                "M11.333,8c0-.368-.298-.667-.667-.667H9.333V4c0-.368-.298-.667-.667-.667S8,3.632,8,4v4" +
-                "c0,.368,.298,.667,.667,.667h2.667c.368,0,.667-.298,.667-.667Z";
-        Node timeIcon = SVGHelper.loadSVG(timeIconSVG, iconSize);
-
-        Text executionTimeText = new Text("Execution time");
-        executionTimeText.setStyle("-fx-font-weight: bold; -fx-underline: true;");
-
-        Text colonText = new Text(":");
-        colonText.setStyle("-fx-font-weight: bold;");
-
-        Text executionTimeValue = new Text(String.format(" %.2f ms", (double) executionTime / 1000000));
-
-        executionTimeLine.getChildren().addAll(timeIcon, new Text(" "), executionTimeText, colonText, executionTimeValue);
-
-        timeIcon.setTranslateY(3); // for aligning the icon with the text
-
-        consoleTextFlow.getChildren().add(executionTimeLine);
+        TextFlowHelper.addExecutionTime(consoleTextFlow, executionTime);
     }
 
     /**
