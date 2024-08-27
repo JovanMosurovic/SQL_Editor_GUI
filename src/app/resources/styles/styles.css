@@ -439,7 +439,7 @@
 
 .table-view .table-row-cell {
     -fx-background-color: white;
-    -fx-border-color: transparent;
+    /*-fx-border-color: transparent;*/ /* Removes j or g under line */
     -fx-table-cell-border-color: transparent;
 }
 

@@ -150,16 +150,25 @@ public class ContextMenuHelper {
      */
     private static ContextMenu createHistoryContextMenu(TableView<HistoryEntry> historyTableView) {
         ContextMenu contextMenu = new ContextMenu();
+
         MenuItem copyToEditorItem = new MenuItem("Copy to Editor");
         copyToEditorItem.setOnAction(event -> copySelectedQueryToEditor(historyTableView));
 
-        // Add icon
+        MenuItem deleteEntryItem = new MenuItem("Delete Entry");
+        deleteEntryItem.setOnAction(event -> deleteSelectedEntry(historyTableView));
+
+        // Add icons
         ImageView copyIcon = new ImageView(new Image(Objects.requireNonNull(ContextMenuHelper.class.getResourceAsStream("/app/resources/icons/copy_icon.png"))));
         copyIcon.setFitWidth(16);
         copyIcon.setFitHeight(16);
         copyToEditorItem.setGraphic(copyIcon);
 
-        contextMenu.getItems().add(copyToEditorItem);
+        ImageView deleteIcon = new ImageView(new Image(Objects.requireNonNull(ContextMenuHelper.class.getResourceAsStream("/app/resources/icons/delete_icon.png"))));
+        deleteIcon.setFitWidth(16);
+        deleteIcon.setFitHeight(16);
+        deleteEntryItem.setGraphic(deleteIcon);
+
+        contextMenu.getItems().addAll(copyToEditorItem, deleteEntryItem);
         return contextMenu;
     }
 
@@ -313,6 +322,14 @@ public class ContextMenuHelper {
         if (selectedEntry != null) {
             MainWindowController mainController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
             mainController.setEditorText(selectedEntry.getQuery());
+        }
+    }
+
+    private static void deleteSelectedEntry(TableView<HistoryEntry> historyTableView) {
+        HistoryEntry selectedEntry = historyTableView.getSelectionModel().getSelectedItem();
+        if (selectedEntry != null) {
+            MainWindowController mainController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+            mainController.removeFromHistory(selectedEntry);
         }
     }
 }

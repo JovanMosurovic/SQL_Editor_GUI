@@ -434,4 +434,8 @@ public class MainWindowController extends ControllerBase {
         return queryHistory;
     }
 
+    public void removeFromHistory(HistoryEntry entry) {
+        queryHistory.remove(entry);
+    }
+
 }
