@@ -24,14 +24,22 @@ public class ResultModifier {
         List<String> result = new ArrayList<>(dataLines);
         String newHeaderLine = headerLine;
 
-        if (!modifiers.getGroupByColumns().isEmpty()) {
-            List<String> groupedResult = applyGroupBy(result, headerLine, modifiers.getGroupByColumns(), modifiers.getAggregateFunctions());
-            newHeaderLine = groupedResult.get(0);
-            result = new ArrayList<>(groupedResult.subList(1, groupedResult.size()));
-        } else if (!modifiers.getAggregateFunctions().isEmpty()) {
-            if (!modifiers.getDistinctColumns().isEmpty()) {
-                result = applyDistinct(result, headerLine, modifiers.getDistinctColumns());
+        if (!modifiers.getAggregateFunctions().isEmpty()) {
+            if (modifiers.getGroupByColumns().isEmpty()) {
+                // Apply aggregate functions without GROUP BY
+                List<String> aggregatedResult = applyAggregateFunctions(result, headerLine, modifiers.getAggregateFunctions());
+                newHeaderLine = aggregatedResult.get(0);
+                result = new ArrayList<>(aggregatedResult.subList(1, aggregatedResult.size()));
+            } else {
+                // Apply GROUP BY with aggregate functions
+                List<String> groupedResult = applyGroupBy(result, headerLine, modifiers.getGroupByColumns(), modifiers.getAggregateFunctions());
+                newHeaderLine = groupedResult.get(0);
+                result = new ArrayList<>(groupedResult.subList(1, groupedResult.size()));
             }
+        }
+
+        if (!modifiers.getDistinctColumns().isEmpty()) {
+            result = applyDistinct(result, newHeaderLine, modifiers.getDistinctColumns());
         }
 
         if (!modifiers.getOrderByClauses().isEmpty()) {
