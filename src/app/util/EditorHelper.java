@@ -155,8 +155,11 @@ public class EditorHelper {
         keywordColors.put("OR", "green");
         keywordColors.put("AS", "green");
         keywordColors.put(",", "orange");
-        keywordColors.put("ORDER", "darkorchid");
+        keywordColors.put("(", "darkgreen");
+        keywordColors.put(")", "darkgreen");
+        keywordColors.put("GROUP", "darkorchid");
         keywordColors.put("BY", "darkorchid");
+        keywordColors.put("ORDER", "darkorchid");
         keywordColors.put("ASC", "darkorchid");
         keywordColors.put("DESC", "darkorchid");
         keywordColors.put("LIMIT", "darkslateblue");

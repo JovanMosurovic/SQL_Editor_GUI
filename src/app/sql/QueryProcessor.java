@@ -161,27 +161,24 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     private static String processLimitOffsetClause(String query, QueryModifiers modifiers) {
-        Pattern pattern = Pattern.compile("(.*?)\\s+(LIMIT\\s+)(-?\\d+)(?:\\s+OFFSET\\s+(-?\\d+))?$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(.*?\\s+LIMIT\\s+)(-?\\d+)(?:\\s+OFFSET\\s+(-?\\d+))?$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
             String beforeLimit = matcher.group(1);
-            System.out.println("Before limit: " + beforeLimit);
             int limit = Integer.parseInt(matcher.group(2));
-            System.out.println("Limit: " + limit);
             int offset = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
-            System.out.println("Offset: " + offset);
 
             // Negative values are treated as neutral
             MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
             if (limit < 0) {
                 TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                        "Warning: Limit is negative", TextFlowHelper.warningYellow, true);
+                        "\n\nWarning: Limit is negative", TextFlowHelper.warningYellow, true);
                 limit = Integer.MAX_VALUE;
             }
             if (offset < 0) {
                 TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                        "Warning: Offset is negative", TextFlowHelper.warningYellow, true);
+                        "\n\nWarning: Offset is negative", TextFlowHelper.warningYellow, true);
                 offset = 0;
             }
 
