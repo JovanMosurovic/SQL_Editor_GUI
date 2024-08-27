@@ -13,10 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +26,11 @@ import java.util.logging.Logger;
  * <p>It also contains helper methods for reading table names and creating table tabs in the main window.</p>
  */
 public class FileHelper {
+
+    /**
+     * The default file name for output.
+     */
+    public static final String FILE_NAME = "output.txt";
 
     /**
      * Logger for debugging and error messages.
@@ -287,6 +289,33 @@ public class FileHelper {
         // Add the new tab to the result tab pane after the console tab
         mainWindowController.resultTabPane.getTabs().add(tab);
     }
+
+    /**
+     * Writes an error message to a file, starting with an exclamation mark.
+     *
+     * @param errorMessage The error message to write.
+     * @param fileName The name of the file to write to (default is "error_output.txt").
+     */
+    public static void writeErrorToFile(String errorMessage, String fileName) {
+        System.out.println("Writing error to file: " + errorMessage);
+        fileName = (fileName != null && !fileName.isEmpty()) ? fileName : FILE_NAME;
+        try (FileWriter writer = new FileWriter(fileName, false)) {
+            writer.write("!\n");
+            writer.write(errorMessage);
+        } catch (IOException e) {
+            LOGGER.severe("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Overloaded method that uses the default file name.
+     *
+     * @param errorMessage The error message to write.
+     */
+    public static void writeErrorToFile(String errorMessage) {
+        writeErrorToFile(errorMessage, null);
+    }
+
 
     /**
      * Trims the specified file path and removes quotes from it.
