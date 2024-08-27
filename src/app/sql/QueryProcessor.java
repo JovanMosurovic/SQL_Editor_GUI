@@ -187,16 +187,28 @@ public class QueryProcessor {
         return query;
     }
 
+    /**
+     * Processes the GROUP BY clause in the SQL query and sets the group by columns in the query modifiers.
+     * <p>Also processes the HAVING clause if present.</p>
+     *
+     * @param query     the SQL query to process
+     * @param modifiers the query modifiers
+     * @return the processed SQL query
+     */
     private static String processGroupByClause(String query, QueryModifiers modifiers) {
-        Pattern pattern = Pattern.compile("(.*?)\\s+GROUP\\s+BY\\s+(.+?)(\\s+HAVING\\s+.*|\\s+ORDER\\s+BY\\s+.*|\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(.*?)\\s+GROUP\\s+BY\\s+(.+?)(\\s+HAVING\\s+(.+?))?(\\s+ORDER\\s+BY\\s+.*|\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
             String beforeGroupBy = matcher.group(1);
             String groupByClause = matcher.group(2);
-            String afterGroupBy = matcher.group(3);
+            String havingClause = matcher.group(4); // This will be null if HAVING is not present
+            String afterHaving = matcher.group(5);
             modifiers.setGroupByColumns(Arrays.asList(groupByClause.split("\\s*,\\s*")));
-            return beforeGroupBy + afterGroupBy;
+            if (havingClause != null) {
+                modifiers.setHavingClause(havingClause.trim());
+            }
+            return beforeGroupBy + afterHaving;
         }
         return query;
     }

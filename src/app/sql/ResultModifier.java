@@ -32,7 +32,7 @@ public class ResultModifier {
                 result = new ArrayList<>(aggregatedResult.subList(1, aggregatedResult.size()));
             } else {
                 // Apply GROUP BY with aggregate functions
-                List<String> groupedResult = applyGroupBy(result, headerLine, modifiers.getGroupByColumns(), modifiers.getAggregateFunctions());
+                List<String> groupedResult = applyGroupBy(result, headerLine, modifiers.getGroupByColumns(), modifiers.getAggregateFunctions(), modifiers.getHavingClause());
                 newHeaderLine = groupedResult.get(0);
                 result = new ArrayList<>(groupedResult.subList(1, groupedResult.size()));
             }
@@ -271,7 +271,7 @@ public class ResultModifier {
         return new ArrayList<>(dataLines.subList(offset, endIndex));
     }
 
-    private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions) {
+    private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions, String havingClause) {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, List<String>> groupedData = new HashMap<>();
 
@@ -292,22 +292,24 @@ public class ResultModifier {
         List<String> result = new ArrayList<>();
         StringBuilder newHeaderLine = new StringBuilder();
 
+        // Building new header line
         for (String column : groupByColumns) {
             newHeaderLine.append(column).append("~");
         }
-
         for (AggregateFunction func : aggregateFunctions) {
             if (!func.getFunction().equals("NONE")) {
                 newHeaderLine.append(func.getFunction()).append("(").append(func.getArgument()).append(")").append("~");
             }
         }
+        String finalHeaderLine = newHeaderLine.substring(0, newHeaderLine.length() - 1);
+        result.add(finalHeaderLine);
 
-        result.add(newHeaderLine.substring(0, newHeaderLine.length() - 1));
-
+        // Processing each group
         for (List<String> group : groupedData.values()) {
             StringBuilder resultLine = new StringBuilder();
             String[] firstLineValues = group.get(0).split("~");
 
+            // Adding group by columns
             for (String column : groupByColumns) {
                 int index = headers.indexOf(column);
                 if (index != -1 && index < firstLineValues.length) {
@@ -315,6 +317,7 @@ public class ResultModifier {
                 }
             }
 
+            // Calculating and adding aggregate function results
             for (AggregateFunction func : aggregateFunctions) {
                 if (!func.getFunction().equals("NONE")) {
                     String aggregateResult = calculateAggregate(group, headers, func);
@@ -322,7 +325,12 @@ public class ResultModifier {
                 }
             }
 
-            result.add(resultLine.substring(0, resultLine.length() - 1));
+            String groupResult = resultLine.substring(0, resultLine.length() - 1);
+
+            // Applying HAVING clause
+            if (havingClause == null || evaluateHavingClause(groupResult, finalHeaderLine, havingClause)) {
+                result.add(groupResult);
+            }
         }
 
         return result;
@@ -364,6 +372,75 @@ public class ResultModifier {
                 return result != null ? result : "";
             default:
                 return "";
+        }
+    }
+
+    private static boolean evaluateHavingClause(String groupResult, String headerLine, String havingClause) {
+        String[] headers = headerLine.split("~");
+        String[] values = groupResult.split("~");
+
+        // Parse the HAVING clause
+        String[] parts = havingClause.split("\\s+", 3); // Split into max 3 parts
+        if (parts.length != 3) {
+            // Invalid HAVING clause format
+            return true;
+        }
+
+        String column = parts[0];
+        String operator = parts[1];
+        String valueToCompare = parts[2];
+
+        // Find the column index, considering aggregate functions
+        int columnIndex = -1;
+        for (int i = 0; i < headers.length; i++) {
+            if (headers[i].equals(column) || headers[i].contains("(" + column + ")")) {
+                columnIndex = i;
+                break;
+            }
+        }
+
+        if (columnIndex == -1) {
+            // Column not found
+            return true;
+        }
+
+        String actualValue = values[columnIndex];
+
+        // Compare values based on the operator
+        try {
+            double actualDouble = Double.parseDouble(actualValue);
+            double compareDouble = Double.parseDouble(valueToCompare);
+
+            switch (operator) {
+                case ">":
+                    return actualDouble > compareDouble;
+                case "<":
+                    return actualDouble < compareDouble;
+                case "=":
+                    return actualDouble == compareDouble;
+                case ">=":
+                    return actualDouble >= compareDouble;
+                case "<=":
+                    return actualDouble <= compareDouble;
+                case "<>":
+                case "!=":
+                    return actualDouble != compareDouble;
+                default:
+                    // Unsupported operator
+                    return true;
+            }
+        } catch (NumberFormatException e) {
+            // If parsing to double fails, compare as strings
+            switch (operator) {
+                case "=":
+                    return actualValue.equals(valueToCompare);
+                case "<>":
+                case "!=":
+                    return !actualValue.equals(valueToCompare);
+                default:
+                    // Unsupported operator for string comparison
+                    return true;
+            }
         }
     }
 }

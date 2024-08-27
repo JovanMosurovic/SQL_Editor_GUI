@@ -25,8 +25,14 @@ public class QueryModifiers {
      * The list of aggregate functions.
      */
     private List<AggregateFunction> aggregateFunctions;
-
+    /**
+     * The list of group by columns.
+     */
     private List<String> groupByColumns;
+    /**
+     * The having clause.
+     */
+    private String havingClause;
 
     /**
      * Creates a new instance of {@link QueryModifiers} with the default values.
@@ -118,6 +124,24 @@ public class QueryModifiers {
 
     public void setGroupByColumns(List<String> groupByColumns) {
         this.groupByColumns = groupByColumns;
+    }
+
+    /**
+     * Returns the having clause.
+     *
+     * @return the having clause
+     */
+    public String getHavingClause() {
+        return havingClause;
+    }
+
+    /**
+     * Sets the having clause.
+     *
+     * @param havingClause the having clause
+     */
+    public void setHavingClause(String havingClause) {
+        this.havingClause = havingClause;
     }
 
     //endregion
