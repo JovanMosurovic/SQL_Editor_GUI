@@ -240,6 +240,26 @@ public class MainWindowController extends ControllerBase {
         tablesListView.getItems().clear();
     }
 
+    /**
+     * Adds the given query to the history list.
+     *
+     * @param query the SQL query to add
+     * @param success {@code true} if the query was executed successfully, {@code false} otherwise
+     */
+    public void addToHistory(String query, boolean success) {
+        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        queryHistory.add(new HistoryEntry(timestamp, query, success));
+    }
+
+    /**
+     * Removes the given entry from the history list.
+     *
+     * @param entry the history entry to remove
+     */
+    public void removeFromHistory(HistoryEntry entry) {
+        queryHistory.remove(entry);
+    }
+
     //region Editor actions
 
     /**
@@ -420,17 +440,22 @@ public class MainWindowController extends ControllerBase {
         editorArea.replaceText(text);
     }
 
-    public void addToHistory(String query, boolean success) {
-        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        queryHistory.add(new HistoryEntry(timestamp, query, success));
-    }
-
+    /**
+     * Getter for the list of history entries for the executed queries.
+     *
+     * @return the list of history entries
+     */
     public ObservableList<HistoryEntry> getQueryHistory() {
         return queryHistory;
     }
 
-    public void removeFromHistory(HistoryEntry entry) {
-        queryHistory.remove(entry);
+    /**
+     * Sets the focus on the specified tab for given index.
+     *
+     * @param index the index of the tab to focus on
+     */
+    public void setFocusOnTab(int index) {
+        resultTabPane.getSelectionModel().select(index);
     }
 
 }
