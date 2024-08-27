@@ -135,14 +135,14 @@
     </MenuBar>
 
     <!-- Button for running code -->
-    <Button fx:id="runButton" layoutX="1050.0" layoutY="5.0" onAction="#handleRun" styleClass="run-button" text="Run Code" AnchorPane.leftAnchor="1075.0">
+    <Button layoutX="1050.0" layoutY="5.0" onAction="#handleRun" styleClass="run-button" text="Run Code" AnchorPane.leftAnchor="1075.0">
         <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../resources/icons/run_icon.png" />
             </ImageView>
         </graphic>
         <tooltip>
-            <Tooltip text="Run Code SHIFT + F10" />
+            <Tooltip text="Run Code SHIFT + F5" />
         </tooltip>
     </Button>
 

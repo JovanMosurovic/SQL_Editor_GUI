@@ -14,8 +14,9 @@
 
         <TableView fx:id="historyTableView" VBox.vgrow="ALWAYS">
             <columns>
+                <TableColumn fx:id="statusColumn" prefWidth="30"/>
                 <TableColumn fx:id="dateTimeColumn" text="Date and Time" prefWidth="150"/>
-                <TableColumn fx:id="queryColumn" text="Query" prefWidth="450"/>
+                <TableColumn fx:id="queryColumn" text="Query" prefWidth="420"/>
             </columns>
         </TableView>
 

@@ -32,11 +32,6 @@ import java.util.ResourceBundle;
 public class MainWindowController extends ControllerBase {
 
     /**
-     * The button for running the SQL queries.
-     */
-    public Button runButton;
-
-    /**
      * The list view for displaying the tables in the database.
      */
     public ListView<String> tablesListView;
@@ -425,9 +420,9 @@ public class MainWindowController extends ControllerBase {
         editorArea.replaceText(text);
     }
 
-    public void addToHistory(String query) {
+    public void addToHistory(String query, boolean success) {
         String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        queryHistory.add(new HistoryEntry(timestamp, query));
+        queryHistory.add(new HistoryEntry(timestamp, query, success));
     }
 
     public ObservableList<HistoryEntry> getQueryHistory() {

@@ -74,7 +74,7 @@ public class SQLExecutor {
 
             String formattedQuery = SQLFormatter.formatSQLQuery(query.trim());
             System.out.println("[RUN] Executing formatted query: " + formattedQuery);
-            mainWindowController.addToHistory(formattedQuery);
+            String historyQuery = formattedQuery;
 
             QueryModifiers modifiers = new QueryModifiers();
 
@@ -87,7 +87,10 @@ public class SQLExecutor {
             databaseManager.executeQuery(formattedQuery);
 
             File outputFile = new File("output.txt");
-            if (FileHelper.checkErrors(outputFile, consoleTextFlow)) {
+            boolean querySuccess = !FileHelper.checkErrors(outputFile, consoleTextFlow);
+            mainWindowController.addToHistory(historyQuery, querySuccess);
+
+            if (!querySuccess) {
                 hasError = true;
                 break;
             }

@@ -1,5 +1,7 @@
 package app.util;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -16,6 +18,10 @@ public class HistoryEntry {
      * The SQL query of the history entry.
      */
     private final StringProperty query;
+    /**
+     * The success property of the history entry.
+     */
+    private final BooleanProperty success;
 
     /**
      * Creates a new instance of {@link HistoryEntry} with the specified date and time and SQL query.
@@ -23,9 +29,10 @@ public class HistoryEntry {
      * @param dateTime the date and time of the history entry
      * @param query    the SQL query of the history entry
      */
-    public HistoryEntry(String dateTime, String query) {
+    public HistoryEntry(String dateTime, String query, boolean success) {
         this.dateTime = new SimpleStringProperty(dateTime);
         this.query = new SimpleStringProperty(query);
+        this.success = new SimpleBooleanProperty(success);
     }
 
     /**
@@ -63,4 +70,23 @@ public class HistoryEntry {
     public StringProperty queryProperty() {
         return query;
     }
+
+    /**
+     * Gets the success property of the history entry.
+     *
+     * @return the success property of the history entry
+     */
+    public boolean isSuccess() {
+        return success.get();
+    }
+
+    /**
+     * Gets the success property of the history entry.
+     *
+     * @return the success property of the history entry
+     */
+    public BooleanProperty successProperty() {
+        return success;
+    }
+
 }

@@ -61,7 +61,7 @@ public class MainWindow extends Window {
             stage.setResizable(false);
             Window.centerOnScreen(Window.MAIN_WINDOW);
 
-            KeyCombination runShortcut = new KeyCodeCombination(KeyCode.F10, KeyCombination.SHIFT_DOWN);
+            KeyCombination runShortcut = new KeyCodeCombination(KeyCode.F5, KeyCombination.SHIFT_DOWN);
             scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
                 if (runShortcut.match(event)) {
                     MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(MAIN_WINDOW).getController();
