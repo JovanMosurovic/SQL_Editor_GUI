@@ -206,7 +206,8 @@ public class ResultModifier {
             if (!headerList.contains(clause.getColumn())) {
                 TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
                         "\n\nERROR: Column '" + clause.getColumn() + "' in ORDER BY clause does not exist in the result set.", Color.RED, true); // todo insert error into file
-                return dataLines; // Vraćamo originalne podatke bez sortiranja
+                return dataLines; // Return original data without sorting
+
             }
         }
 
@@ -268,7 +269,7 @@ public class ResultModifier {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, List<String>> groupedData = new HashMap<>();
 
-        // Grupišemo podatke
+        // Grouping data
         for (String line : dataLines) {
             String[] values = line.split("~");
             StringBuilder groupKey = new StringBuilder();
@@ -281,7 +282,7 @@ public class ResultModifier {
             groupedData.computeIfAbsent(groupKey.toString(), k -> new ArrayList<>()).add(line);
         }
 
-        // Primenjujemo agregatne funkcije na svaku grupu
+        // Applying aggregate functions to each group
         List<String> result = new ArrayList<>();
         StringBuilder newHeaderLine = new StringBuilder();
 
@@ -295,7 +296,7 @@ public class ResultModifier {
             }
         }
 
-        result.add(newHeaderLine.toString().substring(0, newHeaderLine.length() - 1));
+        result.add(newHeaderLine.substring(0, newHeaderLine.length() - 1));
 
         for (List<String> group : groupedData.values()) {
             StringBuilder resultLine = new StringBuilder();
@@ -315,7 +316,7 @@ public class ResultModifier {
                 }
             }
 
-            result.add(resultLine.toString().substring(0, resultLine.length() - 1));
+            result.add(resultLine.substring(0, resultLine.length() - 1));
         }
 
         return result;
