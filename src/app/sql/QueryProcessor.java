@@ -1,5 +1,9 @@
 package app.sql;
 
+import app.Window;
+import app.mainwindow.MainWindowController;
+import app.util.TextFlowHelper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,10 +24,15 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     public static String processQuery(String query, QueryModifiers modifiers) {
+        System.out.println("Original query: " + query);
         query = processAggregateFunctions(query, modifiers);
+        System.out.println("After aggregate functions: " + query);
         query = processDistinctQuery(query, modifiers);
+        System.out.println("After distinct: " + query);
         query = processOrderByClause(query, modifiers);
+        System.out.println("After order by: " + query);
         query = processLimitOffsetClause(query, modifiers);
+        System.out.println("Final query: " + query);
         return query;
     }
 
@@ -100,14 +109,15 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     private static String processOrderByClause(String query, QueryModifiers modifiers) {
-        Pattern pattern = Pattern.compile("(.*?)\\s+ORDER\\s+BY\\s+(.+)$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(.*?)\\s+ORDER\\s+BY\\s+(.+?)(\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
-            String mainQuery = matcher.group(1);
+            String beforeOrderBy = matcher.group(1);
             String orderByClause = matcher.group(2);
+            String afterOrderBy = matcher.group(3);
             modifiers.setOrderByClauses(parseOrderByClauses(orderByClause));
-            return mainQuery;
+            return beforeOrderBy + afterOrderBy;
         }
         return query;
     }
@@ -142,15 +152,30 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     private static String processLimitOffsetClause(String query, QueryModifiers modifiers) {
-        Pattern pattern = Pattern.compile("(.*?)\\s+LIMIT\\s+(\\d+)(?:\\s+OFFSET\\s+(\\d+))?$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(.*?\\s+LIMIT\\s+)(-?\\d+)(?:\\s+OFFSET\\s+(-?\\d+))?$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
-            String mainQuery = matcher.group(1);
+            String beforeLimit = matcher.group(1);
             int limit = Integer.parseInt(matcher.group(2));
             int offset = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
+
+            // Negative values are treated as neutral
+            MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+            if (limit < 0) {
+                TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
+                        "Warning: Limit is negative", TextFlowHelper.warningYellow, true);
+                limit = Integer.MAX_VALUE;
+            }
+            if (offset < 0) {
+                TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
+                        "Warning: Offset is negative", TextFlowHelper.warningYellow, true);
+                offset = 0;
+            }
+
             modifiers.setLimitOffsetClause(new LimitOffsetClause(limit, offset));
-            return mainQuery;
+
+            return beforeLimit.trim();
         }
         return query;
     }

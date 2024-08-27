@@ -20,31 +20,39 @@ public class ResultModifier {
      * @return the list of data lines with the query modifiers applied
      */
     public static List<String> applyModifiers(List<String> dataLines, String headerLine, QueryModifiers modifiers) {
+        List<String> result = new ArrayList<>(dataLines);
+        String newHeaderLine = headerLine;
+
         if (!modifiers.getAggregateFunctions().isEmpty()) {
-            return applyAggregateFunctions(dataLines, headerLine, modifiers.getAggregateFunctions());
+            List<String> aggregateResult = applyAggregateFunctions(result, headerLine, modifiers.getAggregateFunctions());
+            newHeaderLine = aggregateResult.get(0);
+            result = new ArrayList<>(aggregateResult.subList(1, aggregateResult.size()));
         } else {
             if (!modifiers.getDistinctColumns().isEmpty()) {
-                dataLines = applyDistinct(dataLines, headerLine, modifiers.getDistinctColumns());
+                result = applyDistinct(result, headerLine, modifiers.getDistinctColumns());
             }
-            if (!modifiers.getOrderByClauses().isEmpty()) {
-                dataLines = applyOrderBy(dataLines, headerLine, modifiers.getOrderByClauses());
-            }
-            if (modifiers.getLimitOffsetClause() != null) {
-                dataLines = applyLimitOffset(dataLines, modifiers.getLimitOffsetClause());
-            }
-            List<String> result = new ArrayList<>();
-            result.add(headerLine);
-            result.addAll(dataLines);
-            return result;
         }
+
+        if (!modifiers.getOrderByClauses().isEmpty()) {
+            result = applyOrderBy(result, newHeaderLine, modifiers.getOrderByClauses());
+        }
+
+        if (modifiers.getLimitOffsetClause() != null) {
+            result = applyLimitOffset(result, modifiers.getLimitOffsetClause());
+        }
+
+        List<String> finalResult = new ArrayList<>();
+        finalResult.add(newHeaderLine);
+        finalResult.addAll(result);
+        return finalResult;
     }
 
     private static List<String> applyAggregateFunctions(List<String> dataLines, String headerLine, List<AggregateFunction> aggregateFunctions) {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, Double> sums = new HashMap<>();
         Map<String, Integer> counts = new HashMap<>();
-        Map<String, Double> mins = new HashMap<>();
-        Map<String, Double> maxs = new HashMap<>();
+        Map<String, String> mins = new HashMap<>();
+        Map<String, String> maxs = new HashMap<>();
         Map<String, String> firstValues = new HashMap<>();
 
         int totalCount = dataLines.size();
@@ -57,25 +65,32 @@ public class ResultModifier {
                 } else {
                     int colIndex = headers.indexOf(func.getArgument());
                     if (colIndex != -1 && colIndex < values.length) {
+                        String value = values[colIndex];
                         if (func.getFunction().equals("NONE")) {
                             if (!firstValues.containsKey(func.getArgument())) {
-                                firstValues.put(func.getArgument(), values[colIndex]);
+                                firstValues.put(func.getArgument(), value);
                             }
                         } else {
-                            try {
-                                double value = Double.parseDouble(values[colIndex]);
-                                sums.merge(func.getArgument(), value, Double::sum);
-                                counts.merge(func.getArgument(), 1, Integer::sum);
-                                mins.merge(func.getArgument(), value, Double::min);
-                                maxs.merge(func.getArgument(), value, Double::max);
-                            } catch (NumberFormatException e) {
-                                if (func.getFunction().equals("COUNT")) {
+                            switch (func.getFunction()) {
+                                case "SUM":
+                                case "AVG":
+                                    try {
+                                        double numericValue = Double.parseDouble(value);
+                                        sums.merge(func.getArgument(), numericValue, Double::sum);
+                                        counts.merge(func.getArgument(), 1, Integer::sum);
+                                    } catch (NumberFormatException e) {
+                                        // Ignore non-numeric values for SUM and AVG
+                                    }
+                                    break;
+                                case "MIN":
+                                    mins.merge(func.getArgument(), value, (oldVal, newVal) -> oldVal.compareTo(newVal) <= 0 ? oldVal : newVal);
+                                    break;
+                                case "MAX":
+                                    maxs.merge(func.getArgument(), value, (oldVal, newVal) -> oldVal.compareTo(newVal) >= 0 ? oldVal : newVal);
+                                    break;
+                                case "COUNT":
                                     counts.merge(func.getArgument(), 1, Integer::sum);
-                                } else {
-                                    MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
-                                    TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                                            "\n\nWARNING: Non-numeric value '" + values[colIndex] + "' found in column '" + func.getArgument() + "'. Skipping this value for " + func.getFunction() + ".", TextFlowHelper.warningYellow, true);
-                                }
+                                    break;
                             }
                         }
                     }
@@ -83,7 +98,6 @@ public class ResultModifier {
             }
         }
 
-        List<String> result = new ArrayList<>();
         StringBuilder resultLine = new StringBuilder();
         StringBuilder newHeaderLine = new StringBuilder();
 
@@ -101,10 +115,10 @@ public class ResultModifier {
                         value = String.format("%.2f", sums.getOrDefault(func.getArgument(), 0.0) / counts.getOrDefault(func.getArgument(), 1));
                         break;
                     case "MIN":
-                        value = String.format("%.2f", mins.getOrDefault(func.getArgument(), Double.NaN));
+                        value = mins.getOrDefault(func.getArgument(), "");
                         break;
                     case "MAX":
-                        value = String.format("%.2f", maxs.getOrDefault(func.getArgument(), Double.NaN));
+                        value = maxs.getOrDefault(func.getArgument(), "");
                         break;
                     case "COUNT":
                         if (func.getArgument().equals("*")) {
@@ -124,6 +138,7 @@ public class ResultModifier {
             newHeaderLine.setLength(newHeaderLine.length() - 1); // Remove last ~
         }
 
+        List<String> result = new ArrayList<>();
         result.add(newHeaderLine.toString());
         result.add(resultLine.toString());
 
@@ -202,14 +217,26 @@ public class ResultModifier {
      * @return the list of data lines with the LIMIT and OFFSET applied
      */
     private static List<String> applyLimitOffset(List<String> dataLines, LimitOffsetClause limitOffsetClause) {
+        if (limitOffsetClause == null) {
+            return dataLines;
+        }
+
         int offset = limitOffsetClause.getOffset();
         int limit = limitOffsetClause.getLimit();
 
         MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
 
+        // If offset is greater than or equal to the number of rows, return empty result
         if (offset >= dataLines.size()) {
             TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
                     "\n\nWARNING: OFFSET is greater than or equal to the number of rows. Returning empty result.", TextFlowHelper.warningYellow, true);
+            return new ArrayList<>();
+        }
+
+        // If limit is 0, return empty result
+        if (limit == 0) {
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
+                    "\n\nWARNING: LIMIT is 0. Returning empty result.", TextFlowHelper.warningYellow, true);
             return new ArrayList<>();
         }
 
