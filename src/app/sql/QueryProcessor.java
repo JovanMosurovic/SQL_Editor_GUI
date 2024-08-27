@@ -36,6 +36,13 @@ public class QueryProcessor {
         return query;
     }
 
+    /**
+     * Processes the aggregate functions in the SQL query and sets the aggregate functions in the query modifiers.
+     *
+     * @param query     the SQL query to process
+     * @param modifiers the query modifiers
+     * @return the processed SQL query
+     */
     private static String processAggregateFunctions(String query, QueryModifiers modifiers) {
         Pattern pattern = Pattern.compile("SELECT\\s+(.*?)\\s+FROM", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);

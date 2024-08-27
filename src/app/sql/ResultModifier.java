@@ -3,6 +3,7 @@ package app.sql;
 import app.Window;
 import app.mainwindow.MainWindowController;
 import app.util.TextFlowHelper;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -47,6 +48,14 @@ public class ResultModifier {
         return finalResult;
     }
 
+    /**
+     * Applies the aggregate functions to the result data.
+     *
+     * @param dataLines           the list of data lines
+     * @param headerLine          the header line
+     * @param aggregateFunctions  the list of aggregate functions
+     * @return the list of data lines with the aggregate functions applied
+     */
     private static List<String> applyAggregateFunctions(List<String> dataLines, String headerLine, List<AggregateFunction> aggregateFunctions) {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, Double> sums = new HashMap<>();
@@ -190,6 +199,16 @@ public class ResultModifier {
      */
     private static List<String> applyOrderBy(List<String> dataLines, String headerLine, List<OrderByClause> orderByClauses) {
         List<String> headerList = Arrays.asList(headerLine.split("~"));
+        MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+
+        // Checking if all columns in the ORDER BY clause exist
+        for (OrderByClause clause : orderByClauses) {
+            if (!headerList.contains(clause.getColumn())) {
+                TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
+                        "\n\nERROR: Column '" + clause.getColumn() + "' in ORDER BY clause does not exist in the result set.", Color.RED, true); // todo insert error into file
+                return dataLines; // Vraćamo originalne podatke bez sortiranja
+            }
+        }
 
         dataLines.sort((line1, line2) -> {
             String[] values1 = line1.split("~");
