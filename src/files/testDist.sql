@@ -5,5 +5,5 @@ INSERT INTO prvaTabela (arg, arg2, arg3, arg4) VALUES ("test555", "test1555", "t
 INSERT INTO prvaTabela (arg, arg2, arg3, arg4) VALUES ("test555", "test1555", "test2555", "test3555");
 CREATE TABLE drugaTabela (arg, nekiValue, test);
 INSERT INTO drugaTabela (arg, nekiValue, test) VALUES ("test", "value1", "value2");
-INSERT INTO drugaTabela (arg, nekiValue, test) VALUES ("test11", "value3", "value4");
-INSERT INTO drugaTabela (arg, nekiValue, test) VALUES ("test11", "value5", "value6");
+INSERT INTO drugaTabela (arg, nekiValue, test) VALUES ("test11", "value5", "value4");
+INSERT INTO drugaTabela (arg, nekiValue, test) VALUES ("test11", "value5", "value4");
