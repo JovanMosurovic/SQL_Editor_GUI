@@ -37,9 +37,9 @@ public class SQLExecutor {
      * Creates a new instance of {@link SQLExecutor} with the specified database manager, console text flow,
      * and main window controller.
      *
-     * @param databaseManager        the {@link JavaInterface} instance for executing SQL queries
-     * @param consoleTextFlow        the {@link TextFlow} component for displaying messages
-     * @param mainWindowController   the {@link MainWindowController} instance for updating the tables list
+     * @param databaseManager      the {@link JavaInterface} instance for executing SQL queries
+     * @param consoleTextFlow      the {@link TextFlow} component for displaying messages
+     * @param mainWindowController the {@link MainWindowController} instance for updating the tables list
      */
     public SQLExecutor(JavaInterface databaseManager, TextFlow consoleTextFlow, MainWindowController mainWindowController) {
         this.databaseManager = databaseManager;
@@ -56,6 +56,7 @@ public class SQLExecutor {
      * @param isFromEditor true if the code is executed from the editor, false if executed from the other sources
      */
     public void executeQueries(String code, boolean isFromEditor) {
+        TextFlowHelper.clearErrorMessage(consoleTextFlow);
         System.out.println("[RUN] Executing queries");
         String[] splitCode = SQLFormatter.trimCode(code).split(";");
 
@@ -73,9 +74,21 @@ public class SQLExecutor {
 
             QueryModifiers modifiers = new QueryModifiers();
 
-            formattedQuery = QueryProcessor.processQuery(formattedQuery, modifiers);
+            try {
+                formattedQuery = QueryProcessor.processQuery(formattedQuery, modifiers);
+            } catch (MySQLSyntaxErrorException e) {
+                TextFlowHelper.addErrorMessage(
+                        consoleTextFlow,
+                        e.getErrorType(),
+                        e.getMainError(),
+                        e.getSpecificError(),
+                        e.getErrorDescription()
+                );
+                hasError = true;
+                break;
+            }
 
-            if(isModifyingQuery(formattedQuery)) {
+            if (isModifyingQuery(formattedQuery)) {
                 mainWindowController.setHasUnsavedChanges(true);
             }
 
@@ -91,8 +104,8 @@ public class SQLExecutor {
             }
 
             boolean isSelectQuery = formattedQuery.toLowerCase().startsWith("select");
-            if(isSelectQuery) {
-               applyQueryModifiers(outputFile, modifiers);
+            if (isSelectQuery) {
+                applyQueryModifiers(outputFile, modifiers);
             }
 
             tabsCreated |= FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
@@ -142,6 +155,7 @@ public class SQLExecutor {
 
     /**
      * Displays a success message in the console with the execution time of the query.
+     *
      * @param executionTime the execution time of the query in nanoseconds
      */
     private void displaySuccessMessage(long executionTime) {
@@ -169,6 +183,7 @@ public class SQLExecutor {
 
     /**
      * Extracts the table name from the given SQL query.
+     *
      * @param query the SQL query to extract the table name from
      *              <p>(e.g., "DROP TABLE `table_name`" -> "table_name")</p>
      * @return the table name extracted from the query

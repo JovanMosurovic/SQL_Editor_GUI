@@ -13,6 +13,7 @@ import javafx.scene.text.TextFlow;
  * <p>It provides methods to update the text content, clear the text, and scroll to the bottom.</p>
  */
 public class TextFlowHelper {
+    private static boolean hasError = false;
 
     /**
      * Updates the content of the given {@link TextFlow} component with the specified message and color.
@@ -40,6 +41,20 @@ public class TextFlowHelper {
         TextFlow messageLine = createMessageLine("Warning", warningText, warningIcon, AppColors.WARNING_YELLOW, false);
 
         addToConsole(consoleTextFlow, messageLine);
+    }
+
+    public static void addErrorMessage(TextFlow textFlow, String errorType, String mainError, String specificError, String errorDescription) {
+        clearResultTextFlow(textFlow);
+        hasError = true;
+        String ansiFormattedMessage = String.format(
+                "\n\u001B[1;31m[%s]\u001B[0m \u001B[1;4m%s\u001B[0m\u001B[1m:\u001B[0m %s\n\u001B[1;31m\u001B[4mERROR\u001B[24m\u001B[1m:\u001B[0m %s",
+                errorType,
+                mainError,
+                specificError,
+                errorDescription
+        );
+
+        AnsiTextParser.parseAnsiText(ansiFormattedMessage, textFlow);
     }
 
     public static void addExecutionTime(TextFlow consoleTextFlow, long executionTime) {
@@ -106,6 +121,17 @@ public class TextFlowHelper {
             }
             parent = parent.getParent();
         }
+    }
+
+    public static void clearErrorMessage(TextFlow textFlow) {
+        if (hasError) {
+            clearResultTextFlow(textFlow);
+            hasError = false;
+        }
+    }
+
+    public static boolean hasError() {
+        return hasError;
     }
 
 }

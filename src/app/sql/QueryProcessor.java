@@ -2,12 +2,10 @@ package app.sql;
 
 import app.Window;
 import app.mainwindow.MainWindowController;
+import app.util.FileHelper;
 import app.util.TextFlowHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,19 +21,23 @@ public class QueryProcessor {
      * @param modifiers the query modifiers
      * @return the processed SQL query
      */
-    public static String processQuery(String query, QueryModifiers modifiers) {
-        System.out.println("Original query: " + query);
-        query = processAggregateFunctions(query, modifiers);
-        System.out.println("After aggregate functions: " + query);
-        query = processDistinctQuery(query, modifiers);
-        System.out.println("After distinct: " + query);
-        query = processGroupByClause(query, modifiers);
-        System.out.println("After group by: " + query);
-        query = processOrderByClause(query, modifiers);
-        System.out.println("After order by: " + query);
-        query = processLimitOffsetClause(query, modifiers);
-        System.out.println("Final query: " + query);
-        return query;
+    public static String processQuery(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
+        try {
+            System.out.println("Original query: " + query);
+            query = processAggregateFunctions(query, modifiers);
+            System.out.println("After aggregate functions: " + query);
+            query = processDistinctQuery(query, modifiers);
+            System.out.println("After distinct: " + query);
+            query = processGroupByClause(query, modifiers);
+            System.out.println("After group by: " + query);
+            query = processOrderByClause(query, modifiers);
+            System.out.println("After order by: " + query);
+            query = processLimitOffsetClause(query, modifiers);
+            System.out.println("Final query: " + query);
+            return query;
+        } catch (MySQLSyntaxErrorException e) {
+            throw e; // Rethrow the exception for further handling
+        }
     }
 
     /**
@@ -117,7 +119,7 @@ public class QueryProcessor {
      * @param modifiers the query modifiers
      * @return the processed SQL query
      */
-    private static String processOrderByClause(String query, QueryModifiers modifiers) {
+    private static String processOrderByClause(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
         Pattern pattern = Pattern.compile("(.*?)\\s+ORDER\\s+BY\\s+(.+?)(\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
@@ -125,6 +127,29 @@ public class QueryProcessor {
             String beforeOrderBy = matcher.group(1);
             String orderByClause = matcher.group(2);
             String afterOrderBy = matcher.group(3);
+
+            // Validate the ORDER BY clause syntax
+            Pattern orderByPattern = Pattern.compile("^\\s*([\\w.]+\\s*(ASC|DESC)?\\s*(,\\s*[\\w.]+\\s*(ASC|DESC)?\\s*)*)$", Pattern.CASE_INSENSITIVE);
+            if (!orderByPattern.matcher(orderByClause).matches()) {
+                throw new MySQLSyntaxErrorException("Invalid ORDER BY clause syntax.", "Clause where error occurred" + orderByClause);
+            }
+
+            // Getting available columns from the file helper class
+            Map<String, List<String>> tableColumns = FileHelper.readTableColumnNames(FileHelper.FILE_NAME);
+            Set<String> availableColumns = new HashSet<>();
+            for (List<String> columns : tableColumns.values()) {
+                availableColumns.addAll(columns);
+            }
+
+            // Check if the columns exist
+            String[] orderByParts = orderByClause.split(",");
+            for (String part : orderByParts) {
+                String column = part.trim().split("\\s+")[0];
+                if (!availableColumns.contains(column)) {
+                    throw new MySQLSyntaxErrorException("Invalid ORDER BY clause", "Invalid column in ORDER BY clause: " + column);
+                }
+            }
+
             modifiers.setOrderByClauses(parseOrderByClauses(orderByClause));
             return beforeOrderBy + afterOrderBy;
         }

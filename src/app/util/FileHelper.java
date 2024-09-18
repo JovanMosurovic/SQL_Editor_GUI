@@ -14,10 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -225,6 +222,45 @@ public class FileHelper {
             LOGGER.severe("[ERROR] Error reading table names: " + e.getMessage());
         }
         return tableNames;
+    }
+
+    /**
+     * Reads the table column names from the file and returns them as a map of table names to column lists.
+     * Each table in the file starts with a line beginning with a tab character, followed by column names.
+     * Tables are separated by '#' characters.
+     *
+     * @param fileName The path to the file containing the table column names.
+     * @return A {@link Map} where keys are table names and values are {@link List}s of column names for each table.
+     */
+    public static Map<String, List<String>> readTableColumnNames(String fileName) {
+        Map<String, List<String>> tableColumns = new LinkedHashMap<>();
+        File file = openFile(fileName);
+        if (file == null) {
+            return tableColumns;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            String currentTableName = null;
+
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("\t")) {
+                    currentTableName = line.trim();
+                } else if (!line.equals("#") && currentTableName != null) {
+                    List<String> columns = Arrays.asList(line.split("~"));
+                    tableColumns.put(currentTableName, columns);
+
+                    while ((line = br.readLine()) != null && !line.equals("#")) {
+                        // Skip data rows
+                    }
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.severe("[ERROR] Error reading table column names: " + e.getMessage());
+        }
+        return tableColumns;
     }
 
     /**
