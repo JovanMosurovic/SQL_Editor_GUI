@@ -43,6 +43,15 @@ public class TextFlowHelper {
         addToConsole(consoleTextFlow, messageLine);
     }
 
+    /**
+     * Adds an error message to the specified {@link TextFlow} component.
+     *
+     * @param textFlow        the {@link TextFlow} component to update
+     * @param errorType      the type of error (e.g., "Syntax Error")
+     * @param mainError      the main error message
+     * @param specificError  the specific error message
+     * @param errorDescription a detailed description of the error
+     */
     public static void addErrorMessage(TextFlow textFlow, String errorType, String mainError, String specificError, String errorDescription) {
         clearResultTextFlow(textFlow);
         hasError = true;
@@ -57,6 +66,12 @@ public class TextFlowHelper {
         AnsiTextParser.parseAnsiText(ansiFormattedMessage, textFlow);
     }
 
+    /**
+     * Adds the execution time to the specified {@link TextFlow} component.
+     *
+     * @param consoleTextFlow the {@link TextFlow} component to update
+     * @param executionTime   the execution time in nanoseconds
+     */
     public static void addExecutionTime(TextFlow consoleTextFlow, long executionTime) {
         double iconSize = FontConfig.getConsoleFontSize() - 2;
         SVGHelper.SVGIcon timeIcon = SVGHelper.createTimeIcon(iconSize);
@@ -68,6 +83,16 @@ public class TextFlowHelper {
         updateResultTextFlow(consoleTextFlow, "\n", Color.TRANSPARENT, true);
     }
 
+    /**
+     * Creates a message line with a label, message text, and an icon.
+     *
+     * @param label         the label text
+     * @param messageText   the message text
+     * @param icon          the icon to display
+     * @param labelColor    the color of the label
+     * @param underlineLabel true to underline the label, false otherwise
+     * @return a {@link TextFlow} containing the formatted message line
+     */
     private static TextFlow createMessageLine(String label, String messageText, SVGHelper.SVGIcon icon, Color labelColor, boolean underlineLabel) {
         Text labelText = new Text(label);
         labelText.setStyle("-fx-font-weight: bold;" + (underlineLabel ? " -fx-underline: true;" : ""));
@@ -87,6 +112,12 @@ public class TextFlowHelper {
         return messageLine;
     }
 
+    /**
+     * Adds the specified content to the console text flow with a spacer before it.
+     *
+     * @param consoleTextFlow the {@link TextFlow} component to update
+     * @param content         the content to add
+     */
     private static void addToConsole(TextFlow consoleTextFlow, Node content) {
         Text spacer = new Text("\n");
         spacer.setStyle("-fx-font-size: 10px;");
@@ -123,6 +154,11 @@ public class TextFlowHelper {
         }
     }
 
+    /**
+     * Clears the error message from the specified {@link TextFlow} component if an error has occurred.
+     *
+     * @param textFlow the {@link TextFlow} component to clear
+     */
     public static void clearErrorMessage(TextFlow textFlow) {
         if (hasError) {
             clearResultTextFlow(textFlow);
@@ -130,6 +166,11 @@ public class TextFlowHelper {
         }
     }
 
+    /**
+     * Getter for the hasError flag.
+     *
+     * @return true if an error has occurred, false otherwise
+     */
     public static boolean hasError() {
         return hasError;
     }
