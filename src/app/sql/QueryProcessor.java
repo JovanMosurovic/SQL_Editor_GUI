@@ -4,6 +4,7 @@ import app.Window;
 import app.mainwindow.MainWindowController;
 import app.util.FileHelper;
 import app.util.TextFlowHelper;
+import cpp.JavaInterface;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -134,11 +135,17 @@ public class QueryProcessor {
                 throw new MySQLSyntaxErrorException("Invalid ORDER BY clause syntax.", "Clause where error occurred" + orderByClause);
             }
 
-            // Getting available columns from the file helper class
-            Map<String, List<String>> tableColumns = FileHelper.readTableColumnNames(FileHelper.FILE_NAME);
+            // Extract table names from the FROM clause
+            Set<String> tableNames = extractTableNamesFromFromStatement(beforeOrderBy);
+
+            // Getting available columns from the file helper class for each table
             Set<String> availableColumns = new HashSet<>();
-            for (List<String> columns : tableColumns.values()) {
-                availableColumns.addAll(columns);
+            for (String tableName : tableNames) {
+                JavaInterface.getInstance().executeQuery("SELECT * FROM " + tableName);
+                Map<String, List<String>> tableColumns = FileHelper.readTableColumnNames(FileHelper.FILE_NAME);
+                for (List<String> columns : tableColumns.values()) {
+                    availableColumns.addAll(columns);
+                }
             }
 
             // Check if the columns exist
@@ -236,5 +243,26 @@ public class QueryProcessor {
             return beforeGroupBy + afterHaving;
         }
         return query;
+    }
+
+    /**
+     * Extracts table names from the FROM clause of a SQL query.
+     *
+     * @param query the SQL query to extract table names from
+     * @return a Set of table names extracted from the query
+     */
+    private static Set<String> extractTableNamesFromFromStatement(String query) {
+        Set<String> tableNames = new HashSet<>();
+        Pattern pattern = Pattern.compile("(?i)select\\s+[^;]+\\s+from\\s+([a-zA-Z0-9_]+)(?:\\s+as\\s+[a-zA-Z0-9_]+\\s+inner\\s+join\\s+([a-zA-Z0-9_]+)\\s+as\\s+[a-zA-Z0-9_]+\\s+on\\s+[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+)?\\s*.*", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(query);
+
+        if(matcher.find()) {
+            tableNames.add(matcher.group(1));
+            if(matcher.group(2) != null) {
+                tableNames.add(matcher.group(2));
+            }
+        }
+
+        return tableNames;
     }
 }
