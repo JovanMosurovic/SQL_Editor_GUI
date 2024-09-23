@@ -23,22 +23,18 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     public static String processQuery(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
-        try {
-            System.out.println("Original query: " + query);
-            query = processAggregateFunctions(query, modifiers);
-            System.out.println("After aggregate functions: " + query);
-            query = processDistinctQuery(query, modifiers);
-            System.out.println("After distinct: " + query);
-            query = processGroupByClause(query, modifiers);
-            System.out.println("After group by: " + query);
-            query = processOrderByClause(query, modifiers);
-            System.out.println("After order by: " + query);
-            query = processLimitOffsetClause(query, modifiers);
-            System.out.println("Final query: " + query);
-            return query;
-        } catch (MySQLSyntaxErrorException e) {
-            throw e; // Rethrow the exception for further handling
-        }
+        System.out.println("Original query: " + query);
+        query = processAggregateFunctions(query, modifiers);
+        System.out.println("After aggregate functions: " + query);
+        query = processDistinctQuery(query, modifiers);
+        System.out.println("After distinct: " + query);
+        query = processGroupByClause(query, modifiers);
+        System.out.println("After group by: " + query);
+        query = processOrderByClause(query, modifiers);
+        System.out.println("After order by: " + query);
+        query = processLimitOffsetClause(query, modifiers);
+        System.out.println("Final query: " + query);
+        return query;
     }
 
     /**
