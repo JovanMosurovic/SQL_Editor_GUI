@@ -43,7 +43,7 @@ public class ResultModifier {
         }
 
         if (!modifiers.getOrderByClauses().isEmpty()) {
-            result = applyOrderBy(result, newHeaderLine, modifiers.getOrderByClauses());
+            result = new ArrayList<>(applyOrderBy(result, newHeaderLine, modifiers.getOrderByClauses()));
         }
 
         if (modifiers.getLimitOffsetClause() != null) {
@@ -77,9 +77,8 @@ public class ResultModifier {
         for (String line : dataLines) {
             String[] values = line.split("~");
             for (AggregateFunction func : aggregateFunctions) {
-                if (func.getFunction().equals("COUNT") && func.getArgument().equals("*")) {
-                    continue; // handle COUNT(*) separately
-                } else {
+                if (!(func.getFunction().equals("COUNT") && func.getArgument().equals("*"))) {
+                    // handle COUNT(*) separately
                     int colIndex = headers.indexOf(func.getArgument());
                     if (colIndex != -1 && colIndex < values.length) {
                         String value = values[colIndex];

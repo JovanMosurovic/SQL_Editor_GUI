@@ -247,12 +247,10 @@ public class FileHelper {
                 if(line.equalsIgnoreCase("database name")) {
                     br.readLine();
                 }
-                System.out.println(line);
                 if (line.startsWith("\t")) {
                     currentTableName = line.trim();
                 } else if (!line.equals("#") && currentTableName != null) {
                     List<String> columns = Arrays.asList(line.split("~"));
-                    System.out.println(columns);
                     tableColumns.put(currentTableName, columns);
 
                     while ((line = br.readLine()) != null && !line.equals("#")) {
