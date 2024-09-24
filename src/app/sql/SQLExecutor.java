@@ -105,7 +105,19 @@ public class SQLExecutor {
 
             boolean isSelectQuery = formattedQuery.toLowerCase().startsWith("select");
             if (isSelectQuery) {
-                applyQueryModifiers(outputFile, modifiers);
+                try {
+                    applyQueryModifiers(outputFile, modifiers);
+                } catch (MySQLSyntaxErrorException e) {
+                    TextFlowHelper.addErrorMessage(
+                            consoleTextFlow,
+                            e.getErrorType(),
+                            e.getMainError(),
+                            e.getSpecificError(),
+                            e.getErrorDescription()
+                    );
+                    hasError = true;
+                    break;
+                }
             }
 
             tabsCreated |= FileHelper.loadTablesFromFile("output.txt", isSelectQuery);
@@ -202,7 +214,7 @@ public class SQLExecutor {
      * @param outputFile the output file containing the result data
      * @param modifiers  the {@link QueryModifiers} object containing the query modifiers
      */
-    private void applyQueryModifiers(File outputFile, QueryModifiers modifiers) {
+    private void applyQueryModifiers(File outputFile, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
         try {
             List<String> lines = Files.readAllLines(outputFile.toPath());
             if (lines.size() < 3) return; // No data or only headers

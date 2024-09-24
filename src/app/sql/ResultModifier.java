@@ -20,7 +20,7 @@ public class ResultModifier {
      * @param modifiers  the query modifiers
      * @return the list of data lines with the query modifiers applied
      */
-    public static List<String> applyModifiers(List<String> dataLines, String headerLine, QueryModifiers modifiers) {
+    public static List<String> applyModifiers(List<String> dataLines, String headerLine, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
         List<String> result = new ArrayList<>(dataLines);
         String newHeaderLine = headerLine;
 
@@ -270,7 +270,7 @@ public class ResultModifier {
         return new ArrayList<>(dataLines.subList(offset, endIndex));
     }
 
-    private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions, String havingClause) {
+    private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions, String havingClause) throws MySQLSyntaxErrorException {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, List<String>> groupedData = new HashMap<>();
 
@@ -374,7 +374,7 @@ public class ResultModifier {
         }
     }
 
-    private static boolean evaluateHavingClause(String groupResult, String headerLine, String havingClause) {
+    private static boolean evaluateHavingClause(String groupResult, String headerLine, String havingClause) throws MySQLSyntaxErrorException {
         String[] headers = headerLine.split("~");
         String[] values = groupResult.split("~");
 
@@ -387,7 +387,7 @@ public class ResultModifier {
 
         String column = parts[0];
         String operator = parts[1];
-        String valueToCompare = parts[2];
+        String valueToCompare = parts[2].replace("'", "").replace("\"", "");
 
         // Find the column index, considering aggregate functions
         int columnIndex = -1;
@@ -400,11 +400,10 @@ public class ResultModifier {
 
         if (columnIndex == -1) {
             // Column not found
-            System.out.println("Column not found: " + column);
-            return true;
+            throw new MySQLSyntaxErrorException("Invalid column", "Column does not exist: \u001B[1m" + column + "\u001B[0m");
         }
 
-        String actualValue = values[columnIndex];
+        String actualValue = values[columnIndex].replace("'", "").replace("\"", "");
 
         // Compare values based on the operator
         try {
@@ -427,7 +426,8 @@ public class ResultModifier {
                     return actualDouble != compareDouble;
                 default:
                     // Unsupported operator
-                    System.err.println("Unsupported operator: " + operator);
+                    TextFlowHelper.addWarningMessage(((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).consoleTextFlow,
+                            "Unsupported operator: " + operator);
                     return true;
             }
         } catch (NumberFormatException e) {
@@ -440,7 +440,8 @@ public class ResultModifier {
                     return !actualValue.equals(valueToCompare);
                 default:
                     // Unsupported operator for string comparison
-                    System.err.println("Unsupported operator for string comparison: " + operator);
+                    TextFlowHelper.addWarningMessage(((MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController()).consoleTextFlow,
+                            "Unsupported operator for string comparison: " + operator);
                     return true;
             }
         }
