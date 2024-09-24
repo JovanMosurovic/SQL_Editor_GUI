@@ -171,12 +171,33 @@ public class MainWindowController extends ControllerBase {
      */
     public void handleRun() {
         System.out.println("[RUN] Run button clicked");
-        String selectedText = editorArea.getSelectedText();
-        String code = selectedText.isEmpty() ? editorArea.getText() : selectedText;
-        if (!code.isEmpty())
-            executeQuery(code);
-        else
+        String code = editorArea.getSelectedText().isEmpty() ? editorArea.getText() : editorArea.getSelectedText();
+        if (!code.isEmpty()) {
+            executeQuery(stripComments(code));
+        } else {
             TextFlowHelper.updateResultTextFlow(consoleTextFlow, "\nNo SQL query to execute.", Color.BLACK, true);
+        }
+    }
+
+    /**
+     * Helper function for stripping comments from the given SQL query.
+     *
+     * @param query the SQL query to strip comments from
+     * @return the SQL query without comments
+     */
+    private String stripComments(String query) {
+        StringBuilder result = new StringBuilder();
+        String[] lines = query.split("\n");
+        for (String line : lines) {
+            int commentIndex = line.indexOf("--");
+            if (commentIndex != -1) {
+                result.append(line, 0, commentIndex);
+            } else {
+                result.append(line);
+            }
+            result.append("\n");
+        }
+        return result.toString().trim();
     }
 
     /**
@@ -243,7 +264,7 @@ public class MainWindowController extends ControllerBase {
     /**
      * Adds the given query to the history list.
      *
-     * @param query the SQL query to add
+     * @param query   the SQL query to add
      * @param success {@code true} if the query was executed successfully, {@code false} otherwise
      */
     public void addToHistory(String query, boolean success) {
