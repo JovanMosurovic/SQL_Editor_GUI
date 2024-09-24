@@ -22,6 +22,7 @@ public class AnsiTextParser {
      */
     private static final String RESET = "0";
     private static final String BOLD = "1";
+    private static final String ITALIC = "3";
     private static final String UNDERLINE = "4";
 
     /**
@@ -62,6 +63,7 @@ public class AnsiTextParser {
         Matcher matcher = ANSI_PATTERN.matcher(ansiText);
         int lastEnd = 0;
         boolean isBold = false;
+        boolean isItalic = false;
         boolean isUnderline = false;
         Color currentColor = Color.BLACK;
         Color currentBgColor = null;
@@ -69,7 +71,7 @@ public class AnsiTextParser {
         while (matcher.find()) {
             int start = matcher.start();
             if (start > lastEnd) {
-                Text text = createStyledText(ansiText.substring(lastEnd, start), currentColor, currentBgColor, isBold, isUnderline);
+                Text text = createStyledText(ansiText.substring(lastEnd, start), currentColor, currentBgColor, isBold, isItalic, isUnderline);
                 textFlow.getChildren().add(text);
             }
 
@@ -78,12 +80,16 @@ public class AnsiTextParser {
                 switch (code) {
                     case RESET:
                         isBold = false;
+                        isItalic = false;
                         isUnderline = false;
                         currentColor = Color.BLACK;
                         currentBgColor = null;
                         break;
                     case BOLD:
                         isBold = true;
+                        break;
+                    case ITALIC:
+                        isItalic = true;
                         break;
                     case UNDERLINE:
                         isUnderline = true;
@@ -152,7 +158,7 @@ public class AnsiTextParser {
         }
 
         if (lastEnd < ansiText.length()) {
-            Text text = createStyledText(ansiText.substring(lastEnd), currentColor, currentBgColor, isBold, isUnderline);
+            Text text = createStyledText(ansiText.substring(lastEnd), currentColor, currentBgColor, isBold, isItalic, isUnderline);
             textFlow.getChildren().add(text);
         }
     }
@@ -167,13 +173,16 @@ public class AnsiTextParser {
      * @param underline {@code true} if the text is underlined, {@code false} otherwise
      * @return the styled {@link Text} node
      */
-    private static Text createStyledText(String content, Color color, Color bgColor, boolean bold, boolean underline) {
+    private static Text createStyledText(String content, Color color, Color bgColor, boolean bold, boolean italic, boolean underline) {
         Text text = new Text(content);
         text.setFill(color);
 
         StringBuilder style = new StringBuilder();
         if (bold) {
             style.append("-fx-font-weight: bold;");
+        }
+        if (italic) {
+            style.append("-fx-font-style: italic;");
         }
         if (underline) {
             style.append("-fx-underline: true;");

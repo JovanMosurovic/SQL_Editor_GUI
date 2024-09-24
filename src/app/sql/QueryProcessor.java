@@ -128,30 +128,18 @@ public class QueryProcessor {
             // Validate the ORDER BY clause syntax
             Pattern orderByPattern = Pattern.compile("^\\s*([\\w.]+\\s*(ASC|DESC)?\\s*(,\\s*[\\w.]+\\s*(ASC|DESC)?\\s*)*)$", Pattern.CASE_INSENSITIVE);
             if (!orderByPattern.matcher(orderByClause).matches()) {
-                throw new MySQLSyntaxErrorException("Invalid ORDER BY clause syntax.", "Clause where error occurred" + orderByClause);
+                throw new MySQLSyntaxErrorException("Invalid ORDER BY clause syntax.", "Place where error occurred: \u001B[3m" + orderByClause + "\u001B[0m");
             }
 
-            // Extract table names from the FROM clause
-            Set<String> tableNames = extractTableNamesFromFromStatement(beforeOrderBy);
-
-            // Getting available columns from the file helper class for each table
-            Set<String> availableColumns = new HashSet<>();
-            for (String tableName : tableNames) {
-                JavaInterface.getInstance().executeQuery("SELECT * FROM " + tableName);
-                Map<String, List<String>> tableColumns = FileHelper.readTableColumnNames(FileHelper.FILE_NAME);
-                for (List<String> columns : tableColumns.values()) {
-                    availableColumns.addAll(columns);
-                }
-            }
-
-            // Check if the columns exist
-            String[] orderByParts = orderByClause.split(",");
-            for (String part : orderByParts) {
+            // Validate the columns in the ORDER BY clause
+            List<String> orderByColumns = new ArrayList<>();
+            String[] parts = orderByClause.split(",");
+            for (String part : parts) {
                 String column = part.trim().split("\\s+")[0];
-                if (!availableColumns.contains(column)) {
-                    throw new MySQLSyntaxErrorException("Invalid ORDER BY clause", "Invalid column in ORDER BY clause: " + column);
-                }
+                orderByColumns.add(column);
             }
+
+            validateColumns(beforeOrderBy, orderByColumns);
 
             modifiers.setOrderByClauses(parseOrderByClauses(orderByClause));
             return beforeOrderBy + afterOrderBy;
@@ -222,8 +210,9 @@ public class QueryProcessor {
      * @param query     the SQL query to process
      * @param modifiers the query modifiers
      * @return the processed SQL query
+     * @throws MySQLSyntaxErrorException if an invalid column is found
      */
-    private static String processGroupByClause(String query, QueryModifiers modifiers) {
+    private static String processGroupByClause(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
         Pattern pattern = Pattern.compile("(.*?)\\s+GROUP\\s+BY\\s+(.+?)(\\s+HAVING\\s+(.+?))?(\\s+ORDER\\s+BY\\s+.*|\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
@@ -232,13 +221,146 @@ public class QueryProcessor {
             String groupByClause = matcher.group(2);
             String havingClause = matcher.group(4); // This will be null if HAVING is not present
             String afterHaving = matcher.group(5);
-            modifiers.setGroupByColumns(Arrays.asList(groupByClause.split("\\s*,\\s*")));
+
+            // Validate the GROUP BY clause syntax
+            Pattern groupByPattern = Pattern.compile("^\\s*([\\w.]+\\s*(,\\s*[\\w.]+\\s*)*)$", Pattern.CASE_INSENSITIVE);
+            if (!groupByPattern.matcher(groupByClause).matches()) {
+                throw new MySQLSyntaxErrorException("Invalid GROUP BY clause syntax", "Place where error occurred: \u001B[3m" + groupByClause + "\u001B[0m");
+            }
+
+            List<String> groupByColumns = new ArrayList<>();
+            String[] parts = groupByClause.split("\\s*,\\s*");
+            for (String part : parts) {
+                String column = part.trim();
+                groupByColumns.add(column);
+            }
+
+            // Validate columns
+            Set<String> availableColumns = validateColumns(beforeGroupBy, groupByColumns);
+
+            // Validate HAVING clause if present
+            if (havingClause != null) {
+                System.out.println("Having clause: " + havingClause);
+                validateHavingClause(havingClause.trim(), availableColumns);
+            }
+
+            modifiers.setGroupByColumns(groupByColumns);
             if (havingClause != null) {
                 modifiers.setHavingClause(havingClause.trim());
             }
             return beforeGroupBy + afterHaving;
         }
         return query;
+    }
+
+    /**
+     * Validates the HAVING clause against the available columns.
+     *
+     * @param havingClause     the HAVING clause to validate
+     * @param availableColumns the available columns
+     * @throws MySQLSyntaxErrorException if an invalid column is found
+     */
+    private static void validateHavingClause(String havingClause, Set<String> availableColumns) throws MySQLSyntaxErrorException {
+        Pattern pattern = Pattern.compile(
+                "\\b([\\w.]+|(?:COUNT|SUM|AVG|MIN|MAX)\\([\\w.*]+\\))\\s*([<>=!]+|LIKE|NOT LIKE|IN|NOT IN|BETWEEN)\\s*(.+)",
+                Pattern.CASE_INSENSITIVE
+        );
+        Matcher matcher = pattern.matcher(havingClause);
+
+        if (!matcher.matches()) {
+            throw new MySQLSyntaxErrorException("Invalid HAVING clause syntax", "Clause: " + havingClause);
+        }
+
+        String columnOrFunction = matcher.group(1);
+        String operator = matcher.group(2);
+        String value = matcher.group(3);
+
+        // Validate column or function
+        if (!isValidColumnOrFunction(columnOrFunction, availableColumns)) {
+            throw new MySQLSyntaxErrorException("Invalid column or function in HAVING clause", "Invalid: " + columnOrFunction);
+        }
+
+        // Validate operator
+        if (!isValidOperator(operator)) {
+            throw new MySQLSyntaxErrorException("Invalid operator in HAVING clause", "Invalid: " + operator);
+        }
+
+        // Validate value (basic check)
+        if (value.trim().isEmpty()) {
+            throw new MySQLSyntaxErrorException("Missing value in HAVING clause", "Clause: " + havingClause);
+        }
+    }
+
+    /**
+     * Checks if the given column or function is valid.
+     *
+     * @param columnOrFunction   The column or function to check.
+     * @param availableColumns   The available columns.
+     * @return {@code true} if the column or function is valid, {@code false} otherwise.
+     */
+    private static boolean isValidColumnOrFunction(String columnOrFunction, Set<String> availableColumns) {
+        if (availableColumns.contains(columnOrFunction)) {
+            return true;
+        }
+        Pattern functionPattern = Pattern.compile("(COUNT|SUM|AVG|MIN|MAX)\\(([\\w.*]+)\\)", Pattern.CASE_INSENSITIVE);
+        Matcher functionMatcher = functionPattern.matcher(columnOrFunction);
+        if (functionMatcher.matches()) {
+            String argument = functionMatcher.group(2);
+            return argument.equals("*") || availableColumns.contains(argument);
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the given operator is valid.
+     *
+     * @param operator The operator to check.
+     * @return {@code true} if the operator is valid, {@code false} otherwise.
+     */
+    private static boolean isValidOperator(String operator) {
+        Set<String> validOperators = new HashSet<>(Arrays.asList(
+                "=", "<>", "!=", ">", "<", ">=", "<="
+        ));
+        return validOperators.contains(operator.toUpperCase());
+    }
+
+    /**
+     * Checks if the given expression is an aggregate function.
+     *
+     * @param expression The expression to check.
+     * @return {@code true} if the expression is an aggregate function, {@code false} otherwise.
+     */
+    private static boolean isAggregateFunction(String expression) {
+        return expression.matches("\\b(?:COUNT|SUM|AVG|MIN|MAX)\\s*\\(\\s*(?:\\*|[\\w.]+)\\s*\\)");
+    }
+
+    /**
+     * Validates columns against available columns in the specified tables.
+     *
+     * @param query          The SQL query being processed.
+     * @param columnsToCheck List of column names to validate.
+     * @return Set of available columns.
+     * @throws MySQLSyntaxErrorException If an invalid column is found.
+     */
+    private static Set<String> validateColumns(String query, List<String> columnsToCheck) throws MySQLSyntaxErrorException {
+        Set<String> tableNames = extractTableNamesFromFromStatement(query);
+        Set<String> availableColumns = new HashSet<>();
+
+        for (String tableName : tableNames) {
+            JavaInterface.getInstance().executeQuery("SELECT * FROM " + tableName);
+            Map<String, List<String>> tableColumns = FileHelper.readTableColumnNames(FileHelper.FILE_NAME);
+            for (List<String> columns : tableColumns.values()) {
+                availableColumns.addAll(columns);
+            }
+        }
+
+        for (String column : columnsToCheck) {
+            if (!availableColumns.contains(column)) {
+                throw new MySQLSyntaxErrorException("Invalid column", "Column does not exist: \u001B[1m" + column + "\u001B[0m");
+            }
+        }
+
+        return availableColumns;
     }
 
     /**
@@ -252,9 +374,9 @@ public class QueryProcessor {
         Pattern pattern = Pattern.compile("(?i)select\\s+[^;]+\\s+from\\s+([a-zA-Z0-9_]+)(?:\\s+as\\s+[a-zA-Z0-9_]+\\s+inner\\s+join\\s+([a-zA-Z0-9_]+)\\s+as\\s+[a-zA-Z0-9_]+\\s+on\\s+[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+)?\\s*.*", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
-        if(matcher.find()) {
+        if (matcher.find()) {
             tableNames.add(matcher.group(1));
-            if(matcher.group(2) != null) {
+            if (matcher.group(2) != null) {
                 tableNames.add(matcher.group(2));
             }
         }
