@@ -34,8 +34,9 @@ public class EditorHelper {
             "(?<=\\s|^)(" + String.join("|", KEYWORD_COLORS.keySet()) + ")(?=\\s|$|;|\\()|" +
                     "(AVG|SUM|COUNT|MAX|MIN)\\s*\\([^)]*\\)|" +
                     "(\"[^\"]*\"|'[^']*')|" +
-                    "(;)",
-            Pattern.CASE_INSENSITIVE
+                    "(;)|" +
+                    "(--.*$)", // Add this line to match comments
+            Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
     );
 
     /**
@@ -91,7 +92,10 @@ public class EditorHelper {
             String matchedText = matcher.group();
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
 
-            if ((matchedText.startsWith("\"") && matchedText.endsWith("\"")) ||
+            if (matchedText.startsWith("--")) {
+                // It's a comment
+                spansBuilder.add(Collections.singleton("comment"), matchedText.length());
+            } else if ((matchedText.startsWith("\"") && matchedText.endsWith("\"")) ||
                     (matchedText.startsWith("'") && matchedText.endsWith("'"))) {
                 // It's a quoted string
                 spansBuilder.add(Collections.singleton("string"), matchedText.length());
