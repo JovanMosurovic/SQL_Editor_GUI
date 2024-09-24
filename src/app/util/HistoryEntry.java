@@ -28,6 +28,7 @@ public class HistoryEntry {
      *
      * @param dateTime the date and time of the history entry
      * @param query    the SQL query of the history entry
+     * @param success  the success property of the history entry
      */
     public HistoryEntry(String dateTime, String query, boolean success) {
         this.dateTime = new SimpleStringProperty(dateTime);

@@ -19,6 +19,7 @@ public class ResultModifier {
      * @param headerLine the header line
      * @param modifiers  the query modifiers
      * @return the list of data lines with the query modifiers applied
+     * @throws MySQLSyntaxErrorException if there is a syntax error in the SQL query
      */
     public static List<String> applyModifiers(List<String> dataLines, String headerLine, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
         List<String> result = new ArrayList<>(dataLines);

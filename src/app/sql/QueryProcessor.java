@@ -21,6 +21,7 @@ public class QueryProcessor {
      * @param query     the SQL query to process
      * @param modifiers the query modifiers
      * @return the processed SQL query
+     * @throws MySQLSyntaxErrorException if an error occurs during processing
      */
     public static String processQuery(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
         System.out.println("Original query: " + query);
