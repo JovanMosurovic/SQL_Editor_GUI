@@ -400,6 +400,7 @@ public class ResultModifier {
 
         if (columnIndex == -1) {
             // Column not found
+            System.out.println("Column not found: " + column);
             return true;
         }
 
@@ -426,6 +427,7 @@ public class ResultModifier {
                     return actualDouble != compareDouble;
                 default:
                     // Unsupported operator
+                    System.err.println("Unsupported operator: " + operator);
                     return true;
             }
         } catch (NumberFormatException e) {
@@ -438,6 +440,7 @@ public class ResultModifier {
                     return !actualValue.equals(valueToCompare);
                 default:
                     // Unsupported operator for string comparison
+                    System.err.println("Unsupported operator for string comparison: " + operator);
                     return true;
             }
         }

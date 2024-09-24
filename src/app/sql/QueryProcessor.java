@@ -268,7 +268,7 @@ public class QueryProcessor {
         Matcher matcher = pattern.matcher(havingClause);
 
         if (!matcher.matches()) {
-            throw new MySQLSyntaxErrorException("Invalid HAVING clause syntax", "Clause: " + havingClause);
+            throw new MySQLSyntaxErrorException("Invalid HAVING clause syntax", "Place where error occurred: \u001B[3m" + havingClause + "\u001B[0m");
         }
 
         String columnOrFunction = matcher.group(1);
@@ -277,17 +277,17 @@ public class QueryProcessor {
 
         // Validate column or function
         if (!isValidColumnOrFunction(columnOrFunction, availableColumns)) {
-            throw new MySQLSyntaxErrorException("Invalid column or function in HAVING clause", "Invalid: " + columnOrFunction);
+            throw new MySQLSyntaxErrorException("Invalid column or function in HAVING clause", "Place where error occurred: \u001B[1m" + columnOrFunction + "\u001B[0m");
         }
 
         // Validate operator
         if (!isValidOperator(operator)) {
-            throw new MySQLSyntaxErrorException("Invalid operator in HAVING clause", "Invalid: " + operator);
+            throw new MySQLSyntaxErrorException("Invalid operator in HAVING clause", "Invalid operator: \u001B[1m" + operator + "\u001B[0m");
         }
 
         // Validate value (basic check)
         if (value.trim().isEmpty()) {
-            throw new MySQLSyntaxErrorException("Missing value in HAVING clause", "Clause: " + havingClause);
+            throw new MySQLSyntaxErrorException("Missing value in HAVING clause", "Place where error occurred: \u001B[3m" + havingClause + "\u001B[0m");
         }
     }
 
