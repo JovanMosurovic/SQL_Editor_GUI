@@ -270,6 +270,16 @@ public class ResultModifier {
         return new ArrayList<>(dataLines.subList(offset, endIndex));
     }
 
+    /**
+     * Applies the GROUP BY modifier to the result data.
+     *
+     * @param dataLines        the list of data lines
+     * @param headerLine       the header line
+     * @param groupByColumns   the list of GROUP BY columns
+     * @param aggregateFunctions  the list of aggregate functions
+     * @param havingClause     the HAVING clause
+     * @return the list of data lines with the GROUP BY clause applied
+     */
     private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions, String havingClause) throws MySQLSyntaxErrorException {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, List<String>> groupedData = new HashMap<>();
@@ -335,6 +345,14 @@ public class ResultModifier {
         return result;
     }
 
+    /**
+     * Calculates the aggregate result for a group.
+     *
+     * @param group  the group of data lines
+     * @param headers  the header line
+     * @param func  the aggregate function
+     * @return the aggregate result
+     */
     private static String calculateAggregate(List<String> group, List<String> headers, AggregateFunction func) {
         int columnIndex = headers.indexOf(func.getArgument());
         switch (func.getFunction()) {
@@ -374,6 +392,14 @@ public class ResultModifier {
         }
     }
 
+    /**
+     * Evaluates the HAVING clause for a group result.
+     *
+     * @param groupResult  the group result
+     * @param headerLine   the header line
+     * @param havingClause the HAVING clause
+     * @return true if the group result satisfies the HAVING clause, false otherwise
+     */
     private static boolean evaluateHavingClause(String groupResult, String headerLine, String havingClause) throws MySQLSyntaxErrorException {
         String[] headers = headerLine.split("~");
         String[] values = groupResult.split("~");
