@@ -1,7 +1,7 @@
 package app.util;
 
 import app.Window;
-import app.mainwindow.MainWindowController;
+import app.windows.mainwindow.MainWindowController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

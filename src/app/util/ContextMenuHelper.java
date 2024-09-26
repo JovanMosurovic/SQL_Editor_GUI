@@ -1,7 +1,7 @@
 package app.util;
 
 import app.Window;
-import app.mainwindow.MainWindowController;
+import app.windows.mainwindow.MainWindowController;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -30,7 +30,7 @@ public class ContextMenuHelper {
     private static ContextMenu createConsoleContextMenu(TextFlow resultTextFlow) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem clearConsoleItem = new MenuItem("Clear console");
-        clearConsoleItem.setOnAction(event -> TextFlowHelper.clearResultTextFlow(resultTextFlow));
+        clearConsoleItem.setOnAction(event -> TextFlowHelper.clearTextFlow(resultTextFlow));
         contextMenu.getItems().add(clearConsoleItem);
         return contextMenu;
     }

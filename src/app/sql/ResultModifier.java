@@ -1,7 +1,7 @@
 package app.sql;
 
 import app.Window;
-import app.mainwindow.MainWindowController;
+import app.windows.mainwindow.MainWindowController;
 import app.sql.exception.ColumnAccessException;
 import app.sql.exception.SQLException;
 import app.util.TextFlowHelper;

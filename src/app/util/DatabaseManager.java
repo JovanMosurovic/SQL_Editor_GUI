@@ -2,7 +2,7 @@ package app.util;
 
 import cpp.JavaInterface;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -38,7 +38,7 @@ public class DatabaseManager {
         File selectedFile = fileChooser.showOpenDialog(ownerStage);
         if (selectedFile == null) {
             if (lastSelectedFile == null && !isFromWelcomeWindow) {
-                TextFlowHelper.clearResultTextFlow(resultTextFlow);
+                TextFlowHelper.clearTextFlow(resultTextFlow);
                 TextFlowHelper.updateResultTextFlow(resultTextFlow, "No file selected. Please choose a valid .sql or .dbexp file to import.", Color.RED, false);
             }
             return false;
@@ -46,13 +46,16 @@ public class DatabaseManager {
 
         lastSelectedFile = selectedFile;
         String filePath = selectedFile.getAbsolutePath();
+        TextFlowHelper.clearTextFlow(resultTextFlow);
         if (filePath.endsWith(".sql") || filePath.endsWith(".dbexp")) {
             JavaInterface.getInstance().importDatabase(filePath);
             TextFlowHelper.updateResultTextFlow(resultTextFlow, "Selected file: " + filePath, Color.BLACK, false);
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "\nDatabase imported successfully!\n", Color.GREEN, true);
+            AnsiTextParser.parseAnsiText("\n\u001B[1m\u001B[32mDatabase imported successfully!\u001B[0m\n", resultTextFlow);
+
             return true;
         } else {
-            TextFlowHelper.updateResultTextFlow(resultTextFlow, "Invalid file type selected. Please choose a valid .sql or .dbexp file.", Color.RED, false);
+            AnsiTextParser.parseAnsiText("\u001B[1m\u001B[31mDatabase import failed!\u001B[0m\n", resultTextFlow);
+            TextFlowHelper.updateResultTextFlow(resultTextFlow, "Invalid file type selected. Please choose a valid .sql or .dbexp file.", Color.DARKRED, true);
             return false;
         }
     }

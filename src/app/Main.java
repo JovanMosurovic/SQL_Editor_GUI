@@ -1,14 +1,14 @@
 package app;
 
-import app.aboutwindow.AboutWindow;
-import app.aboutwindow.AboutWindowController;
-import app.closingwindow.ClosingWindow;
-import app.forcequitwindow.ForceQuitWindow;
-import app.historywindow.HistoryWindow;
-import app.mainwindow.MainWindow;
-import app.savingwindow.SavingWindow;
-import app.settingswindow.SettingsWindow;
-import app.welcomewindow.WelcomeWindow;
+import app.windows.aboutwindow.AboutWindow;
+import app.windows.aboutwindow.AboutWindowController;
+import app.windows.closingwindow.ClosingWindow;
+import app.windows.forcequitwindow.ForceQuitWindow;
+import app.windows.historywindow.HistoryWindow;
+import app.windows.mainwindow.MainWindow;
+import app.windows.savingwindow.SavingWindow;
+import app.windows.settingswindow.SettingsWindow;
+import app.windows.welcomewindow.WelcomeWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

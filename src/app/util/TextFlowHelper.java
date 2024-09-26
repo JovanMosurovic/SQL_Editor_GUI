@@ -26,7 +26,7 @@ public class TextFlowHelper {
      */
     public static void updateResultTextFlow(TextFlow textFlow, String message, Color color, boolean append) {
         if (!append) {
-            clearResultTextFlow(textFlow);
+            clearTextFlow(textFlow);
         }
         Text text = new Text(message);
         text.setFill(color);
@@ -53,7 +53,7 @@ public class TextFlowHelper {
      * @param errorDescription a detailed description of the error
      */
     public static void addErrorMessage(TextFlow textFlow, String errorType, String mainError, String specificError, String errorDescription) {
-        clearResultTextFlow(textFlow);
+        clearTextFlow(textFlow);
         hasError = true;
         String ansiFormattedMessage = String.format(
                 "\n\u001B[1;31m[%s]\u001B[0m \u001B[1;4m%s\u001B[0m%s%s\n\u001B[1;31m\u001B[4mERROR\u001B[0m\u001B[1;31m:\u001B[0m %s",
@@ -130,7 +130,7 @@ public class TextFlowHelper {
      *
      * @param textFlow the {@link TextFlow} component to clear
      */
-    public static void clearResultTextFlow(TextFlow textFlow) {
+    public static void clearTextFlow(TextFlow textFlow) {
         textFlow.getChildren().clear();
     }
 
@@ -162,7 +162,7 @@ public class TextFlowHelper {
      */
     public static void clearErrorMessage(TextFlow textFlow) {
         if (hasError) {
-            clearResultTextFlow(textFlow);
+            clearTextFlow(textFlow);
             hasError = false;
         }
     }

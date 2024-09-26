@@ -1,7 +1,7 @@
 package app.sql;
 
 import app.Window;
-import app.mainwindow.MainWindowController;
+import app.windows.mainwindow.MainWindowController;
 import app.sql.exception.ColumnAccessException;
 import app.sql.exception.MySQLSyntaxErrorException;
 import app.sql.exception.SQLException;
@@ -95,12 +95,15 @@ public class QueryProcessor {
      * @return the processed SQL query
      */
     private static String processDistinctQuery(String query, QueryModifiers modifiers) {
-        Pattern pattern = Pattern.compile("SELECT\\s+DISTINCT\\s*(?:\\((.*?)\\))?\\s*(.*)", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("SELECT\\s+DISTINCT\\s*(\\((.*?)\\)\\s*(.*)|(\\S.*))", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
         if (matcher.find()) {
             String distinctColumnsStr = matcher.group(1);
             String restOfQuery = matcher.group(2);
+
+            System.out.println("Distinct columns: " + distinctColumnsStr);
+            System.out.println("Rest of query: " + restOfQuery);
 
             if (distinctColumnsStr != null) {
                 modifiers.setDistinctColumns(Arrays.asList(distinctColumnsStr.split(",\\s*")));
@@ -108,7 +111,7 @@ public class QueryProcessor {
                 modifiers.setDistinctColumns(Collections.singletonList("*"));
             }
 
-            return "SELECT " + restOfQuery;
+            return "SELECT " + (distinctColumnsStr != null ? distinctColumnsStr + " " : "") + restOfQuery;
         }
         return query;
     }
