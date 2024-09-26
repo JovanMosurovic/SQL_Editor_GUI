@@ -1,6 +1,7 @@
 package app.sql;
 
 import app.mainwindow.MainWindowController;
+import app.sql.exception.SQLException;
 import app.util.*;
 import cpp.JavaInterface;
 import javafx.scene.paint.Color;
@@ -76,7 +77,7 @@ public class SQLExecutor {
 
             try {
                 formattedQuery = QueryProcessor.processQuery(formattedQuery, modifiers);
-            } catch (MySQLSyntaxErrorException e) {
+            } catch (SQLException e) {
                 TextFlowHelper.addErrorMessage(
                         consoleTextFlow,
                         e.getErrorType(),
@@ -107,7 +108,7 @@ public class SQLExecutor {
             if (isSelectQuery) {
                 try {
                     applyQueryModifiers(outputFile, modifiers);
-                } catch (MySQLSyntaxErrorException e) {
+                } catch (SQLException e) {
                     TextFlowHelper.addErrorMessage(
                             consoleTextFlow,
                             e.getErrorType(),
@@ -214,7 +215,7 @@ public class SQLExecutor {
      * @param outputFile the output file containing the result data
      * @param modifiers  the {@link QueryModifiers} object containing the query modifiers
      */
-    private void applyQueryModifiers(File outputFile, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
+    private void applyQueryModifiers(File outputFile, QueryModifiers modifiers) throws SQLException {
         try {
             List<String> lines = Files.readAllLines(outputFile.toPath());
             if (lines.size() < 3) return; // No data or only headers

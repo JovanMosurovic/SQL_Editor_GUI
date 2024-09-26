@@ -2,6 +2,9 @@ package app.sql;
 
 import app.Window;
 import app.mainwindow.MainWindowController;
+import app.sql.exception.ColumnAccessException;
+import app.sql.exception.MySQLSyntaxErrorException;
+import app.sql.exception.SQLException;
 import app.util.FileHelper;
 import app.util.TextFlowHelper;
 import cpp.JavaInterface;
@@ -21,9 +24,9 @@ public class QueryProcessor {
      * @param query     the SQL query to process
      * @param modifiers the query modifiers
      * @return the processed SQL query
-     * @throws MySQLSyntaxErrorException if an error occurs during processing
+     * @throws SQLException if there is an error in the SQL query
      */
-    public static String processQuery(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
+    public static String processQuery(String query, QueryModifiers modifiers) throws SQLException {
         System.out.println("Original query: " + query);
         query = processAggregateFunctions(query, modifiers);
         System.out.println("After aggregate functions: " + query);
@@ -116,8 +119,9 @@ public class QueryProcessor {
      * @param query     the SQL query to process
      * @param modifiers the query modifiers
      * @return the processed SQL query
+     * @throws SQLException if there is an error in the ORDER BY clause
      */
-    private static String processOrderByClause(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
+    private static String processOrderByClause(String query, QueryModifiers modifiers) throws SQLException {
         Pattern pattern = Pattern.compile("(.*?)\\s+ORDER\\s+BY\\s+(.+?)(\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
@@ -211,9 +215,9 @@ public class QueryProcessor {
      * @param query     the SQL query to process
      * @param modifiers the query modifiers
      * @return the processed SQL query
-     * @throws MySQLSyntaxErrorException if an invalid column is found
+     * @throws SQLException if there is an error in the GROUP BY clause
      */
-    private static String processGroupByClause(String query, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
+    private static String processGroupByClause(String query, QueryModifiers modifiers) throws SQLException {
         Pattern pattern = Pattern.compile("(.*?)\\s+GROUP\\s+BY\\s+(.+?)(\\s+HAVING\\s+(.+?))?(\\s+ORDER\\s+BY\\s+.*|\\s+LIMIT\\s+.*|$)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
 
@@ -248,6 +252,7 @@ public class QueryProcessor {
             modifiers.setGroupByColumns(groupByColumns);
             if (havingClause != null) {
                 modifiers.setHavingClause(havingClause.trim());
+                return beforeGroupBy + afterHaving;
             }
             return beforeGroupBy + afterHaving;
         }
@@ -259,9 +264,9 @@ public class QueryProcessor {
      *
      * @param havingClause     the HAVING clause to validate
      * @param availableColumns the available columns
-     * @throws MySQLSyntaxErrorException if an invalid column is found
+     * @throws SQLException if there is an error in the HAVING clause
      */
-    private static void validateHavingClause(String havingClause, Set<String> availableColumns) throws MySQLSyntaxErrorException {
+    private static void validateHavingClause(String havingClause, Set<String> availableColumns) throws SQLException {
         Pattern pattern = Pattern.compile(
                 "\\b([\\w.]+|(?:COUNT|SUM|AVG|MIN|MAX)\\([\\w.*]+\\))\\s*([<>=!]+|LIKE|NOT LIKE|IN|NOT IN|BETWEEN)\\s*(.+)",
                 Pattern.CASE_INSENSITIVE
@@ -278,7 +283,7 @@ public class QueryProcessor {
 
         // Validate column or function
         if (!isValidColumnOrFunction(columnOrFunction, availableColumns)) {
-            throw new MySQLSyntaxErrorException("Invalid column or function in HAVING clause", "Place where error occurred: \u001B[1m" + columnOrFunction + "\u001B[0m");
+            throw new ColumnAccessException("Cannot access column or process the function.", "Place where error occurred: \u001B[1m" + columnOrFunction + "\u001B[0m");
         }
 
         // Validate operator
@@ -326,24 +331,14 @@ public class QueryProcessor {
     }
 
     /**
-     * Checks if the given expression is an aggregate function.
-     *
-     * @param expression The expression to check.
-     * @return {@code true} if the expression is an aggregate function, {@code false} otherwise.
-     */
-    private static boolean isAggregateFunction(String expression) {
-        return expression.matches("\\b(?:COUNT|SUM|AVG|MIN|MAX)\\s*\\(\\s*(?:\\*|[\\w.]+)\\s*\\)");
-    }
-
-    /**
      * Validates columns against available columns in the specified tables.
      *
      * @param query          The SQL query being processed.
      * @param columnsToCheck List of column names to validate.
      * @return Set of available columns.
-     * @throws MySQLSyntaxErrorException If an invalid column is found.
+     * @throws SQLException If an invalid column is found.
      */
-    private static Set<String> validateColumns(String query, List<String> columnsToCheck) throws MySQLSyntaxErrorException {
+    private static Set<String> validateColumns(String query, List<String> columnsToCheck) throws SQLException {
         Set<String> tableNames = extractTableNamesFromFromStatement(query);
         Set<String> availableColumns = new HashSet<>();
 
@@ -357,7 +352,7 @@ public class QueryProcessor {
 
         for (String column : columnsToCheck) {
             if (!availableColumns.contains(column)) {
-                throw new MySQLSyntaxErrorException("Invalid column", "Column does not exist: \u001B[1m" + column + "\u001B[0m");
+                throw new ColumnAccessException("Cannot access column with the provided name.", "\u001B[1m\u001B[31mColumn: \u001B[0m" + column + "\u001B[1m\u001B[31m does not exist in the table\u001B[0m");
             }
         }
 

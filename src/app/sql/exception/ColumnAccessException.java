@@ -1,17 +1,14 @@
-package app.sql;
+package app.sql.exception;
 
-/**
- * Custom exception class for handling SQL syntax errors.
- */
-public class MySQLSyntaxErrorException extends Exception {
+public class ColumnAccessException extends SQLException {
     /**
      * The error type for the exception.
      */
-    private static final String ERROR_TYPE = "SYNTAX ERROR";
+    private static final String ERROR_TYPE = "COLUMN ACCESS FAILED";
     /**
      * The main error message for the exception.
      */
-    private static final String MAIN_ERROR = "Syntax error";
+    private static final String MAIN_ERROR = "";
     /**
      * The specific error message for the exception.
      */
@@ -27,7 +24,7 @@ public class MySQLSyntaxErrorException extends Exception {
      * @param specificError   the specific error message
      * @param errorDescription the detailed description of the error
      */
-    public MySQLSyntaxErrorException(String specificError, String errorDescription) {
+    public ColumnAccessException(String specificError, String errorDescription) {
         super(specificError);
         this.specificError = specificError;
         this.errorDescription = errorDescription;
@@ -38,6 +35,7 @@ public class MySQLSyntaxErrorException extends Exception {
      *
      * @return the error type
      */
+    @Override
     public String getErrorType() {
         return ERROR_TYPE;
     }
@@ -47,6 +45,7 @@ public class MySQLSyntaxErrorException extends Exception {
      *
      * @return the main error message
      */
+    @Override
     public String getMainError() {
         return MAIN_ERROR;
     }
@@ -56,6 +55,7 @@ public class MySQLSyntaxErrorException extends Exception {
      *
      * @return the specific error message
      */
+    @Override
     public String getSpecificError() {
         return specificError;
     }
@@ -65,6 +65,7 @@ public class MySQLSyntaxErrorException extends Exception {
      *
      * @return the error description
      */
+    @Override
     public String getErrorDescription() {
         return errorDescription;
     }

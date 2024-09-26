@@ -56,9 +56,10 @@ public class TextFlowHelper {
         clearResultTextFlow(textFlow);
         hasError = true;
         String ansiFormattedMessage = String.format(
-                "\n\u001B[1;31m[%s]\u001B[0m \u001B[1;4m%s\u001B[0m\u001B[1m:\u001B[0m %s\n\u001B[1;31m\u001B[4mERROR\u001B[24m\u001B[1m:\u001B[0m %s",
+                "\n\u001B[1;31m[%s]\u001B[0m \u001B[1;4m%s\u001B[0m%s%s\n\u001B[1;31m\u001B[4mERROR\u001B[0m\u001B[1;31m:\u001B[0m %s",
                 errorType,
                 mainError,
+                !mainError.isEmpty() ? "\u001B[1;30m: \u001B[0m" : "",
                 specificError,
                 errorDescription
         );

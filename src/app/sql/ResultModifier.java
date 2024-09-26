@@ -2,6 +2,8 @@ package app.sql;
 
 import app.Window;
 import app.mainwindow.MainWindowController;
+import app.sql.exception.ColumnAccessException;
+import app.sql.exception.SQLException;
 import app.util.TextFlowHelper;
 import javafx.scene.paint.Color;
 
@@ -19,9 +21,9 @@ public class ResultModifier {
      * @param headerLine the header line
      * @param modifiers  the query modifiers
      * @return the list of data lines with the query modifiers applied
-     * @throws MySQLSyntaxErrorException if there is a syntax error in the SQL query
+     * @throws SQLException if there is an error in the SQL query
      */
-    public static List<String> applyModifiers(List<String> dataLines, String headerLine, QueryModifiers modifiers) throws MySQLSyntaxErrorException {
+    public static List<String> applyModifiers(List<String> dataLines, String headerLine, QueryModifiers modifiers) throws SQLException {
         List<String> result = new ArrayList<>(dataLines);
         String newHeaderLine = headerLine;
 
@@ -213,7 +215,7 @@ public class ResultModifier {
         for (OrderByClause clause : orderByClauses) {
             if (!headerList.contains(clause.getColumn())) {
                 TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow,
-                        "\n\nERROR: Column '" + clause.getColumn() + "' in ORDER BY clause does not exist in the result set.", Color.RED, true); // todo insert error into file
+                        "\n\nERROR: Column '" + clause.getColumn() + "' in ORDER BY clause does not exist in the result set.", Color.RED, true);
                 return dataLines; // Return original data without sorting
 
             }
@@ -280,8 +282,9 @@ public class ResultModifier {
      * @param aggregateFunctions  the list of aggregate functions
      * @param havingClause     the HAVING clause
      * @return the list of data lines with the GROUP BY clause applied
+     * @throws SQLException if there is an error in the SQL query
      */
-    private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions, String havingClause) throws MySQLSyntaxErrorException {
+    private static List<String> applyGroupBy(List<String> dataLines, String headerLine, List<String> groupByColumns, List<AggregateFunction> aggregateFunctions, String havingClause) throws SQLException {
         List<String> headers = Arrays.asList(headerLine.split("~"));
         Map<String, List<String>> groupedData = new HashMap<>();
 
@@ -400,8 +403,9 @@ public class ResultModifier {
      * @param headerLine   the header line
      * @param havingClause the HAVING clause
      * @return true if the group result satisfies the HAVING clause, false otherwise
+     * @throws SQLException (ColumnAccessException) if the column in the HAVING clause does not exist
      */
-    private static boolean evaluateHavingClause(String groupResult, String headerLine, String havingClause) throws MySQLSyntaxErrorException {
+    private static boolean evaluateHavingClause(String groupResult, String headerLine, String havingClause) throws SQLException {
         String[] headers = headerLine.split("~");
         String[] values = groupResult.split("~");
 
@@ -427,7 +431,7 @@ public class ResultModifier {
 
         if (columnIndex == -1) {
             // Column not found
-            throw new MySQLSyntaxErrorException("Invalid column", "Column does not exist: \u001B[1m" + column + "\u001B[0m");
+            throw new ColumnAccessException("Cannot access column with the provided name.", "\u001B[1m\u001B[31mColumn: \u001B[0m" + column + "\u001B[1m\u001B[31m does not exist in the table\u001B[0m");
         }
 
         String actualValue = values[columnIndex].replace("'", "").replace("\"", "");
