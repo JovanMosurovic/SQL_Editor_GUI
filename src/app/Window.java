@@ -2,6 +2,8 @@ package app;
 
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 /**
  * The base class for all windows in the application.
  * <p>It provides a common interface for initializing windows and showing/hiding them.</p>
@@ -53,6 +55,17 @@ public abstract class Window {
     private static final Window[] windows;
 
     /**
+     * Paths to the CSS files for the dark and light themes.
+     */
+    private static final String DARK_THEME_CSS;
+    private static final String LIGHT_THEME_CSS;
+
+    /**
+     * Flag to track the current theme of the application.
+     */
+    public static boolean isDarkTheme;
+
+    /**
      * The stage of the window.
      */
     protected Stage stage;
@@ -71,6 +84,8 @@ public abstract class Window {
         SETTINGS_WINDOW = 5;
         FORCE_QUIT_WINDOW = 6;
         HISTORY_WINDOW = 7;
+        DARK_THEME_CSS = "/app/resources/styles/styles-dark.css";
+        LIGHT_THEME_CSS = "/app/resources/styles/styles.css";
 
         windows = new Window[WINDOWS];
     }
@@ -131,6 +146,28 @@ public abstract class Window {
                 Window.getWindowAt(i).getStage().hide();
             }
         }
+    }
+
+    /**
+     * Changes the theme of the application.
+     * <p>Currently supports only light and dark theme.</p>
+     */
+    public static void changeTheme() {
+        String newThemeCss = isDarkTheme ? LIGHT_THEME_CSS : DARK_THEME_CSS;
+        String oldThemeCss = isDarkTheme ? DARK_THEME_CSS : LIGHT_THEME_CSS;
+
+        for (Window window : windows) {
+            if (window != null && window.getStage() != null && window.getStage().getScene() != null) {
+                window.getStage().getScene().getStylesheets().remove(
+                        Objects.requireNonNull(Window.class.getResource(oldThemeCss)).toExternalForm()
+                );
+                window.getStage().getScene().getStylesheets().add(
+                        Objects.requireNonNull(Window.class.getResource(newThemeCss)).toExternalForm()
+                );
+            }
+        }
+
+        isDarkTheme = !isDarkTheme;
     }
 
     /**

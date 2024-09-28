@@ -1,7 +1,7 @@
 package app.sql;
 
 import app.windows.mainwindow.MainWindowController;
-import app.sql.exception.SQLException;
+import app.sql.exceptions.SQLException;
 import app.util.*;
 import cpp.JavaInterface;
 import javafx.scene.paint.Color;

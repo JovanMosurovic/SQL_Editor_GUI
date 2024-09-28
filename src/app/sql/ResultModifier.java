@@ -2,8 +2,8 @@ package app.sql;
 
 import app.Window;
 import app.windows.mainwindow.MainWindowController;
-import app.sql.exception.ColumnAccessException;
-import app.sql.exception.SQLException;
+import app.sql.exceptions.ColumnAccessException;
+import app.sql.exceptions.SQLException;
 import app.util.TextFlowHelper;
 import javafx.scene.paint.Color;
 

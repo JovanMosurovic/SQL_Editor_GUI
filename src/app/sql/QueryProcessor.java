@@ -2,9 +2,9 @@ package app.sql;
 
 import app.Window;
 import app.windows.mainwindow.MainWindowController;
-import app.sql.exception.ColumnAccessException;
-import app.sql.exception.MySQLSyntaxErrorException;
-import app.sql.exception.SQLException;
+import app.sql.exceptions.ColumnAccessException;
+import app.sql.exceptions.MySQLSyntaxErrorException;
+import app.sql.exceptions.SQLException;
 import app.util.FileHelper;
 import app.util.TextFlowHelper;
 import cpp.JavaInterface;

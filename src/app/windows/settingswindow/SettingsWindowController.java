@@ -97,7 +97,7 @@ public class SettingsWindowController extends ControllerBase {
     private void setupThemeOptions() {
 
         themeComboBox.getItems().addAll("Light", "Dark");
-        themeComboBox.setValue("Light"); // Postavite trenutnu temu
+        themeComboBox.setValue(Window.isDarkTheme ? "Dark" : "Light");
 
         themeComboBox.setCellFactory(listView -> new ListCell<String>() {
             private final ImageView imageView = new ImageView();
@@ -128,12 +128,9 @@ public class SettingsWindowController extends ControllerBase {
 
         themeComboBox.setOnAction(event -> {
             String selectedTheme = themeComboBox.getValue();
-            if ("Dark".equals(selectedTheme)) {
-                // TODO: Change to dark theme
-                System.out.println("Dark theme is applied");
-            } else {
-                // TODO: Change to light theme
-                System.out.println("Light theme is applied");
+            if ((selectedTheme.equals("Dark") && !Window.isDarkTheme) ||
+                    (selectedTheme.equals("Light") && Window.isDarkTheme)) {
+                Window.changeTheme();
             }
         });
     }

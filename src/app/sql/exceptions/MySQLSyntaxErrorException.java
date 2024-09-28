@@ -1,4 +1,4 @@
-package app.sql.exception;
+package app.sql.exceptions;
 
 /**
  * Custom exception class for handling SQL syntax errors.

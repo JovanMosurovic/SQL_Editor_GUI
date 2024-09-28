@@ -1,4 +1,4 @@
-package app.sql.exception;
+package app.sql.exceptions;
 
 public abstract class SQLException extends Exception {
 
