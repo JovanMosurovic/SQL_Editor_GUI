@@ -86,6 +86,7 @@ public abstract class Window {
         HISTORY_WINDOW = 7;
         DARK_THEME_CSS = "/app/resources/styles/styles-dark.css";
         LIGHT_THEME_CSS = "/app/resources/styles/styles.css";
+        isDarkTheme = false; // Default theme is light when the application starts
 
         windows = new Window[WINDOWS];
     }

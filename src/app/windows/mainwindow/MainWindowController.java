@@ -4,6 +4,7 @@ import app.ControllerBase;
 import app.Window;
 import app.sql.SQLExecutor;
 import app.util.*;
+import app.windows.settingswindow.SettingsWindowController;
 import cpp.JavaInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -391,6 +392,8 @@ public class MainWindowController extends ControllerBase {
      */
     @FXML
     private void handleSettings() {
+        SettingsWindowController settingsController = (SettingsWindowController) Window.getWindowAt(Window.SETTINGS_WINDOW).getController();
+        settingsController.resetState();
         Window.showWindow(Window.SETTINGS_WINDOW);
     }
 

@@ -57,9 +57,18 @@ public class SettingsWindowController extends ControllerBase {
     private TextArea editorFontPreviewTextArea, consoleFontPreviewTextArea;
 
     /**
+     * Flag to track the initial theme of the application.
+     * <p>{@code true} if the initial theme is dark, {@code false} otherwise.</p>
+     */
+    private boolean initialTheme;
+    /**
      * Flag to track the visibility of the font options.
      */
     private boolean fontOptionsVisible = false;
+    /**
+     * Flag to track if changes have been applied.
+     */
+    private boolean changesApplied = false;
 
     /**
      * Reference to the Main Window Controller.
@@ -85,9 +94,19 @@ public class SettingsWindowController extends ControllerBase {
     public void initialize(URL location, ResourceBundle resources) {
         Window.getWindowAt(Window.SETTINGS_WINDOW).setController(this);
         mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+        initialTheme = Window.isDarkTheme;
         setupThemeOptions();
         initAreas();
         setupFontOptions();
+    }
+
+    /**
+     * Resets the state of the Settings Window.
+     */
+    public void resetState() {
+        initialTheme = Window.isDarkTheme;
+        changesApplied = false;
+        updateThemeComboBox();
     }
 
     /**
@@ -131,6 +150,7 @@ public class SettingsWindowController extends ControllerBase {
             if ((selectedTheme.equals("Dark") && !Window.isDarkTheme) ||
                     (selectedTheme.equals("Light") && Window.isDarkTheme)) {
                 Window.changeTheme();
+                changesApplied = false;
             }
         });
     }
@@ -248,7 +268,9 @@ public class SettingsWindowController extends ControllerBase {
      */
     @FXML
     private void OKSettings() {
-        applySettings();
+        if(!changesApplied) {
+            applySettings();
+        }
         Window.hideWindow(Window.SETTINGS_WINDOW);
     }
 
@@ -263,6 +285,8 @@ public class SettingsWindowController extends ControllerBase {
         } else if (consoleFontOptionsVBox.isVisible()) {
             applyConsoleSettings();
         }
+        changesApplied = true;
+        initialTheme = Window.isDarkTheme;
     }
 
     /**
@@ -306,7 +330,15 @@ public class SettingsWindowController extends ControllerBase {
      */
     @FXML
     private void cancelSettings() {
+        if(!changesApplied && Window.isDarkTheme != initialTheme) {
+            Window.changeTheme();
+            updateThemeComboBox();
+        }
         Window.hideWindow(Window.SETTINGS_WINDOW);
+    }
+
+    private void updateThemeComboBox() {
+        themeComboBox.setValue(Window.isDarkTheme ? "Dark" : "Light");
     }
 
     /**
@@ -417,4 +449,5 @@ public class SettingsWindowController extends ControllerBase {
         editorFontOptionsVBox.setVisible(false);
         consoleFontOptionsVBox.setVisible(false);
     }
+
 }
