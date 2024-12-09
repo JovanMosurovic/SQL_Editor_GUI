@@ -144,7 +144,7 @@ public class SQLExecutor {
         // Set focus based on the execution result
         if (hasError) {
             mainWindowController.resultTabPane.getSelectionModel().select(0); // Select console tab
-        } else if (tabsCreated) {
+        } else if (tabsCreated && !ContextMenuHelper.isConsoleLocked()) {
             mainWindowController.resultTabPane.getSelectionModel().select(mainWindowController.resultTabPane.getTabs().size() - 1); // Select last created tab
         } else if (executedQueries.stream().anyMatch(query -> query.equals("SHOW TABLES"))) {
             mainWindowController.resultTabPane.getSelectionModel().select(1); // Select first tab after console

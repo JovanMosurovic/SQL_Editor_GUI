@@ -21,6 +21,8 @@ import java.util.Objects;
  */
 public class ContextMenuHelper {
 
+    private static boolean isConsoleLocked = false;
+
     /**
      * Creates a context menu for a console area with an option to clear the console.
      *
@@ -29,9 +31,21 @@ public class ContextMenuHelper {
      */
     private static ContextMenu createConsoleContextMenu(TextFlow resultTextFlow) {
         ContextMenu contextMenu = new ContextMenu();
-        MenuItem clearConsoleItem = new MenuItem("Clear console");
+        MenuItem clearConsoleItem = new MenuItem("Clear");
+        MenuItem lockConsoleItem = new MenuItem("Lock");
+        ImageView lockIcon = createIcon("/app/resources/icons/lock_icon.png");
+        ImageView unlockIcon = createIcon("/app/resources/icons/unlock_icon.png");
+
         clearConsoleItem.setOnAction(event -> TextFlowHelper.clearTextFlow(resultTextFlow));
-        contextMenu.getItems().add(clearConsoleItem);
+
+        lockConsoleItem.setOnAction(event -> {
+            isConsoleLocked = !isConsoleLocked;
+            lockConsoleItem.setText(isConsoleLocked ? "Unlock" : "Lock");
+            lockConsoleItem.setGraphic(isConsoleLocked ? unlockIcon : lockIcon);
+        });
+
+        lockConsoleItem.setGraphic(lockIcon);
+        contextMenu.getItems().addAll(lockConsoleItem, clearConsoleItem);
         return contextMenu;
     }
 
@@ -325,11 +339,36 @@ public class ContextMenuHelper {
         }
     }
 
+    /**
+     * Deletes the selected entry from the history table view.
+     * @param historyTableView the {@link TableView} component representing the history of queries
+     */
     private static void deleteSelectedEntry(TableView<HistoryEntry> historyTableView) {
         HistoryEntry selectedEntry = historyTableView.getSelectionModel().getSelectedItem();
         if (selectedEntry != null) {
             MainWindowController mainController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
             mainController.removeFromHistory(selectedEntry);
         }
+    }
+
+    /**
+     * Creates an Icon for the given icon path.
+     * @param iconPath the path to the icon
+     * @return an {@link ImageView} with the 16x16 icon
+     */
+    private static ImageView createIcon(String iconPath) {
+        ImageView icon = new ImageView(new Image(Objects.requireNonNull(
+                ContextMenuHelper.class.getResourceAsStream(iconPath))));
+        icon.setFitWidth(16);
+        icon.setFitHeight(16);
+        return icon;
+    }
+
+    /**
+     * Gets the current state of the console lock.
+     * @return {@code true} if the console is locked, {@code false} otherwise
+     */
+    public static boolean isConsoleLocked() {
+        return isConsoleLocked;
     }
 }

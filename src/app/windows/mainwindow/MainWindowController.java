@@ -479,7 +479,9 @@ public class MainWindowController extends ControllerBase {
      * @param index the index of the tab to focus on
      */
     public void setFocusOnTab(int index) {
-        resultTabPane.getSelectionModel().select(index);
+        if(!ContextMenuHelper.isConsoleLocked() || index != 0) {
+            resultTabPane.getSelectionModel().select(index);
+        }
     }
 
 }
