@@ -2,6 +2,9 @@ package app.windows.aboutwindow;
 
 import app.ControllerBase;
 import app.Window;
+import app.util.AppColors;
+import app.util.TextFlowHelper;
+import app.windows.mainwindow.MainWindowController;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 
@@ -93,8 +96,13 @@ public class AboutWindowController extends ControllerBase {
      * @param url The URL to open.
      */
     private void openLink(String url) {
-        if (hostServices != null) {
-            hostServices.showDocument(url);
+        try {
+            if (hostServices != null) {
+                hostServices.showDocument(url);
+            }
+        } catch (Exception e) {
+            MainWindowController mainWindowController = (MainWindowController) Window.getWindowAt(Window.MAIN_WINDOW).getController();
+            TextFlowHelper.updateResultTextFlow(mainWindowController.consoleTextFlow, "Failed to open the link: " + url + '\n', AppColors.ERROR_DARK_RED, true);
         }
     }
 
