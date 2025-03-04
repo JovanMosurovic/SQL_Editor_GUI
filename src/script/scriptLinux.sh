@@ -3,7 +3,7 @@
 TOTAL_COMMANDS=24
 COUNTER=$TOTAL_COMMANDS
 
-cd "/project_path/cpp"
+cd "/project_path/src/cpp"
 
 echo "$COUNTER commands remaining"
 ((COUNTER--))
@@ -98,4 +98,4 @@ g++ -shared -o libnative.so cpp_JavaInterface.o Column.o ConsoleUtils.o CreateTa
 # Move the shared object to the specified directory
 echo "$COUNTER commands remaining"
 ((COUNTER--))
-mv libnative.so "project_path/native/native.dll/native/libnative.so"
+mv libnative.so "/project_path/native"
