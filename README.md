@@ -20,10 +20,68 @@ To set up and run the project, follow these steps:
    - **Windows:** `scriptWindows.bat`  
    - **Linux:** `scriptLinux.sh`  
 
-   **Note:** Ensure that the script is correctly configured by specifying the **path** to the C++ native code directory within the project.
+   🚨 **Important:** Ensure that the script is correctly configured by specifying the **path** to the C++ native code directory within the project.
 
 2. **Verify JavaFX and Java installation**  
    Confirm that your development environment supports **JavaFX** and that **Java** is properly installed, as the application relies on JavaFX for the GUI.
 
 3. **Run the application**  
    After all of the previous steps were completed successfully, simply run the project.
+
+<details>
+  <summary>Running on Windows</summary>
+
+  ## Running on Windows  
+
+</details>
+
+<details>
+  <summary>Running on Linux</summary>
+
+  ## Running on Linux  
+
+  To properly set up and run the application on Linux, follow these steps:  
+
+  ### 1. Set the `JAVA_HOME` Environment Variable  
+  Define the `JAVA_HOME` variable to point to your JDK installation:  
+  ```bash
+  JAVA_HOME=/home/hp/.jdks/corretto-1.8.0_412
+  ```  
+
+  ### 2. Verify the Presence of JNI Headers  
+  Ensure that the required JNI headers are available in the expected directories:  
+  ```bash
+  ls $JAVA_HOME/include
+  ls $JAVA_HOME/include/linux
+  ```  
+  Expected output:  
+  - The `jni.h` file should be present in the `include` directory.  
+  - The `jni_md.h` file should be present in the `include/linux` subdirectory.  
+
+  ### 3. Export the `JAVA_HOME` Variable  
+  To make the `JAVA_HOME` variable available to subprocesses, export it:  
+  ```bash
+  export JAVA_HOME
+  ```  
+  **Note:** Do not use `=` when exporting, as it would reset the variable.  
+
+  ### 4. Add the Java `bin` Directory to `PATH`  
+  To ensure that Java binaries can be accessed globally, add the `bin` directory to your `PATH`:  
+  ```bash
+  export PATH=$JAVA_HOME/bin:$PATH
+  ```  
+
+  ### 5. Grant Execution Permission to the Script  
+  If running a shell script, ensure it has execution permissions:  
+  ```bash
+  chmod +x scriptLinux.sh
+  ```  
+  Then, execute the script:  
+  ```bash
+  ./scriptLinux.sh
+  ```  
+**Note**: All environment variable exports are session-specific. For permanent configuration, add to `~/.bashrc` or equivalent shell profile.
+
+</details>
+
+
