@@ -11,6 +11,8 @@ The **C++ native code** from the original [SQL Editor project](https://github.co
 >
 > This project was developed as the [second university assignment](instructions.pdf) for "Practicum of Object-Oriented Programming" at the University of Belgrade School of Electrical Engineering majoring in Software Engineering. Please refer to the file for detailed assignment instructions.
 
+## Project preview
+
 ## Running the Project
 
 This guide assumes that Java and JavaFX are already installed and properly configured on your system.<br /> 
@@ -20,9 +22,9 @@ To set up and run the project, follow these steps:
 
 1. **Initialize the C++ native environment**  
    Before launching the application, execute the appropriate script based on your operating system:  
-   - **Windows:** `scriptWindows.bat`  
-   - **Linux:** `scriptLinux.sh`
-   - **macOS:** `scriptMacOS.sh`
+   - [**Windows:**](#running-on-windows) `scriptWindows.bat`  
+   - [**Linux:**](#running-on-linux) `scriptLinux.sh`
+   - [**macOS:**](#running-on-macos) `scriptMacOS.sh`
 
    🚨 **Important:** Ensure that the script is correctly configured by specifying the **path** to the C++ native code directory within the project. 
 
