@@ -91,7 +91,7 @@ To set up and run the project, follow these steps:
 
   Once the script has finished, you can run the program in your development environment.  
 
-  💡 **Suggestion:** You can use any IDE of your choice, but IntelliJ IDEA is recommended since the project and all tests were developed and tested in it.  
+  💡 **Suggestion:** *You can use any IDE of your choice, but [IntelliJ IDEA](https://www.jetbrains.com/idea/) is recommended since the project and all tests were developed and tested in it.*  
 
 </details>
 
@@ -99,6 +99,80 @@ To set up and run the project, follow these steps:
   <summary>Running on macOS</summary>
 
   ## Running on macOS  
+
+   ### Installing Homebrew
+
+   I recommend using [Homebrew](https://brew.sh/) for installing dependencies, as it was the easiest method I used, and it has proven to be the most straightforward.
+
+   To install Homebrew, run the following command in your terminal:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+   After installation, ensure Homebrew is working by running:
+```bash
+brew --version
+```
+   This should return the installed Homebrew version.
+   
+   ### Compiler Setup 
+   
+   🚨 By default, macOS uses **Clang** as the compiler. However, **Clang** does not compile C++ native code correctly, so it is necessary to use a different compiler.
+   **GCC** is used in the instructions because the project has been tested and works correctly with it. Other compilers can be used, but using a different compiler might lead to 
+   errors.
+
+   ### 1. Install GCC via Homebrew
+   If you haven't installed GCC, you can install it by running the following command:
+
+   ```bash
+   brew install gcc
+   ```
+
+   ### 2. Verify GCC Installation
+   Once GCC is installed, verify the installation by checking the version of the Homebrew-installed GCC. The command will differ based on your system architecture:
+
+For **Apple Silicon (M1/M2)**:
+
+```bash
+/opt/homebrew/bin/g++-14 --version
+```
+
+For **Intel Mac**:
+```bash
+/usr/local/bin/g++-14 --version
+```
+
+The expected output should resemble the following:
+
+```plaintext
+g++-14 (Homebrew GCC 14.1.0) 14.1.0
+```
+
+**Note:**  
+If the version returned is different from `14` (e.g., `g++-12`, `g++-13`), you will need to update the script by replacing all occurrences of `/opt/homebrew/bin/g++-14` with the version number shown in your output (e.g., `/opt/homebrew/bin/g++-12`).
+  
+   ### Running the project
+   To set up and run the project on macOS, follow these steps:
+
+### 1. Grant Execution Permission to the Script
+For running a shell script, ensure it has execution permissions:
+```bash
+chmod +x scriptMacOS.sh
+```
+
+### 2. Run the Script
+After the script has execution permissions, run it:
+```bash
+./scriptMacOS.sh
+```
+**Note**: All environment variable exports are session-specific. For permanent configuration, add to `~/.zshrc` (for zsh) or `~/.bash_profile` (for bash).
+
+### 3. Wait for Script Completion  
+  The script will execute multiple commands required for the native environment. **Wait until all commands complete and the counter reaches 0** before proceeding.  
+
+  Once the script has finished, you can run the program in your development environment.  
+
+  💡 **Suggestion:** *You can use any IDE of your choice, but [IntelliJ IDEA](https://www.jetbrains.com/idea/) is recommended since the project and all tests were developed and tested in it.*  
 
 </details>
 
