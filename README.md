@@ -95,6 +95,20 @@ To set up and run the project, follow these steps:
 
   💡 **Suggestion:** *You can use any IDE of your choice, but [IntelliJ IDEA](https://www.jetbrains.com/idea/) is recommended since the project and all tests were developed and tested in it.*  
 
+  ### 7. Add Configuration for Native Files
+To configure the application to support the native files, follow these steps:
+
+- Open the **Run/Debug Configurations** dialog by selecting your current file in the IDE.
+- Choose **Edit Configurations** from the menu.
+- Click the `+` button and select **Application**.
+- In the **Main class** field, enter `app.Main` or search for it by clicking the **Browse** icon or using the shortcut `Shift + Enter` (`app -> Main`).
+- Click on **Modify options**, then check **Add VM options**.
+- In the **VM options** field, add the following line:
+  ```bash
+  -Djava.library.path=native
+  ```
+**Note:** These steps are specifically for IntelliJ IDEA. If you're using a different IDE, the process for configuring the application might differ. Generally, look for a way to add VM options or set environment variables in the configuration settings for your specific IDE.
+
 </details>
 
 <details>
@@ -175,6 +189,20 @@ After the script has execution permissions, run it:
   Once the script has finished, you can run the program in your development environment.  
 
   💡 **Suggestion:** *You can use any IDE of your choice, but [IntelliJ IDEA](https://www.jetbrains.com/idea/) is recommended since the project and all tests were developed and tested in it.*  
+
+### 4. Add Configuration for Native Files
+To configure the application to support the native files, follow these steps:
+
+- Open the **Run/Debug Configurations** dialog by selecting your current file in the IDE.
+- Choose **Edit Configurations** from the menu.
+- Click the `+` button and select **Application**.
+- In the **Main class** field, enter `app.Main` or search for it by clicking the **Browse** icon or using the shortcut `Shift + Enter` (`app -> Main`).
+- Click on **Modify options**, then check **Add VM options**.
+- In the **VM options** field, add the following line:
+  ```bash
+  -Djava.library.path=native
+  ```
+**Note:** These steps are specifically for IntelliJ IDEA. If you're using a different IDE, the process for configuring the application might differ. Generally, look for a way to add VM options or set environment variables in the configuration settings for your specific IDE.
 
 </details>
 
