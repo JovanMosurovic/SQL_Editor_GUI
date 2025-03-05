@@ -22,9 +22,9 @@ To set up and run the project, follow these steps:
    Before launching the application, execute the appropriate script based on your operating system:  
    - **Windows:** `scriptWindows.bat`  
    - **Linux:** `scriptLinux.sh`
-   - **macOS** `scriptMacOS.sh`
+   - **macOS:** `scriptMacOS.sh`
 
-   🚨 **Important:** Ensure that the script is correctly configured by specifying the **path** to the C++ native code directory within the project.
+   🚨 **Important:** Ensure that the script is correctly configured by specifying the **path** to the C++ native code directory within the project. 
 
 2. **Verify JavaFX and Java installation**  
    Confirm that your development environment supports **JavaFX** and that **Java** is properly installed, as the application relies on JavaFX for the GUI.
