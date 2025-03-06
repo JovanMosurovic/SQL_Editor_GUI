@@ -32,12 +32,14 @@ To set up and run the project, follow these steps:
    Confirm that your development environment supports **JavaFX** and that **Java** is properly installed, as the application relies on JavaFX for the GUI.
 
 3. **Run the application**  
-   After all of the previous steps were completed successfully, simply run the project.
+   After all of the previous steps have been completed successfully, run the project.
 
 <details>
   <summary>Running on Windows</summary>
 
   ## Running on Windows  
+
+https://github.com/user-attachments/assets/c3c50f2d-3945-46a1-a70c-1ff5753574a6
 
 </details>
 
@@ -202,7 +204,7 @@ To configure the application to support the native files, follow these steps:
   ```bash
   -Djava.library.path=native
   ```
-**Note:** These steps are specifically for IntelliJ IDEA. If you're using a different IDE, the process for configuring the application might differ. Generally, look for a way to add VM options or set environment variables in the configuration settings for your specific IDE.
+**Note:** This step is specifically for IntelliJ IDEA. If you're using a different IDE, the process for configuring the application might differ. Generally, look for a way to add VM options or set environment variables in the configuration settings for your specific IDE.
 
 </details>
 
