@@ -39,8 +39,7 @@ To set up and run the project, follow these steps:
 
   ## Running on Windows  
 
-   [![SQL Editor GUI - Windows Tutorial](https://i.ytimg.com/vi/KaMHMZetRwg/maxresdefault.jpg)](https://www.youtube.com/watch?v=KaMHMZetRwg)
-
+https://github.com/user-attachments/assets/c3c50f2d-3945-46a1-a70c-1ff5753574a6
 
 </details>
 
