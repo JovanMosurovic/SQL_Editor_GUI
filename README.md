@@ -67,7 +67,73 @@ The application provides **interactive saving** features to ensure users don't l
 The SQL Editor now supports an extended set of queries beyond the original implementation. A complete list of supported queries, including previous ones, can be found [here](https://github.com/JovanMosurovic/SQL_Editor_Console/tree/master?tab=readme-ov-file#sql-command-format).
 
 In addition to those, the editor now supports:
+- Aggregate Functions:
+  ```sql
+  SELECT COUNT(*) FROM <table_name>;
+  SELECT COUNT(<columnN>) FROM <table_name>;
+  SELECT SUM(<columnN>) FROM <table_name>;
+  SELECT AVG(<columnN>) FROM <table_name>;
+  SELECT MAX(<columnN>) FROM <table_name>;
+  SELECT MIN(<columnN>) FROM <table_name>;
+  SELECT MIN(<columnN>), MAX(<columnM>) FROM <table_name>;
+  SELECT COUNT(*), SUM(<columnN>), AVG(<columnN>) FROM <table_name>;
+  ```
 
+- `DISTINCT` Clause:
+  ```sql
+  SELECT DISTINCT <columnN> FROM <table_name>;
+  SELECT DISTINCT(<columnN>) FROM <table_name>;
+  ```
+
+- `GROUP BY` Clause:
+  ```sql
+  SELECT <columnN>, COUNT(*) FROM <table_name> GROUP BY <columnN>;
+  SELECT <columnN>, AVG(<columnM>) FROM <table_name> GROUP BY <columnN>;
+  ```
+
+- `HAVING` Clause:
+  ```sql
+  SELECT <columnN>, COUNT(*) FROM <table_name> 
+  GROUP BY <columnN> HAVING COUNT(*) > <valueN>;
+  
+  SELECT <columnN>, AVG(<columnM>) FROM <table_name> 
+  GROUP BY <columnN> HAVING AVG(<columnM>) > <valueN>;
+  ```
+
+- `ORDER BY` Clause:
+  ```sql
+  SELECT * FROM <table_name> ORDER BY <columnN> ASC;
+  SELECT * FROM <table_name> ORDER BY <columnN> DESC;
+  SELECT * FROM <table_name> ORDER BY <columnN> ASC, <columnM> DESC;
+  ```
+
+- `LIMIT` and `OFFSET` Clauses:
+  ```sql
+  SELECT * FROM <table_name> LIMIT <valueN>;
+  SELECT * FROM <table_name> LIMIT <valueN> OFFSET <valueM>;
+  ```
+- All SQL clauses can be combined with each other as in the command line version of this project (the new clauses support this functionality as well).<br />
+For example:
+```sql
+SELECT COUNT(*), <columnN>  
+FROM <table_name> 
+GROUP BY <columnN> 
+HAVING COUNT(*) = <valueN> 
+ORDER BY <columnN> ASC 
+LIMIT <valueM> OFFSET <valueK>;
+```
+
+## Notes
+
+In the SQL commands listed above, `<table_name>`, `<columnN>`, `<valueN>`, `<condition>`, and `<aliasN>` are placeholders. You should replace them with the actual table names, column names, values, conditions, and aliases that you use in your project. Here's what each placeholder represents:
+
+- `<table_name>`: The name of the table on which you want to perform the operation.
+- `<columnN>`: The name of the column in the table on which you want to perform the operation.
+- `<valueN>`: The value that you want to insert or compare in the operation.
+- `<condition>`: The condition that you want to apply to the operation.
+- `<aliasN>`: The alias that you want to use for the table in the operation.
+
+Please replace these placeholders with actual values before executing the SQL commands.
 
 ## Running the Project
 
