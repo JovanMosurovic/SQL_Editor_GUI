@@ -204,7 +204,7 @@ To configure the application to support the native files, follow these steps:
   ```bash
   -Djava.library.path=native
   ```
-**Note:** These steps are specifically for IntelliJ IDEA. If you're using a different IDE, the process for configuring the application might differ. Generally, look for a way to add VM options or set environment variables in the configuration settings for your specific IDE.
+**Note:** This step is specifically for IntelliJ IDEA. If you're using a different IDE, the process for configuring the application might differ. Generally, look for a way to add VM options or set environment variables in the configuration settings for your specific IDE.
 
 </details>
 
