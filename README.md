@@ -15,6 +15,9 @@ The **C++ native code** from the original [SQL Editor project](https://github.co
 
 https://github.com/user-attachments/assets/e84dc0f7-8671-4018-b69d-c27408e7efa0
 
+ > **Note:** The demo showcases only some of the features of the project. <br/>
+ > The SQL Editor supports additional SQL commands and functionalities that are not showcased here.
+
 ## Running the Project
 
 This guide assumes that Java and JavaFX are already installed and properly configured on your system.<br /> 
