@@ -13,21 +13,17 @@ The **C++ native code** from the original [SQL Editor project](https://github.co
 
 ## Table of Contents
 
-- [SQL Editor (with GUI)](#sql-editor-with-gui)
-  - [Project demo](#project-demo)
-  - [Features](#features)
-    - [Enhanced Graphical User Interface (GUI)](#enhanced-graphical-user-interface-gui)
-    - [Improved Console and Storage Handling](#improved-console-and-storage-handling)
-    - [Customizable Theme and Font Settings](#customizable-theme-and-font-settings)
-    - [Interactive Saving in SQL and Custom file format](#interactive-saving-in-sql-and-custom-file-format)
-    - [Expanded SQL Query Support](#expanded-sql-query-support)
-  - [Running the Project](#running-the-project)
-    - [Running on Windows](#running-on-windows)
-    - [Running on Linux](#running-on-linux)
-    - [Running on macOS](#running-on-macos)
-      - [Installing Homebrew](#installing-homebrew)
-      - [Compiler Setup](#compiler-setup)
-      - [Running the project](#running-the-project)
+- [Project demo](#project-demo)
+- [Features](#features)
+  - [Enhanced Graphical User Interface (GUI)](#enhanced-graphical-user-interface-gui)
+  - [Improved Console and Storage Handling](#improved-console-and-storage-handling)
+  - [Customizable Theme and Font Settings](#customizable-theme-and-font-settings)
+  - [Interactive Saving in SQL and Custom file format](#interactive-saving-in-sql-and-custom-file-format)
+  - [Expanded SQL Query Support](#expanded-sql-query-support)
+- [Running the Project](#running-the-project)
+  - [Running on Windows](#running-on-windows)
+  - [Running on Linux](#running-on-linux)
+  - [Running on macOS](#running-on-macos)
 
 ## Project demo
 
