@@ -11,12 +11,67 @@ The **C++ native code** from the original [SQL Editor project](https://github.co
 >
 > This project was developed as the [second university assignment](instructions.pdf) for "Practicum of Object-Oriented Programming" at the University of Belgrade School of Electrical Engineering majoring in Software Engineering. Please refer to the file for detailed assignment instructions.
 
+## Table of Contents
+
+- [SQL Editor (with GUI)](#sql-editor-with-gui)
+  - [Project demo](#project-demo)
+  - [Features](#features)
+    - [Enhanced Graphical User Interface (GUI)](#enhanced-graphical-user-interface-gui)
+    - [Improved Console and Storage Handling](#improved-console-and-storage-handling)
+    - [Customizable Theme and Font Settings](#customizable-theme-and-font-settings)
+    - [Interactive Saving in SQL and Custom file format](#interactive-saving-in-sql-and-custom-file-format)
+    - [Expanded SQL Query Support](#expanded-sql-query-support)
+  - [Running the Project](#running-the-project)
+    - [Running on Windows](#running-on-windows)
+    - [Running on Linux](#running-on-linux)
+    - [Running on macOS](#running-on-macos)
+      - [Installing Homebrew](#installing-homebrew)
+      - [Compiler Setup](#compiler-setup)
+      - [Running the project](#running-the-project)
+
 ## Project demo
 
 https://github.com/user-attachments/assets/e84dc0f7-8671-4018-b69d-c27408e7efa0
 
  > **Note:** The demo showcases only some of the features of the project. <br/>
  > The SQL Editor supports additional SQL commands and functionalities that are not showcased here.
+
+## Features
+
+### Enhanced Graphical User Interface (GUI)
+The GUI, developed using a combination of JavaFX and CSS, provides a clean and user-friendly environment for executing SQL queries and managing databases. Unlike the previous command-line interface, the graphical approach improves usability by allowing users to:
+- Run SQL commands in a dedicated editor window.
+- View table structures and results in a structured format.
+- Receive interactive real-time feedback, including error messages and execution statuses.
+- Adjust interface settings to enhance user comfort, ensuring a more personalized and pleasant experience.
+
+### Improved Console and Storage Handling
+The console output system has been optimized for better readability and usability. Now, users can:
+- Easily navigate previous query results.
+- View formatted messages with improved clarity.
+- Better track errors and warnings, reducing debugging time.
+
+### Customizable Theme and Font Settings
+The application supports **multiple themes**, allowing users to switch between different visual styles, including:
+- A **light mode** optimized for daytime use.
+- A **dark mode** for a more comfortable experience in low-light conditions.
+
+In addition, users can personalize their experience by adjusting font settings for both:
+- The **SQL editor**, where queries are written.
+- The **console output**, where results and logs are displayed.
+
+These customizable settings enhance readability and provide a more personalized experience based on individual preferences.
+
+### Interactive Saving in SQL and Custom file format 
+The application provides **interactive saving** features to ensure users don't lose their work. If the work is not saved, the application will notify the user. Users can save their progress in either:
+- **SQL format** `.sql`, a standard SQL format supported universally.
+- **Custom file format** `.dbexp`, which was specifically created for the purposes of this project and is not used outside of it. This custom format is unique to the application and is tied exclusively to this project.
+
+### Expanded SQL Query Support
+The SQL Editor now supports an extended set of queries beyond the original implementation. A complete list of supported queries, including previous ones, can be found [here](https://github.com/JovanMosurovic/SQL_Editor_Console/tree/master?tab=readme-ov-file#sql-command-format).
+
+In addition to those, the editor now supports:
+
 
 ## Running the Project
 
