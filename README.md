@@ -124,7 +124,7 @@ ORDER BY <columnN> ASC
 LIMIT <valueM> OFFSET <valueK>;
 ```
 
-## Notes
+### Notes
 
 In the SQL commands listed above, `<table_name>`, `<columnN>`, `<valueN>`, `<condition>`, and `<aliasN>` are placeholders. You should replace them with the actual table names, column names, values, conditions, and aliases that you use in your project. Here's what each placeholder represents:
 
