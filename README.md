@@ -29,8 +29,9 @@ The **C++ native code** from the original [SQL Editor project](https://github.co
 
 https://github.com/user-attachments/assets/e84dc0f7-8671-4018-b69d-c27408e7efa0
 
- > **Note:** The demo showcases only some of the features of the project. <br/>
+ > **Note:** The demo showcases only some of the features of the project. <br />
  > The SQL Editor supports additional SQL commands and functionalities that are not showcased here.
+ > For a detailed overview of all available features, visit the [Features](#features) section.
 
 ## Features
 
