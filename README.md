@@ -32,7 +32,7 @@ To set up and run the project, follow these steps:
    Confirm that your development environment supports **JavaFX** and that **Java** is properly installed, as the application relies on JavaFX for the GUI.
 
 3. **Run the application**  
-   After all of the previous steps have been completed successfully, simply run the project.
+   After all of the previous steps have been completed successfully, run the project.
 
 <details>
   <summary>Running on Windows</summary>
